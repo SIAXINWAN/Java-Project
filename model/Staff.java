@@ -1,4 +1,4 @@
-package JavaProject;
+package JavaProject.model;
 public class Staff extends Person {
     private String staffID;
     private boolean gender;

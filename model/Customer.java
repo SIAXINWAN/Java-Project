@@ -1,4 +1,4 @@
-package JavaProject;
+package JavaProject.model;
 public class Customer extends Person {
     private String customerID;
     private String customerEmail;

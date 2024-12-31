@@ -1,4 +1,4 @@
-package JavaProject;
+package JavaProject.model;
 public class Person {
     private String personID;
     private String name;

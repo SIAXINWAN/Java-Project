@@ -1,4 +1,4 @@
-package JavaProject;
+package JavaProject.model;
 public class Room {
     private String roomNumber;
     private String roomType;
