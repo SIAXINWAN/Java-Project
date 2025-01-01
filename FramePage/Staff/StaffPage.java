@@ -1,4 +1,4 @@
-package JavaProject.FramePage;
+package JavaProject.FramePage.Staff;
 
 import JavaProject.model.Staff;
 import java.awt.*;
@@ -18,11 +18,11 @@ public class StaffPage extends JPanel {
     JTextField usernamTextField = new JTextField();
     JTextField passwordTextField = new JTextField();   
 
-    public StaffPage(ActionListener homeAction) {
+    public StaffPage(ActionListener homeAction,CardLayout cardLayout,JPanel cardPanel) {
         setLayout(new BorderLayout());
 
-        //usernamTextField.setText("");
-        //passwordTextField.setText("");
+        usernamTextField.setText("S01");
+        passwordTextField.setText("P01S01");
 
         // 
         // staffLabel.setFont(new Font("Arial", Font.BOLD, 20));
@@ -77,14 +77,23 @@ public class StaffPage extends JPanel {
         public void actionPerformed(ActionEvent e)
         {
             boolean loginSuccess = false;
-            for (Staff staff : stafflist)
-            {
-                if (staff.getStaffID().equals(usernamTextField.getText()) && staff.getPassword().equals(passwordTextField.getText()))
-                {
-                    labelWelcome.setText("Welcome " + staff.getStaffID());
-                    loginSuccess = true;
+            
+                for (Staff staff : stafflist) {
+                    if (staff.getStaffID().equals(usernamTextField.getText()) && staff.getPassword().equals(passwordTextField.getText())) {
+                        //labelWelcome.setText("Welcome " + staff.getName());
+                        loginSuccess = true;
+                        break;
+                    }
                 }
-            }
+    
+                if (loginSuccess) {
+                    JPanel parent = (JPanel) StaffPage.this.getParent();
+                    CardLayout layout = (CardLayout) parent.getLayout();
+                   
+                    layout.show(parent, "StaffDetail"); // Navigate to StaffDetail page
+                }
+
+            
 
             if (!loginSuccess)
             {

@@ -1,6 +1,11 @@
 package JavaProject.FramePage;
 
 import javax.swing.*;
+
+import JavaProject.FramePage.Staff.StaffDetail;
+import JavaProject.FramePage.Staff.StaffPage;
+import JavaProject.model.Staff;
+
 import java.awt.*;
 
 public class MainFrame {
@@ -27,13 +32,18 @@ public class MainFrame {
         );
 
         StaffPage staffPage = new StaffPage(
-            e -> cardLayout.show(cardPanel, "Welcome")  // Navigate to Welcome Page
+            e -> cardLayout.show(cardPanel, "Welcome"), // Navigate to Welcome Page
+            cardLayout,                                 // CardLayout instance
+            cardPanel                                  // CardPanel instance
         );
+
+        StaffDetail staffDetailPage = new StaffDetail(e -> cardLayout.show(cardPanel, "Welcome"));
 
         // Add pages to card panel
         cardPanel.add(welcomePage, "Welcome");
         cardPanel.add(customerPage, "Customer");
         cardPanel.add(staffPage, "Staff");
+        cardPanel.add(staffDetailPage, "StaffDetail");
 
         // Add card panel to frame
         frame.add(cardPanel, BorderLayout.CENTER);

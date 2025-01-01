@@ -10,8 +10,8 @@ public class CustomerPage extends JPanel {
     JPanel panelSingle = new JPanel();
     JPanel panelFamily = new JPanel(new GridLayout(4, 3, 10, 10));
 
-    JRadioButton rbSingle = new JRadioButton("Single");
-    JRadioButton rbFamily = new JRadioButton("Family");
+    JRadioButton rbSingle = new JRadioButton("Single Room");
+    JRadioButton rbFamily = new JRadioButton("Family Room");
 
     ButtonGroup buttonGroup1 = new ButtonGroup(); 
 
@@ -27,12 +27,13 @@ public class CustomerPage extends JPanel {
     public CustomerPage(ActionListener homeAction) {
         setLayout(new BorderLayout());
 
-        // JLabel customerLabel = new JLabel("Customer Page", JLabel.CENTER);
-        // customerLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        // add(customerLabel, BorderLayout.CENTER);
+        JPanel panelN1 = new JPanel();
+        JLabel customerLabel = new JLabel("Customer Booking");
+        customerLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        panelN1.add(customerLabel, BorderLayout.NORTH);
 
         JButton homeButton = new JButton("Home");
-        homeButton.setFont(new Font("Arial", Font.BOLD, 18));
+        homeButton.setFont(new Font("Arial", Font.BOLD, 16));
         homeButton.setPreferredSize(new Dimension(100, 40));
         homeButton.addActionListener(homeAction);
 
@@ -40,8 +41,15 @@ public class CustomerPage extends JPanel {
         homePanel.add(homeButton);
         add(homePanel, BorderLayout.SOUTH);
 
+        JPanel panelN2 = new JPanel();
+        JLabel chooseRoomLabel = new JLabel("Choose Room Type:\n");
+        chooseRoomLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        panelN2.add(chooseRoomLabel);
         buttonGroup1.add(rbSingle); buttonGroup1.add(rbFamily);
-        panel1.add(rbSingle); panel1.add(rbFamily); 
+        panelN2.add(rbSingle); panelN2.add(rbFamily); 
+
+        panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
+        panel1.add(panelN1);panel1.add(panelN2);
 
         rbSingle.addActionListener(rbActionListener);
         rbFamily.addActionListener(rbActionListener);

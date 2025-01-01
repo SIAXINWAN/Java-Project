@@ -8,6 +8,11 @@ public class WelcomePage extends JPanel {
     public WelcomePage(ActionListener toCustomerAction, ActionListener toStaffAction) {
         setLayout(new BorderLayout());
 
+        ImageIcon imageIcon = new ImageIcon("JavaProject\\assets\\CAtS.png"); // Replace with the actual image path
+        JLabel imageLabel = new JLabel(imageIcon);
+        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        add(imageLabel, BorderLayout.NORTH);
+
         JLabel welcomeLabel = new JLabel("Welcome to Cats Hotel Booking System", JLabel.CENTER);
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
         add(welcomeLabel, BorderLayout.CENTER);
