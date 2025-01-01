@@ -1,8 +1,8 @@
 package JavaProject.FramePage;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 
 public class WelcomePage extends JPanel {
     public WelcomePage(ActionListener toCustomerAction, ActionListener toStaffAction) {
