@@ -1,30 +1,41 @@
 package JavaProject.FramePage.Staff;
 
+import JavaProject.FramePage.MainFrame;
 import JavaProject.model.Staff;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.function.Consumer;
+
 import javax.swing.*;
 
 public class StaffPage extends JPanel {
-    Staff staff1 = new Staff("P01", "Chiew Chin Kuan", "0129318660", "S01", false, "07/02/2005");
-    Staff staff2 = new Staff("P02", "Chiew Chin Kuan", "0129318660", "S02", false, "07/02/2005");
-    Staff staff3 = new Staff("P03", "Chiew Chin Kuan", "0129318660", "S03", false, "07/02/2005");
-    Staff staff4 = new Staff("P04", "Chiew Chin Kuan", "0129318660", "S04", false, "07/02/2005");
+    // Staff staff1 = new Staff("P01", "Chiew Chin Kuan", "0129318660", "S01",
+    // false, "07/02/2005");
+    // Staff staff2 = new Staff("P02", "Chiew Chin Kuan", "0129318660", "S02",
+    // false, "07/02/2005");
+    // Staff staff3 = new Staff("P03", "Chiew Chin Kuan", "0129318660", "S03",
+    // false, "07/02/2005");
+    // Staff staff4 = new Staff("P04", "Chiew Chin Kuan", "0129318660", "S04",
+    // false, "07/02/2005");
+    // Staff[] stafflist = {staff1, staff2, staff3, staff4};
 
-    Staff[] stafflist = {staff1, staff2, staff3, staff4};
+    private final Staff[] staffList;
 
     JLabel labelWelcome = new JLabel("");
     JTextField usernamTextField = new JTextField();
-    JTextField passwordTextField = new JTextField();   
+    JTextField passwordTextField = new JTextField();
 
-    public StaffPage(ActionListener homeAction,CardLayout cardLayout,JPanel cardPanel) {
+    public StaffPage(ActionListener homeAction, CardLayout cardLayout, JPanel cardPanel,
+            Staff[] staffList) {
+        this.staffList = staffList;
+       
         setLayout(new BorderLayout());
 
         usernamTextField.setText("S01");
         passwordTextField.setText("P01S01");
 
-        // 
+        //
         // staffLabel.setFont(new Font("Arial", Font.BOLD, 20));
         // add(staffLabel, BorderLayout.CENTER);
 
@@ -37,13 +48,10 @@ public class StaffPage extends JPanel {
         homePanel.add(homeButton);
         add(homePanel, BorderLayout.SOUTH);
 
-        
-        
         JPanel panel1 = new JPanel(new BorderLayout());
         panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         JLabel loginLabel = new JLabel("Staff Login Page", JLabel.CENTER);
         loginLabel.setFont(new Font("Arial", Font.BOLD, 20));
-
 
         panel1.add(loginLabel, BorderLayout.NORTH);
 
@@ -53,10 +61,8 @@ public class StaffPage extends JPanel {
 
         JLabel usernamLabel = new JLabel("StaffID: ", JLabel.CENTER);
         JLabel passwordLabel = new JLabel("Password: ", JLabel.CENTER);
-        
-        
 
-        panel1_1.add(usernamLabel); 
+        panel1_1.add(usernamLabel);
         panel1_1.add(usernamTextField);
         panel1_1.add(passwordLabel);
         panel1_1.add(passwordTextField);
@@ -74,30 +80,50 @@ public class StaffPage extends JPanel {
     }
 
     ActionListener loginaActionListener = new ActionListener() {
-        public void actionPerformed(ActionEvent e)
-        {
+        public void actionPerformed(ActionEvent e) {
             boolean loginSuccess = false;
-            
-                for (Staff staff : stafflist) {
-                    if (staff.getStaffID().equals(usernamTextField.getText()) && staff.getPassword().equals(passwordTextField.getText())) {
-                        //labelWelcome.setText("Welcome " + staff.getName());
+            Staff loggedInStaff = null;
+    
+            if (usernamTextField.getText().trim().isEmpty() || passwordTextField.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(
+                    StaffPage.this,
+                    "Please enter both Staff ID and Password",
+                    "Login Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
+                return;
+            }
+    
+            for (Staff staff : staffList) {
+                if (staff.getStaffID().equals(usernamTextField.getText())) {
+                    if (staff.getPassword().equals(passwordTextField.getText())) {
                         loginSuccess = true;
+                        loggedInStaff = staff;
                         break;
+                    } else {
+                        JOptionPane.showMessageDialog(
+                            StaffPage.this,
+                            "Incorrect password",
+                            "Login Error",
+                            JOptionPane.ERROR_MESSAGE
+                        );
+                        return;
                     }
                 }
+            }
     
-                if (loginSuccess) {
-                    JPanel parent = (JPanel) StaffPage.this.getParent();
-                    CardLayout layout = (CardLayout) parent.getLayout();
-                   
-                    layout.show(parent, "StaffDetail"); // Navigate to StaffDetail page
-                }
-
-            
-
-            if (!loginSuccess)
-            {
-                labelWelcome.setText("Login Failed");
+            if (loginSuccess) {
+                MainFrame.setCurrentStaff(loggedInStaff);
+                JPanel parent = (JPanel) StaffPage.this.getParent();
+                CardLayout layout = (CardLayout) parent.getLayout();
+                layout.show(parent, "StaffDetail");
+            } else {
+                JOptionPane.showMessageDialog(
+                    StaffPage.this,
+                    "Staff ID not found",
+                    "Login Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
             }
         }
     };
