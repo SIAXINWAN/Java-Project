@@ -1,12 +1,10 @@
 package JavaProject.FramePage;
 
-import javax.swing.*;
-
 import JavaProject.FramePage.Staff.StaffDetail;
 import JavaProject.FramePage.Staff.StaffPage;
 import JavaProject.model.Staff;
-
 import java.awt.*;
+import javax.swing.*;
 
 public class MainFrame {
 

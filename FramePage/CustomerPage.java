@@ -5,10 +5,21 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class CustomerPage extends JPanel {
-    JPanel panel = new JPanel(new BorderLayout());
+    int roomMax = 10;
+    int SingleMax = 3;
+    int FamilyMax = 7;
+
+    int roomBil;
+
+    JPanel panel = new JPanel(new BorderLayout());    
     JPanel panel1 = new JPanel();
+    JPanel panelRoomBil = new JPanel(new BorderLayout());
+    JPanel panelN2 = new JPanel();
     JPanel panelSingle = new JPanel();
     JPanel panelFamily = new JPanel(new GridLayout(4, 3, 10, 10));
+    JPanel panelAddon = new JPanel();
+
+    JTextField roomBilTextFeild = new JTextField();
 
     JRadioButton rbSingle = new JRadioButton("Single Room");
     JRadioButton rbFamily = new JRadioButton("Family Room");
@@ -41,15 +52,28 @@ public class CustomerPage extends JPanel {
         homePanel.add(homeButton);
         add(homePanel, BorderLayout.SOUTH);
 
-        JPanel panelN2 = new JPanel();
+        
+        JLabel labelPRB1 = new JLabel("Single room: RM 80.00 - RM 120.00++ \t\t| Family room : RM 200.00++ ");
+        JLabel labelPRB2 = new JLabel("How many rooms IN TOTAL you want (Maximum " + roomMax + " ) (Single Max - " + SingleMax + ") (Family Max - " + FamilyMax + ") : *Click Enter when you done");
+        
+        panelRoomBil.add(labelPRB1, BorderLayout.NORTH); 
+        panelRoomBil.add(labelPRB2, BorderLayout.CENTER);
+        panelRoomBil.add(roomBilTextFeild, BorderLayout.SOUTH);
+
+        roomBilTextFeild.addActionListener(roomBilTextFieldActionListener);        
+
+        panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
+        panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel1.add(panelN1); panel1.add(panelRoomBil); 
+        
+        
         JLabel chooseRoomLabel = new JLabel("Choose Room Type:\n");
         chooseRoomLabel.setFont(new Font("Arial", Font.BOLD, 12));
         panelN2.add(chooseRoomLabel);
         buttonGroup1.add(rbSingle); buttonGroup1.add(rbFamily);
         panelN2.add(rbSingle); panelN2.add(rbFamily); 
 
-        panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
-        panel1.add(panelN1);panel1.add(panelN2);
+        
 
         rbSingle.addActionListener(rbActionListener);
         rbFamily.addActionListener(rbActionListener);
@@ -93,6 +117,26 @@ public class CustomerPage extends JPanel {
 
         add(panel, BorderLayout.NORTH);
     }
+
+    ActionListener roomBilTextFieldActionListener = new ActionListener()
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            String roomBilS = roomBilTextFeild.getText();
+            roomBil = Integer.parseInt(roomBilS);
+
+            if (roomBil > roomMax)
+            {
+                JOptionPane.showMessageDialog(null, "In total only MAXIMUM " + roomMax + " room we have", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+            else
+            {
+                panel1.add(panelN2);
+            }
+            panel.revalidate();
+            panel.repaint();
+        }
+    };
 
     ActionListener rbActionListener = new ActionListener()
     {

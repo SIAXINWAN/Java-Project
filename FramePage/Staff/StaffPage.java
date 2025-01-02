@@ -79,6 +79,12 @@ public class StaffPage extends JPanel {
         add(labelWelcome, BorderLayout.CENTER);
     }
 
+    public void resetFields() {
+        // Clear text field
+        usernamTextField.setText(" ");
+        passwordTextField.setText(" ");
+    }
+
     ActionListener loginaActionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             boolean loginSuccess = false;
@@ -113,6 +119,7 @@ public class StaffPage extends JPanel {
             }
     
             if (loginSuccess) {
+                resetFields();
                 MainFrame.setCurrentStaff(loggedInStaff);
                 JPanel parent = (JPanel) StaffPage.this.getParent();
                 CardLayout layout = (CardLayout) parent.getLayout();
