@@ -7,26 +7,45 @@ import javax.swing.*;
 public class CustomerPage extends JPanel {
     int roomMax = 10;
     int SingleMax = 3;
-    int FamilyMax = 7;
+    int FamilyMax = 7; 
+    int HolidayAdd = 20; 
 
     int roomBil;
+    int SingleRoom;
+    int FamilyRoom;
+
+    int SingleRChoice[] = new int[SingleMax];
+    int FamilyRChoice[] = new int[FamilyMax];
+
+    int tempS;
+    int tempF;
+    int counterLoop = 0;
 
     JPanel panel = new JPanel(new BorderLayout());    
     JPanel panel1 = new JPanel();
-    JPanel panelRoomBil = new JPanel(new BorderLayout());
-    JPanel panelN2 = new JPanel();
+    JPanel panelRoomBilTotal = new JPanel(new BorderLayout());
+    JPanel panelRBTLabel = new JPanel(new BorderLayout());
+    JPanel panelRoom = new JPanel(new BorderLayout());
+    JPanel buttonPanel1 = new JPanel();
+    JPanel panelChooseLoop = new JPanel(new BorderLayout());
     JPanel panelSingle = new JPanel();
     JPanel panelFamily = new JPanel(new GridLayout(4, 3, 10, 10));
     JPanel panelAddon = new JPanel();
+    JPanel buttonPanel2 = new JPanel();
 
-    JTextField roomBilTextFeild = new JTextField();
+    JTextField roomBilTextField = new JTextField();
 
-    JRadioButton rbSingle = new JRadioButton("Single Room");
-    JRadioButton rbFamily = new JRadioButton("Family Room");
+    JTextField SingleRTextField = new JTextField();
+    JTextField FamilyRTextField = new JTextField();
 
-    ButtonGroup buttonGroup1 = new ButtonGroup(); 
+    JButton buttonConfirmRoom = new JButton("Confirm");
+    JButton buttonCancelRoom = new JButton("Cancel");
 
-    String singleBedType[] = {"Single bed", "Queen bed", "King bed"}; 
+    JLabel chooseRoomLabel = new JLabel();
+
+    JButton buttonDone = new JButton("Done");
+
+    String singleBedType[] = {"Single bed (RM 80.00 ++)", "Queen bed (RM 120.00 ++)", "King bed (RM 120.00 ++)"}; 
     JComboBox<String> comboboxSingle = new JComboBox<String>(singleBedType);
 
     JRadioButton rbfamily1 = new JRadioButton("Option 1 : ");
@@ -53,30 +72,56 @@ public class CustomerPage extends JPanel {
         add(homePanel, BorderLayout.SOUTH);
 
         
-        JLabel labelPRB1 = new JLabel("Single room: RM 80.00 - RM 120.00++ \t\t| Family room : RM 200.00++ ");
-        JLabel labelPRB2 = new JLabel("How many rooms IN TOTAL you want (Maximum " + roomMax + " ) (Single Max - " + SingleMax + ") (Family Max - " + FamilyMax + ") : *Click Enter when you done");
+        JLabel labelPRBT1 = new JLabel("Single room: RM 80.00 - RM 120.00++ \t\t| Family room : RM 200.00++ ");
+        JLabel labelPRBT2 = new JLabel("* If it's the holiday season, each room will add-on RM " + HolidayAdd + ".00 .");
+        JLabel labelPRBT3 = new JLabel("How many rooms IN TOTAL you want (Maximum " + roomMax + " ) (Single Max - " + SingleMax + ") (Family Max - " + FamilyMax + ") :  *Click Enter to continue");
         
-        panelRoomBil.add(labelPRB1, BorderLayout.NORTH); 
-        panelRoomBil.add(labelPRB2, BorderLayout.CENTER);
-        panelRoomBil.add(roomBilTextFeild, BorderLayout.SOUTH);
+        panelRBTLabel.add(labelPRBT1, BorderLayout.NORTH); //RBT stand for Room Bil Total
+        panelRBTLabel.add(labelPRBT2, BorderLayout.CENTER);
+        panelRBTLabel.add(labelPRBT3, BorderLayout.SOUTH);
+        panelRoomBilTotal.add(panelRBTLabel, BorderLayout.NORTH);
+        panelRoomBilTotal.add(roomBilTextField, BorderLayout.CENTER);
 
-        roomBilTextFeild.addActionListener(roomBilTextFieldActionListener);        
+        roomBilTextField.addActionListener(roomBilTotalTextFieldActionListener);        
 
         panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
         panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        panel1.add(panelN1); panel1.add(panelRoomBil); 
+        panel1.add(panelN1); panel1.add(panelRoomBilTotal); 
         
+
+
+        JPanel panelRoomBil = new JPanel(new GridLayout(2, 2, 10, 10));
+
+        JLabel labelPRB1 = new JLabel("Single room: ");
+        JLabel labelPRB2 = new JLabel("Family room: ");        
+
+        panelRoomBil.add(labelPRB1);        
+        panelRoomBil.add(labelPRB2);
+        panelRoomBil.add(SingleRTextField);
+        panelRoomBil.add(FamilyRTextField);
+
+        SingleRTextField.addActionListener(roomBilTextFieldActionListener);
+        FamilyRTextField.addActionListener(roomBilTextFieldActionListener);
+
         
-        JLabel chooseRoomLabel = new JLabel("Choose Room Type:\n");
+
+        buttonConfirmRoom.setPreferredSize(new Dimension(100, 40));
+        buttonCancelRoom.setPreferredSize(new Dimension(100, 40));
+
+        buttonConfirmRoom.addActionListener(buttonRoomActionListener);
+        buttonCancelRoom.addActionListener(buttonRoomActionListener);
+
+        buttonPanel1.add(buttonConfirmRoom);
+        buttonPanel1.add(buttonCancelRoom);
+        
+        panelRoom.add(panelRoomBil, BorderLayout.NORTH);
+        panelRoom.add(buttonPanel1, BorderLayout.CENTER);
+
+
+
+        
         chooseRoomLabel.setFont(new Font("Arial", Font.BOLD, 12));
-        panelN2.add(chooseRoomLabel);
-        buttonGroup1.add(rbSingle); buttonGroup1.add(rbFamily);
-        panelN2.add(rbSingle); panelN2.add(rbFamily); 
-
-        
-
-        rbSingle.addActionListener(rbActionListener);
-        rbFamily.addActionListener(rbActionListener);
+        panelChooseLoop.add(chooseRoomLabel, BorderLayout.NORTH);        
 
         panel.add(panel1, BorderLayout.NORTH);
 
@@ -110,7 +155,16 @@ public class CustomerPage extends JPanel {
         panelFamily.add(label8);
         panelFamily.add(label9);
 
-        
+
+
+        buttonDone.setPreferredSize(new Dimension(100, 40));
+        buttonDone.addActionListener(buttonDoneActionListener);
+
+        buttonPanel2.add(buttonDone);
+
+        panelChooseLoop.add(buttonPanel2, BorderLayout.SOUTH);
+
+
 
         
         
@@ -118,11 +172,11 @@ public class CustomerPage extends JPanel {
         add(panel, BorderLayout.NORTH);
     }
 
-    ActionListener roomBilTextFieldActionListener = new ActionListener()
+    ActionListener roomBilTotalTextFieldActionListener = new ActionListener()
     {
         public void actionPerformed(ActionEvent e)
         {
-            String roomBilS = roomBilTextFeild.getText();
+            String roomBilS = roomBilTextField.getText();
             roomBil = Integer.parseInt(roomBilS);
 
             if (roomBil > roomMax)
@@ -131,33 +185,196 @@ public class CustomerPage extends JPanel {
             }
             else
             {
-                panel1.add(panelN2);
+                panel1.add(panelRoom);
             }
             panel.revalidate();
             panel.repaint();
         }
     };
 
-    ActionListener rbActionListener = new ActionListener()
+    ActionListener roomBilTextFieldActionListener = new ActionListener()
     {
         public void actionPerformed(ActionEvent e)
         {
-            if (e.getSource() == rbSingle)
+            if (e.getSource() == SingleRTextField)
             {
-                panel.add(panelSingle, BorderLayout.CENTER);
-                panelSingle.setVisible(true);
-                panelFamily.setVisible(false);
+                String temp1 = SingleRTextField.getText();
+                SingleRoom = Integer.parseInt(temp1);
+                if (SingleRoom > roomBil)
+                {
+                    JOptionPane.showMessageDialog(null, "You only have choosed " + roomBil + " room", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+                else if (SingleRoom > SingleMax)
+                {
+                    JOptionPane.showMessageDialog(null, "In total only MAXIMUM " + SingleMax + " SINGLE room we have", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+                else
+                {
+                    FamilyRoom = roomBil - SingleRoom;
+                    FamilyRTextField.setText(Integer.toString(FamilyRoom));
+                }
             }
-            else 
+            else
             {
-                panel.add(panelFamily, BorderLayout.CENTER);
-                panelFamily.setVisible(true);
-                panelSingle.setVisible(false);
+                String temp2 = FamilyRTextField.getText();
+                FamilyRoom = Integer.parseInt(temp2);
+                if (FamilyRoom > roomBil)
+                {
+                    JOptionPane.showMessageDialog(null, "You only have choosed " + roomBil + " room", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+                else if (FamilyRoom > FamilyMax)
+                {
+                    JOptionPane.showMessageDialog(null, "In total only MAXIMUM " + FamilyMax + " FAMILY room we have", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+                else
+                {
+                    SingleRoom = roomBil - FamilyRoom;
+                    SingleRTextField.setText(Integer.toString(SingleRoom));
+                }
             }
             panel.revalidate();
             panel.repaint();
         }
     };
+
+    ActionListener buttonRoomActionListener = new ActionListener()
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            if (SingleRTextField.getText().isEmpty())
+            {
+                JOptionPane.showMessageDialog(null, "Single room text field is empty ", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            }
+            else if (FamilyRTextField.getText().isEmpty())
+            {
+                JOptionPane.showMessageDialog(null, "Family room text field is empty ", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+            else 
+            {
+                if (e.getSource() == buttonConfirmRoom)
+                {
+                    roomBilTextField.setEditable(false);
+                    SingleRTextField.setEditable(false);
+                    FamilyRTextField.setEditable(false);
+
+                    panel.add(panelChooseLoop, BorderLayout.CENTER);
+                    panelChooseLoop.setVisible(true);
+                    counterLoop = 1;
+                    tempS = SingleRoom;
+                    tempF = FamilyRoom;
+
+                    RoomLoop();
+                }
+                else
+                {
+                    roomBilTextField.setEditable(true);
+                    SingleRTextField.setEditable(true);
+                    FamilyRTextField.setEditable(true);
+
+                    panelChooseLoop.setVisible(false);
+                    counterLoop = 0;
+                }
+            }            
+            panel.revalidate();
+            panel.repaint();
+        }
+    };
+
+    
+
+    ActionListener buttonDoneActionListener = new ActionListener()
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            if (tempS > 0)
+            {
+                SingleRChoice[counterLoop] = comboboxSingle.getSelectedIndex();
+                tempS--;  // Decrease available Single room after selection
+            }
+            else if (tempF > 0)
+            {
+                if (getFamilyRoomTypeSelected() == 0)
+                {
+                    JOptionPane.showMessageDialog(null, "Please select at least one option", "Warning", JOptionPane.WARNING_MESSAGE);
+                    counterLoop--;
+                    tempF++;
+                }
+
+                if (SingleRoom == 0)
+                {
+                    FamilyRChoice[counterLoop] = getFamilyRoomTypeSelected();
+                }
+                else
+                {
+                    FamilyRChoice[(counterLoop - SingleRoom)] = getFamilyRoomTypeSelected();
+                }
+                tempF--;  // Decrease available Family room after selection
+            }
+
+            if (counterLoop < roomBil) {
+                counterLoop++;  // Move to the next room
+                RoomLoop();  // Call RoomLoop again to update UI for the next room
+            } 
+            else {
+                // Once all rooms are processed, you can hide the loop panel or show a summary
+                JOptionPane.showMessageDialog(null, "All rooms have been selected.");
+            }
+        }
+    };
+
+   public void RoomLoop() 
+   {
+        // This will ensure the first room is ready to be selected
+        if (counterLoop <= roomBil) 
+        {
+            if (tempS > 0) 
+            {
+                chooseRoomLabel.setText("Choose SINGLE Room " + counterLoop + " : ");
+                panelChooseLoop.add(panelSingle, BorderLayout.CENTER);
+                panelSingle.setVisible(true);
+                panelFamily.setVisible(false);
+                
+            }
+            else if (tempF > 0) 
+            {
+                if (SingleRoom == 0)
+                {
+                    chooseRoomLabel.setText("Choose FAMILY Room " + counterLoop + " : ");
+                }
+                else
+                {
+                    chooseRoomLabel.setText("Choose FAMILY Room " + (counterLoop - SingleRoom) + " : ");
+                }
+            
+                panelChooseLoop.add(panelFamily, BorderLayout.CENTER);
+                panelFamily.setVisible(true);
+                panelSingle.setVisible(false);
+                
+            }
+
+            // Update panel after showing the room selection UI
+            panel.revalidate();
+            panel.repaint();
+        }
+    }
+
+    public int getFamilyRoomTypeSelected()
+    {
+        if (rbfamily1.isSelected())
+        {
+            return 1;
+        }
+        else if (rbfamily2.isSelected())
+        {
+            return 2;
+        }
+        else if (rbfamily3.isSelected())
+        {
+            return 3;
+        }
+        return 0;
+    }
 
     ItemListener comboboxItemListener = new ItemListener() 
     {

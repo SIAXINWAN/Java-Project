@@ -71,8 +71,12 @@ public class StaffPage extends JPanel {
 
         JButton buttonLogin = new JButton("Login");
         buttonLogin.addActionListener(loginaActionListener);
+        buttonLogin.setPreferredSize(new Dimension(100, 40));
 
-        panel1.add(buttonLogin, BorderLayout.SOUTH);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(buttonLogin);
+
+        panel1.add(buttonPanel, BorderLayout.SOUTH);
 
         add(panel1, BorderLayout.NORTH);
 
