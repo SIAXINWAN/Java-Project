@@ -1,13 +1,12 @@
 package JavaProject.FramePage.Customer;
 
+import java.awt.*;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
 
-
-import java.awt.*;
-
 public class CustomerConfirm extends JPanel{
+    JPanel panel1 = new JPanel();
+
     public CustomerConfirm(ActionListener homeAction)
     {
         setLayout(new BorderLayout());
@@ -39,5 +38,7 @@ public class CustomerConfirm extends JPanel{
                 homeAction.actionPerformed(e); 
             }
         });
+
+        JLabel label1 = new JLabel("This is your choosen room option : ");
     }
 }
