@@ -37,7 +37,7 @@ public class StaffDetail extends JPanel {
             addDetailField(detailsPanel, "Staff ID:", currentStaff.getStaffID());
             addDetailField(detailsPanel, "Name:", currentStaff.getName());
             addDetailField(detailsPanel, "Gender:", (currentStaff.getGender()?"Male":"Female"));
-            addDetailField(detailsPanel, "Birtrhday:", currentStaff.getDateOfBirth());
+            addDetailField(detailsPanel, "Birthday:", currentStaff.getDateOfBirth());
             
         }
         else{

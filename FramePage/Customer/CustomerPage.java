@@ -1,4 +1,4 @@
-package JavaProject.FramePage;
+package JavaProject.FramePage.Customer;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -282,7 +282,7 @@ public class CustomerPage extends JPanel {
     };
 
     
-
+String optionButton[] = {"Continue","Cancel"};
     ActionListener buttonDoneActionListener = new ActionListener()
     {
         public void actionPerformed(ActionEvent e)
@@ -318,7 +318,21 @@ public class CustomerPage extends JPanel {
             } 
             else {
                 // Once all rooms are processed, you can hide the loop panel or show a summary
-                JOptionPane.showMessageDialog(null, "All rooms have been selected.");
+                
+               int o =  JOptionPane.showOptionDialog(
+                    null, 
+                    "All rooms have been selected.",
+                    "Cats Hotel Booking System", JOptionPane.NO_OPTION,
+                    JOptionPane.PLAIN_MESSAGE,null,optionButton,"default"
+                    );
+                    if(o==0)
+                    {
+                        JPanel parent = (JPanel)CustomerPage.this.getParent();
+                        CardLayout layout = (CardLayout)parent.getLayout();
+                        layout.show(parent, "CustomerConfirm");
+                    }
+                    
+
             }
         }
     };

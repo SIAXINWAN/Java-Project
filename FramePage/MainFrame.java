@@ -1,5 +1,7 @@
 package JavaProject.FramePage;
 
+import JavaProject.FramePage.Customer.CustomerConfirm;
+import JavaProject.FramePage.Customer.CustomerPage;
 import JavaProject.FramePage.Staff.StaffDetail;
 import JavaProject.FramePage.Staff.StaffPage;
 import JavaProject.model.Staff;
@@ -38,7 +40,7 @@ public class MainFrame {
         // CardLayout instance
         CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
 
-        final Staff[] currentStaff = new Staff[1];
+        
 
         // Create pages
         WelcomePage welcomePage = new WelcomePage(
@@ -61,11 +63,14 @@ public class MainFrame {
             e -> cardLayout.show(cardPanel, "Welcome")
            );
 
+        CustomerConfirm customerConfirmPage = new CustomerConfirm(e-> cardLayout.show(cardPanel,"Welcome"));
+
         // Add pages to card panel
         cardPanel.add(welcomePage, "Welcome");
         cardPanel.add(customerPage, "Customer");
         cardPanel.add(staffPage, "Staff");
         cardPanel.add(staffDetailPage, "StaffDetail");
+        cardPanel.add(customerConfirmPage,"CustomerConfirm");
 
         // Add card panel to frame
         frame.add(cardPanel, BorderLayout.CENTER);
