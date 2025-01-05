@@ -2,6 +2,7 @@ package JavaProject.FramePage;
 
 import JavaProject.FramePage.Customer.CustomerConfirm;
 import JavaProject.FramePage.Customer.CustomerPage;
+import JavaProject.FramePage.Customer.CustomerPage1;
 import JavaProject.FramePage.Staff.StaffDetail;
 import JavaProject.FramePage.Staff.StaffPage;
 import JavaProject.model.Staff;
@@ -44,9 +45,14 @@ public class MainFrame {
 
         // Create pages
         WelcomePage welcomePage = new WelcomePage(
-            e -> cardLayout.show(cardPanel, "Customer"), // Navigate to Customer Page
+            e -> cardLayout.show(cardPanel, "CustomerPage1"), // Navigate to Customer Page 1
             e -> cardLayout.show(cardPanel, "Staff")     // Navigate to Staff Page
         );
+
+        CustomerPage1 customerPage1 = new CustomerPage1(
+            e -> cardLayout.show(cardPanel, "Welcome") // Navigate back to Welcome Page
+        );
+
 
         CustomerPage customerPage = new CustomerPage(
             e -> cardLayout.show(cardPanel, "Welcome")  // Navigate to Welcome Page
@@ -67,6 +73,7 @@ public class MainFrame {
 
         // Add pages to card panel
         cardPanel.add(welcomePage, "Welcome");
+        cardPanel.add(customerPage1, "CustomerPage1");
         cardPanel.add(customerPage, "Customer");
         cardPanel.add(staffPage, "Staff");
         cardPanel.add(staffDetailPage, "StaffDetail");
