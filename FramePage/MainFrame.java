@@ -7,6 +7,7 @@ import JavaProject.FramePage.Staff.StaffDetail;
 import JavaProject.FramePage.Staff.StaffPage;
 import JavaProject.model.Staff;
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 public class MainFrame {
@@ -49,9 +50,20 @@ public class MainFrame {
             e -> cardLayout.show(cardPanel, "Staff")     // Navigate to Staff Page
         );
 
-        CustomerPage1 customerPage1 = new CustomerPage1(
-            e -> cardLayout.show(cardPanel, "Welcome") // Navigate back to Welcome Page
-        );
+        CustomerPage1 customerPage1 = new CustomerPage1(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Navigate to WelcomePage
+                cardLayout.show(cardPanel, "Welcome");
+                
+            }
+        }, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Navigate to CustomerPage
+                cardLayout.show(cardPanel, "Customer");
+            }
+        });
 
 
         CustomerPage customerPage = new CustomerPage(
