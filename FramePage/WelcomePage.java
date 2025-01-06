@@ -8,7 +8,7 @@ public class WelcomePage extends JPanel {
     public WelcomePage(ActionListener toCustomerAction, ActionListener toStaffAction) {
         setLayout(new BorderLayout());
 
-        ImageIcon imageIcon = new ImageIcon("JavaProject\\assets\\CAtS.png"); // Replace with the actual image path
+        ImageIcon imageIcon = new ImageIcon("JavaProject\\assets\\CAtS.png"); 
         JLabel imageLabel = new JLabel(imageIcon);
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(imageLabel, BorderLayout.NORTH);
