@@ -2,14 +2,15 @@ package JavaProject.FramePage;
 
 import JavaProject.FramePage.Customer.CustomerConfirm;
 import JavaProject.FramePage.Customer.CustomerDetail;
-import JavaProject.FramePage.Customer.CustomerPage;
 import JavaProject.FramePage.Customer.CustomerPage1;
 import JavaProject.FramePage.Staff.StaffDetail;
 import JavaProject.FramePage.Staff.StaffPage;
+import JavaProject.model.Booking;
 import JavaProject.model.Customer;
 import JavaProject.model.Staff;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
 
 public class MainFrame {
@@ -21,6 +22,19 @@ public class MainFrame {
             new Staff("P04", "Teoh Hui Yu", "0189518451", "S04", false, "27/10/2005")
     };
 
+    static int[] singleRChoice = {1};
+    static int[] familyRChoice = {1};
+    static int[][] addonChoiceS = {{0, 0}};
+    static int[][] addonChoiceF = {{0, 0, 0, 0, 0}};
+
+    public static Vector<Booking> bookingDetails = new Vector<>(4, 2) {
+        {
+            //add(new Booking("B0002", "5/1/2025", "10/1/2025", 2, 1, 1, new int[]{1}, new int[]{1}, new int[][]{{0}}, new int[][]{{0, 0}}));
+            add(new Booking("B0001", "1/1/2025", "7/1/2025", 2, 1, 1, singleRChoice, familyRChoice, addonChoiceS, addonChoiceF));
+        }
+    };// use to store run time booking details 
+
+    
     
     private static Staff currentLoggedInStaff = null;
 
@@ -68,7 +82,7 @@ public class MainFrame {
                 // Navigate to CustomerPage
                 cardLayout.show(cardPanel, "Customer");
             }
-        });
+        }, bookingDetails);
 
         //CustomerPage customerPage = new CustomerPage(e -> cardLayout.show(cardPanel, "CustomerPage1"));
 

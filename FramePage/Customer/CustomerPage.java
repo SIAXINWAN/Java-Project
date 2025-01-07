@@ -3,16 +3,14 @@ package JavaProject.FramePage.Customer;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.*;
 import javax.swing.border.EmptyBorder;
+import JavaProject.model.Booking;
 
 public class CustomerPage extends JPanel {
-    int roomMax = 10;
-    int SingleMax = 3;
-    int FamilyMax = 7;
-    int HolidayAdd = 20;
-
-    String checkInDate;
-    String checkOutDate;
+    int roomMax = Booking.roomMax;
+    int SingleMax = Booking.SingleMax;
+    int FamilyMax = Booking.FamilyMax; 
 
     int roomBil;
     int SingleRoom;
@@ -30,8 +28,7 @@ public class CustomerPage extends JPanel {
     char BedType;
 
     JPanel panel = new JPanel(new BorderLayout());
-    JPanel panel1 = new JPanel();
-    JPanel panelRoomBilTotal = new JPanel(new BorderLayout());
+    JPanel panelHeader = new JPanel(new BorderLayout());
 
     JPanel panelChooseLoop = new JPanel(new BorderLayout());
     JPanel panelSingle = new JPanel(new BorderLayout());
@@ -88,23 +85,35 @@ public class CustomerPage extends JPanel {
 
     JTextField addonBreakfastTextField = new JTextField();
 
-    public CustomerPage(ActionListener homeAction, String checkInDate, String checkOutDate,
-            int roomBil, int singleRoom, int familyRoom) {
-        setLayout(new BorderLayout());
-        this.checkInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
-        this.roomBil = roomBil;
-        this.SingleRoom = singleRoom;
-        this.FamilyRoom = familyRoom;
+    public Vector<Booking> bookingDetails;
+    int currentIndex;
 
-        JPanel panelN1 = new JPanel();
+    Booking thisBookingDetails;
+
+    public CustomerPage(ActionListener homeAction, Vector<Booking> bookingDetails, int bookingDetailsCurrentIndex) {
+        setLayout(new BorderLayout());
+
+        this.bookingDetails = bookingDetails;
+        thisBookingDetails = bookingDetails.get(currentIndex);
+
+        if (bookingDetails == null)
+        {
+            System.out.println("The booking details is null");
+        }
+
+        currentIndex = bookingDetailsCurrentIndex;
+
+        roomBil = thisBookingDetails.getroomBil();
+        SingleRoom = thisBookingDetails.getsingleRoom();
+        FamilyRoom = thisBookingDetails.getfamilyRoom();
+
         JLabel customerLabel = new JLabel("Customer Booking");
         customerLabel.setFont(new Font("Arial", Font.BOLD, 26));
-        panelN1.add(customerLabel, BorderLayout.NORTH);
+        panelHeader.add(customerLabel, BorderLayout.NORTH);
 
-        
+        panelHeader.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        JPanel bookingDetail = new JPanel(new BorderLayout());
+        JPanel panelBookingDetail = new JPanel(new BorderLayout());
         JLabel labelCID = new JLabel();
         labelCID.setFont((new Font("Arial",Font.BOLD, 20)));
         JLabel labelCOD = new JLabel();
@@ -115,8 +124,8 @@ public class CustomerPage extends JPanel {
         detailDate.add(labelCID);
         detailDate.add(Box.createRigidArea(new Dimension(150, 0)));
         detailDate.add(labelCOD);
-        bookingDetail.setLayout(new BoxLayout(bookingDetail, BoxLayout.Y_AXIS));
-        bookingDetail.add(detailDate, BorderLayout.NORTH);
+        panelBookingDetail.setLayout(new BoxLayout(panelBookingDetail, BoxLayout.Y_AXIS));
+        panelBookingDetail.add(detailDate, BorderLayout.NORTH);
 
         JLabel labelT = new JLabel();
         labelT.setFont((new Font("Arial",Font.BOLD, 20)));
@@ -125,11 +134,11 @@ public class CustomerPage extends JPanel {
         JLabel labelF = new JLabel();
         labelF.setFont((new Font("Arial",Font.BOLD, 20)));
         JPanel detailRoom = new JPanel();
-        labelCID.setText("Check In Date: " + checkInDate);
-        labelCOD.setText("Check Out Date: " + checkOutDate);
-        labelT.setText("Total rooms: " + roomBil);
-        labelS.setText("Single rooms: " + SingleRoom);
-        labelF.setText("Family rooms: " + FamilyRoom);
+        labelCID.setText("Check In Date: " + thisBookingDetails.getCheckInDate());
+        labelCOD.setText("Check Out Date: " + thisBookingDetails.getCheckOutDate());
+        labelT.setText("Total rooms: " + thisBookingDetails.getroomBil());
+        labelS.setText("Single rooms: " + thisBookingDetails.getsingleRoom());
+        labelF.setText("Family rooms: " + thisBookingDetails.getfamilyRoom());
         detailRoom.setLayout(new BoxLayout(detailRoom, BoxLayout.X_AXIS));
         detailRoom.add(labelT);
         detailRoom.add(Box.createRigidArea(new Dimension(90, 0)));
@@ -138,10 +147,12 @@ public class CustomerPage extends JPanel {
         detailRoom.add(labelF);
         JPanel spacer = new JPanel(); 
         spacer.setPreferredSize(new Dimension(0, 80));
-        bookingDetail.add(detailRoom, BorderLayout.SOUTH);
-        bookingDetail.add(spacer,BorderLayout.CENTER);
+        panelBookingDetail.add(detailRoom, BorderLayout.SOUTH);
+        panelBookingDetail.add(spacer,BorderLayout.CENTER);
 
-        add(bookingDetail, BorderLayout.CENTER);
+        panelHeader.add(panelBookingDetail, BorderLayout.CENTER);
+
+        add(panelHeader, BorderLayout.NORTH);
 
         JButton DoneButton =  createStyledButton("Done", new Dimension(120, 40));
         DoneButton.setFont(new Font("Arial", Font.BOLD, 16));
@@ -163,7 +174,7 @@ public class CustomerPage extends JPanel {
         JPanel homePanel = new JPanel();
         homePanel.add(homeButton);
         JPanel SouthPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
-         SouthPanel.setBorder(new EmptyBorder(20, 0, 30, 0));
+        SouthPanel.setBorder(new EmptyBorder(20, 0, 30, 0));
 
         SouthPanel.add(DonePanel, BorderLayout.SOUTH);
 
@@ -171,16 +182,18 @@ public class CustomerPage extends JPanel {
         SouthPanel.add(homePanel, BorderLayout.NORTH);
         add(SouthPanel, BorderLayout.SOUTH);
 
-        panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
-        panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        panel1.add(panelN1);
-        panel1.add(panelRoomBilTotal);
+        
 
         panelChooseLoop.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         chooseRoomLabel.setFont(new Font("Arial", Font.BOLD, 16));
         panelChooseLoop.add(chooseRoomLabel, BorderLayout.NORTH);
 
-        panel.add(panel1, BorderLayout.NORTH);
+        panel.add(panelChooseLoop, BorderLayout.CENTER);
+        counterLoop = 1;
+        tempS = SingleRoom;
+        tempF = FamilyRoom;
+
+        RoomLoop();
 
         comboboxSingle.addItemListener(comboboxItemListener);
 
@@ -315,7 +328,7 @@ public class CustomerPage extends JPanel {
         panelAddonFamily.add(AddonOptionLabel7);
         panelAddonFamily.add(addonBreakfastTextField);
 
-        add(panel, BorderLayout.NORTH);
+        add(panel, BorderLayout.CENTER);
     }
 
     ActionListener buttonRoomActionListener = new ActionListener() {
@@ -326,13 +339,7 @@ public class CustomerPage extends JPanel {
                 // SingleRTextField.setEditable(false);
                 // FamilyRTextField.setEditable(false);
 
-                panel.add(panelChooseLoop, BorderLayout.CENTER);
-                panelChooseLoop.setVisible(true);
-                counterLoop = 1;
-                tempS = SingleRoom;
-                tempF = FamilyRoom;
-
-                RoomLoop();
+               
             }
             // else
             {

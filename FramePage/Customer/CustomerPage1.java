@@ -1,17 +1,16 @@
 package JavaProject.FramePage.Customer;
 
+import JavaProject.model.Booking;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
-
-import JavaProject.FramePage.Staff.StaffPage;
 
 
 public class CustomerPage1 extends JPanel{
-    int roomMax = 10;
-    int SingleMax = 3;
-    int FamilyMax = 7; 
-    int HolidayAdd = 20; 
+    int roomMax = Booking.roomMax;
+    int SingleMax = Booking.SingleMax;
+    int FamilyMax = Booking.FamilyMax; 
 
     int roomBil;
     int SingleRoom;
@@ -56,11 +55,13 @@ public class CustomerPage1 extends JPanel{
     JButton buttonConfirmRoom = new JButton("Confirm");
     JButton buttonCancelRoom = new JButton("Cancel");
 
+    public Vector<Booking> bookingDetails;
 
-
-    public CustomerPage1(ActionListener homeAction, ActionListener navigateToCustomerPage)
+    public CustomerPage1(ActionListener homeAction, ActionListener navigateToCustomerPage, Vector<Booking> bookingDetails)
     {
         setLayout(new BorderLayout());
+
+        this.bookingDetails = bookingDetails;
 
         JLabel titleLabel = new JLabel("Customer Booking", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
@@ -468,12 +469,9 @@ public class CustomerPage1 extends JPanel{
     };
 
     ActionListener buttonRoomActionListener = new ActionListener()
-    {
-        
+    {        
         public void actionPerformed(ActionEvent e)
         {
-            
-           
             if(SingleRoom+FamilyRoom > roomBil){
                 JOptionPane.showMessageDialog(null, "The room is more than you have choosed", "Warning", JOptionPane.WARNING_MESSAGE);
             
@@ -496,6 +494,44 @@ public class CustomerPage1 extends JPanel{
                     FamilyRTextField.setEditable(false);
                     buttonCancelRoom.setEnabled(true);
 
+                    //Store the detail into bookingDetails
+                    int vectorSize = bookingDetails.size();
+                    String bookingId = bookingDetails.elementAt(vectorSize - 1).getBookingID();
+
+                    int idSize = bookingId.length();
+                    
+                    String BookingidCode = bookingId.substring(0, 1);
+
+                    String BookingidNum1 = bookingId.substring(1, idSize);
+                    
+                    int BookingidNum2 = Integer.parseInt(BookingidNum1);
+
+                    int bookingIdNumFinal = BookingidNum2 + 1;
+                    String newBookingid = BookingidCode;
+                    if (bookingIdNumFinal >= 1000)
+                    {
+                        newBookingid += bookingIdNumFinal;
+                    }
+                    else if (bookingIdNumFinal >= 100)
+                    {
+                        newBookingid += "0" + bookingIdNumFinal;
+                    }
+                    else if (bookingIdNumFinal >= 10)
+                    {
+                        newBookingid += "00" + bookingIdNumFinal;
+                    }
+                    else
+                    {
+                        newBookingid += "000" + bookingIdNumFinal;
+                    }
+                    Booking bookingTemp = new Booking(newBookingid);
+                    bookingTemp.setCheckDate(CheckInDate, CheckOutDate);
+                    bookingTemp.setRoomBilangan(roomBil, SingleRoom, FamilyRoom);
+
+                    bookingDetails.add(bookingTemp);                   
+
+
+
                     // Get the parent panel and create new CustomerPage with data
                     JPanel parent = (JPanel) CustomerPage1.this.getParent();
                     CardLayout layout = (CardLayout) parent.getLayout();
@@ -511,11 +547,8 @@ public class CustomerPage1 extends JPanel{
                     // Create new CustomerPage with the data
                     CustomerPage customerPage = new CustomerPage(
                         e2 -> layout.show(parent, "CustomerPage1"),
-                        CheckInDate,
-                        CheckOutDate,
-                        roomBil,
-                        SingleRoom,
-                        FamilyRoom
+                        bookingDetails,
+                        BookingidNum2
                     );
                     
                     // Add the new CustomerPage and show it
