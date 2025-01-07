@@ -39,7 +39,7 @@ public class StaffPage extends JPanel {
         // staffLabel.setFont(new Font("Arial", Font.BOLD, 20));
         // add(staffLabel, BorderLayout.CENTER);
 
-        JButton homeButton = new JButton("Home");
+        JButton homeButton = new JButton("Back");
         homeButton.setFont(new Font("Arial", Font.BOLD, 18));
         homeButton.setPreferredSize(new Dimension(100, 40));
         homeButton.addActionListener(homeAction);

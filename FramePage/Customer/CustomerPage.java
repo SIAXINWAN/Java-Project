@@ -3,12 +3,16 @@ package JavaProject.FramePage.Customer;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class CustomerPage extends JPanel {
     int roomMax = 10;
     int SingleMax = 3;
-    int FamilyMax = 7; 
-    int HolidayAdd = 20; 
+    int FamilyMax = 7;
+    int HolidayAdd = 20;
+
+    String checkInDate;
+    String checkOutDate;
 
     int roomBil;
     int SingleRoom;
@@ -25,10 +29,10 @@ public class CustomerPage extends JPanel {
 
     char BedType;
 
-    JPanel panel = new JPanel(new BorderLayout());    
+    JPanel panel = new JPanel(new BorderLayout());
     JPanel panel1 = new JPanel();
     JPanel panelRoomBilTotal = new JPanel(new BorderLayout());
-   
+
     JPanel panelChooseLoop = new JPanel(new BorderLayout());
     JPanel panelSingle = new JPanel(new BorderLayout());
     JPanel panelFamily = new JPanel(new BorderLayout());
@@ -38,35 +42,35 @@ public class CustomerPage extends JPanel {
     JPanel panelAddonSingle = new JPanel(new GridLayout(2, 2, 10, 10));
     JPanel panelAddonFamily = new JPanel(new GridLayout(5, 2, 10, 10));
     JPanel buttonPanel2 = new JPanel();
-    
+
     JLabel chooseRoomLabel = new JLabel();
 
     JButton buttonDone = new JButton("Done");
 
-    String singleBedType[] = {"Single bed (RM 80.00 ++)", "Queen bed (RM 120.00 ++)", "King bed (RM 120.00 ++)"}; 
+    String singleBedType[] = { "Single bed (RM 80.00 ++)", "Queen bed (RM 120.00 ++)", "King bed (RM 120.00 ++)" };
     JComboBox<String> comboboxSingle = new JComboBox<>(singleBedType);
 
     JRadioButton rbfamily1 = new JRadioButton("Option 1 : ");
     JRadioButton rbfamily2 = new JRadioButton("Option 2 : ");
     JRadioButton rbfamily3 = new JRadioButton("Option 3 : ");
 
-    ButtonGroup buttonGroup2 = new ButtonGroup(); 
+    ButtonGroup buttonGroup2 = new ButtonGroup();
 
-    JLabel AddonLabel1 = new JLabel("HI");   
-    JLabel AddonLabel2 = new JLabel("Do you want add-ons : ");   
+    JLabel AddonLabel1 = new JLabel("HI");
+    JLabel AddonLabel2 = new JLabel("Do you want add-ons : ");
 
     JRadioButton rbAddon1 = new JRadioButton("Yes");
     JRadioButton rbAddon2 = new JRadioButton("No");
 
-    ButtonGroup buttonGroupAddon = new ButtonGroup(); 
+    ButtonGroup buttonGroupAddon = new ButtonGroup();
 
     JRadioButton rbAddonSingle1 = new JRadioButton("1");
     JRadioButton rbAddonSingle2 = new JRadioButton("2");
     JRadioButton rbAddonSingle3 = new JRadioButton("1");
     JRadioButton rbAddonSingle4 = new JRadioButton("2");
 
-    ButtonGroup buttonGroupAddonSingle1 = new ButtonGroup(); 
-    ButtonGroup buttonGroupAddonSingle2 = new ButtonGroup(); 
+    ButtonGroup buttonGroupAddonSingle1 = new ButtonGroup();
+    ButtonGroup buttonGroupAddonSingle2 = new ButtonGroup();
 
     JRadioButton rbAddonFamily1 = new JRadioButton("1");
     JRadioButton rbAddonFamily2 = new JRadioButton("2");
@@ -77,60 +81,117 @@ public class CustomerPage extends JPanel {
     JRadioButton rbAddonFamily7 = new JRadioButton("1");
     JRadioButton rbAddonFamily8 = new JRadioButton("2");
 
-    ButtonGroup buttonGroupAddonFamily1 = new ButtonGroup(); 
-    ButtonGroup buttonGroupAddonFamily2 = new ButtonGroup(); 
-    ButtonGroup buttonGroupAddonFamily3 = new ButtonGroup(); 
-    ButtonGroup buttonGroupAddonFamily4 = new ButtonGroup(); 
+    ButtonGroup buttonGroupAddonFamily1 = new ButtonGroup();
+    ButtonGroup buttonGroupAddonFamily2 = new ButtonGroup();
+    ButtonGroup buttonGroupAddonFamily3 = new ButtonGroup();
+    ButtonGroup buttonGroupAddonFamily4 = new ButtonGroup();
 
     JTextField addonBreakfastTextField = new JTextField();
 
-    public CustomerPage(ActionListener homeAction) {
+    public CustomerPage(ActionListener homeAction, String checkInDate, String checkOutDate,
+            int roomBil, int singleRoom, int familyRoom) {
         setLayout(new BorderLayout());
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.roomBil = roomBil;
+        this.SingleRoom = singleRoom;
+        this.FamilyRoom = familyRoom;
 
         JPanel panelN1 = new JPanel();
         JLabel customerLabel = new JLabel("Customer Booking");
-        customerLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        customerLabel.setFont(new Font("Arial", Font.BOLD, 26));
         panelN1.add(customerLabel, BorderLayout.NORTH);
 
-        JButton homeButton = new JButton("Home");
+        
+
+        JPanel bookingDetail = new JPanel(new BorderLayout());
+        JLabel labelCID = new JLabel();
+        labelCID.setFont((new Font("Arial",Font.BOLD, 20)));
+        JLabel labelCOD = new JLabel();
+        labelCOD.setFont((new Font("Arial",Font.BOLD, 20)));
+
+        JPanel detailDate = new JPanel();
+        detailDate.setLayout(new BoxLayout(detailDate, BoxLayout.X_AXIS));
+        detailDate.add(labelCID);
+        detailDate.add(Box.createRigidArea(new Dimension(150, 0)));
+        detailDate.add(labelCOD);
+        bookingDetail.setLayout(new BoxLayout(bookingDetail, BoxLayout.Y_AXIS));
+        bookingDetail.add(detailDate, BorderLayout.NORTH);
+
+        JLabel labelT = new JLabel();
+        labelT.setFont((new Font("Arial",Font.BOLD, 20)));
+        JLabel labelS = new JLabel();
+        labelS.setFont((new Font("Arial",Font.BOLD, 20)));
+        JLabel labelF = new JLabel();
+        labelF.setFont((new Font("Arial",Font.BOLD, 20)));
+        JPanel detailRoom = new JPanel();
+        labelCID.setText("Check In Date: " + checkInDate);
+        labelCOD.setText("Check Out Date: " + checkOutDate);
+        labelT.setText("Total rooms: " + roomBil);
+        labelS.setText("Single rooms: " + SingleRoom);
+        labelF.setText("Family rooms: " + FamilyRoom);
+        detailRoom.setLayout(new BoxLayout(detailRoom, BoxLayout.X_AXIS));
+        detailRoom.add(labelT);
+        detailRoom.add(Box.createRigidArea(new Dimension(90, 0)));
+        detailRoom.add(labelS);
+        detailRoom.add(Box.createRigidArea(new Dimension(85, 0)));
+        detailRoom.add(labelF);
+        JPanel spacer = new JPanel(); 
+        spacer.setPreferredSize(new Dimension(0, 80));
+        bookingDetail.add(detailRoom, BorderLayout.SOUTH);
+        bookingDetail.add(spacer,BorderLayout.CENTER);
+
+        add(bookingDetail, BorderLayout.CENTER);
+
+        JButton DoneButton =  createStyledButton("Done", new Dimension(120, 40));
+        DoneButton.setFont(new Font("Arial", Font.BOLD, 16));
+        DoneButton.setPreferredSize(new Dimension(100, 40));
+        DoneButton.addActionListener(navigationToNextPage);
+
+        JPanel DonePanel = new JPanel();
+        DonePanel.add(DoneButton);
+
+        JPanel spacer1 = new JPanel(); 
+        spacer1.setPreferredSize(new Dimension(0, 10));
+
+        JButton homeButton = createStyledButton("Cancel", new Dimension(120, 40));
+
         homeButton.setFont(new Font("Arial", Font.BOLD, 16));
         homeButton.setPreferredSize(new Dimension(100, 40));
         homeButton.addActionListener(homeAction);
 
         JPanel homePanel = new JPanel();
         homePanel.add(homeButton);
-        add(homePanel, BorderLayout.SOUTH);
+        JPanel SouthPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
+         SouthPanel.setBorder(new EmptyBorder(20, 0, 30, 0));
 
-        
-        
+        SouthPanel.add(DonePanel, BorderLayout.SOUTH);
+
+        SouthPanel.add(spacer1, BorderLayout.CENTER);
+        SouthPanel.add(homePanel, BorderLayout.NORTH);
+        add(SouthPanel, BorderLayout.SOUTH);
 
         panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
         panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        panel1.add(panelN1); panel1.add(panelRoomBilTotal); 
-        
-
-
-        
-
-
+        panel1.add(panelN1);
+        panel1.add(panelRoomBilTotal);
 
         panelChooseLoop.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         chooseRoomLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        panelChooseLoop.add(chooseRoomLabel, BorderLayout.NORTH);        
+        panelChooseLoop.add(chooseRoomLabel, BorderLayout.NORTH);
 
         panel.add(panel1, BorderLayout.NORTH);
 
-        
         comboboxSingle.addItemListener(comboboxItemListener);
 
         panelSingle.add(comboboxSingle, BorderLayout.NORTH);
-        //panelSingle.add(panelAddonOption, BorderLayout.CENTER);
+        // panelSingle.add(panelAddonOption, BorderLayout.CENTER);
 
-        
-        
-        //panelFamily.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        buttonGroup2.add(rbfamily1); buttonGroup2.add(rbfamily2); buttonGroup2.add(rbfamily3);
-        
+        // panelFamily.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        buttonGroup2.add(rbfamily1);
+        buttonGroup2.add(rbfamily2);
+        buttonGroup2.add(rbfamily3);
+
         JLabel label1 = new JLabel();
         JLabel label2 = new JLabel("Bed 1");
         JLabel label3 = new JLabel("Bed 2");
@@ -155,10 +216,8 @@ public class CustomerPage extends JPanel {
         panelFamilyOption.add(label9);
 
         panelFamily.add(panelFamilyOption, BorderLayout.NORTH);
-        //panelFamily.add(AddonLabelFamily1, BorderLayout.CENTER);
-        //panelFamily.add(AddonLabelFamily2, BorderLayout.SOUTH);      
-
-
+        // panelFamily.add(AddonLabelFamily1, BorderLayout.CENTER);
+        // panelFamily.add(AddonLabelFamily2, BorderLayout.SOUTH);
 
         JPanel panelAddonLabel = new JPanel(new BorderLayout());
         panelAddonLabel.add(AddonLabel1, BorderLayout.NORTH);
@@ -166,7 +225,7 @@ public class CustomerPage extends JPanel {
         panelAddonOption.add(panelAddonLabel, BorderLayout.NORTH);
 
         JPanel panelAddonRadioB = new JPanel();
-        
+
         buttonGroupAddon.add(rbAddon1);
         buttonGroupAddon.add(rbAddon2);
 
@@ -181,16 +240,12 @@ public class CustomerPage extends JPanel {
         panelAddon.add(panelAddonOption, BorderLayout.NORTH);
         panelAddon.add(buttonPanel2, BorderLayout.SOUTH);
 
-
-
         buttonDone.setPreferredSize(new Dimension(100, 40));
         buttonDone.addActionListener(buttonDoneActionListener);
 
         buttonPanel2.add(buttonDone);
 
-        //panelAddonOption.add(buttonPanel2, BorderLayout.SOUTH);
-        
-
+        // panelAddonOption.add(buttonPanel2, BorderLayout.SOUTH);
 
         JLabel AddonOptionLabel1 = new JLabel("Pillow");
         JLabel AddonOptionLabel2 = new JLabel("Towel");
@@ -220,7 +275,6 @@ public class CustomerPage extends JPanel {
         panelAddonSingle.add(AddonOptionLabel2);
         panelAddonSingle.add(panelRadioButtonSingle2);
 
-
         JPanel panelRadioButtonFamily1 = new JPanel();
         JPanel panelRadioButtonFamily2 = new JPanel();
         JPanel panelRadioButtonFamily3 = new JPanel();
@@ -237,7 +291,6 @@ public class CustomerPage extends JPanel {
 
         panelRadioButtonFamily4.add(rbAddonFamily7);
         panelRadioButtonFamily4.add(rbAddonFamily8);
-
 
         buttonGroupAddonFamily1.add(rbAddonFamily1);
         buttonGroupAddonFamily1.add(rbAddonFamily2);
@@ -262,154 +315,140 @@ public class CustomerPage extends JPanel {
         panelAddonFamily.add(AddonOptionLabel7);
         panelAddonFamily.add(addonBreakfastTextField);
 
-
-
         add(panel, BorderLayout.NORTH);
     }
 
-    
+    ActionListener buttonRoomActionListener = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            // if (e.getSource() == buttonConfirmRoom)
+            {
+                // roomBilTextField.setEditable(false);
+                // SingleRTextField.setEditable(false);
+                // FamilyRTextField.setEditable(false);
 
-    
+                panel.add(panelChooseLoop, BorderLayout.CENTER);
+                panelChooseLoop.setVisible(true);
+                counterLoop = 1;
+                tempS = SingleRoom;
+                tempF = FamilyRoom;
 
-    ActionListener buttonRoomActionListener = new ActionListener()
-    {
-        public void actionPerformed(ActionEvent e)
-        {
-            //if (e.getSource() == buttonConfirmRoom)
-                {
-                    //roomBilTextField.setEditable(false);
-                    //SingleRTextField.setEditable(false);
-                    //FamilyRTextField.setEditable(false);
+                RoomLoop();
+            }
+            // else
+            {
+                // roomBilTextField.setEditable(true);
+                // SingleRTextField.setEditable(true);
+                // FamilyRTextField.setEditable(true);
 
-                    panel.add(panelChooseLoop, BorderLayout.CENTER);
-                    panelChooseLoop.setVisible(true);
-                    counterLoop = 1;
-                    tempS = SingleRoom;
-                    tempF = FamilyRoom;
-
-                    RoomLoop();
-                }
-                //else
-                {
-                    //roomBilTextField.setEditable(true);
-                    //SingleRTextField.setEditable(true);
-                    //FamilyRTextField.setEditable(true);
-
-                    panelChooseLoop.setVisible(false);
-                    counterLoop = 0;
-                }        
+                panelChooseLoop.setVisible(false);
+                counterLoop = 0;
+            }
             panel.revalidate();
             panel.repaint();
         }
     };
 
-    
-    String optionButton[] = {"Continue","Cancel"};
-    ActionListener buttonDoneActionListener = new ActionListener()
-    {
-        public void actionPerformed(ActionEvent e)
-        {
-            boolean validSelection = true; 
-            if (tempS > 0)
-            {
+    ActionListener navigationToNextPage = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            int o = JOptionPane.showOptionDialog(
+                    null,
+                    "All rooms have been selected.",
+                    "Cats Hotel Booking System", JOptionPane.NO_OPTION,
+                    JOptionPane.PLAIN_MESSAGE, null, optionButton, "default");
+            if (o == 0) {
+
+                JPanel parent = (JPanel) CustomerPage.this.getParent();
+                CardLayout layout = (CardLayout) parent.getLayout();
+                layout.show(parent, "CustomerDetail");
+            }
+        }
+    };
+
+    String optionButton[] = { "Continue", "Cancel" };
+    ActionListener buttonDoneActionListener = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            boolean validSelection = true;
+            if (tempS > 0) {
                 SingleRChoice[counterLoop] = comboboxSingle.getSelectedIndex();
 
-                if (!rbAddon1.isSelected() && !rbAddon2.isSelected())
-                {
+                if (!rbAddon1.isSelected() && !rbAddon2.isSelected()) {
                     JOptionPane.showMessageDialog(null, "Addon field is empty", "Warning", JOptionPane.WARNING_MESSAGE);
                     validSelection = false;
                     counterLoop--;
                     tempS++;
                 }
-                tempS--;  // Decrease available Single room after selection
-            }
-            else if (tempF > 0)
-            {
-                if (getFamilyRoomTypeSelected() == 0)
-                {
-                    JOptionPane.showMessageDialog(null, "Please select at least one option", "Warning", JOptionPane.WARNING_MESSAGE);
+                tempS--; // Decrease available Single room after selection
+            } else if (tempF > 0) {
+                if (getFamilyRoomTypeSelected() == 0) {
+                    JOptionPane.showMessageDialog(null, "Please select at least one option", "Warning",
+                            JOptionPane.WARNING_MESSAGE);
                     validSelection = false;
                     counterLoop--;
                     tempF++;
-                }
-                else if (!rbAddon1.isSelected() && !rbAddon2.isSelected())
-                {
+                } else if (!rbAddon1.isSelected() && !rbAddon2.isSelected()) {
                     JOptionPane.showMessageDialog(null, "Addon field is empty", "Warning", JOptionPane.WARNING_MESSAGE);
                     validSelection = false;
                     counterLoop--;
                     tempF++;
                 }
 
-                if (SingleRoom == 0)
-                {
+                if (SingleRoom == 0) {
                     FamilyRChoice[counterLoop] = getFamilyRoomTypeSelected();
-                }
-                else
-                {
+                } else {
                     FamilyRChoice[(counterLoop - SingleRoom)] = getFamilyRoomTypeSelected();
                 }
-                
-                tempF--;  // Decrease available Family room after selection
+
+                tempF--; // Decrease available Family room after selection
             }
 
-            if (validSelection)
-            {
+            if (validSelection) {
                 buttonGroup2.clearSelection();
                 buttonGroupAddon.clearSelection();
-            }       
+            }
 
             if (counterLoop < roomBil) {
-                counterLoop++;  // Move to the next room                
-                RoomLoop();  // Call RoomLoop again to update UI for the next room
-            } 
-            else {
+                counterLoop++; // Move to the next room
+                RoomLoop(); // Call RoomLoop again to update UI for the next room
+            } else {
                 // Once all rooms are processed, you can hide the loop panel or show a summary
-                
-                int o =  JOptionPane.showOptionDialog(
-                    null, 
-                    "All rooms have been selected.",
-                    "Cats Hotel Booking System", JOptionPane.NO_OPTION,
-                    JOptionPane.PLAIN_MESSAGE,null,optionButton,"default"
-                );
-                if(o==0)
-                {
-                    JPanel parent = (JPanel)CustomerPage.this.getParent();
-                    CardLayout layout = (CardLayout)parent.getLayout();
+
+                int o = JOptionPane.showOptionDialog(
+                        null,
+                        "All rooms have been selected.",
+                        "Cats Hotel Booking System", JOptionPane.NO_OPTION,
+                        JOptionPane.PLAIN_MESSAGE, null, optionButton, "default");
+                if (o == 0) {
+                    JPanel parent = (JPanel) CustomerPage.this.getParent();
+                    CardLayout layout = (CardLayout) parent.getLayout();
                     layout.show(parent, "CustomerConfirm");
                 }
             }
         }
     };
 
-   public void RoomLoop() 
-   {
+    public void RoomLoop() {
         // This will ensure the first room is ready to be selected
-        if (counterLoop <= roomBil) 
-        {
-            if (tempS > 0) 
-            {
+        if (counterLoop <= roomBil) {
+            if (tempS > 0) {
                 chooseRoomLabel.setText("Choose SINGLE Room " + counterLoop + " : ");
 
-                AddonLabel1.setText("We will provide a room with 1 slippers, 1 pillows, 1 towel, and 1 person breakfast. ");
-                
+                AddonLabel1.setText(
+                        "We will provide a room with 1 slippers, 1 pillows, 1 towel, and 1 person breakfast. ");
+
                 panelChooseLoop.add(panelSingle, BorderLayout.CENTER);
                 panelSingle.setVisible(true);
                 panelFamily.setVisible(false);
                 BedType = 'S';
-            }
-            else if (tempF > 0) 
-            {
-                if (SingleRoom == 0)
-                {
+            } else if (tempF > 0) {
+                if (SingleRoom == 0) {
                     chooseRoomLabel.setText("Choose FAMILY Room " + counterLoop + " : ");
-                }
-                else
-                {
+                } else {
                     chooseRoomLabel.setText("Choose FAMILY Room " + (counterLoop - SingleRoom) + " : ");
                 }
 
-                AddonLabel1.setText("We will provide your room with 2 double beds, 4 pillows, 4 slippers, 4 towels and 4 person breakfast.");
-            
+                AddonLabel1.setText(
+                        "We will provide your room with 2 double beds, 4 pillows, 4 slippers, 4 towels and 4 person breakfast.");
+
                 panelChooseLoop.add(panelFamily, BorderLayout.CENTER);
                 panelFamily.setVisible(true);
                 panelSingle.setVisible(false);
@@ -424,62 +463,53 @@ public class CustomerPage extends JPanel {
         }
     }
 
-    public int getFamilyRoomTypeSelected()
-    {
-        if (rbfamily1.isSelected())
-        {
+    private JButton createStyledButton(String text, Dimension size) {
+        JButton button = new JButton(text);
+        button.setPreferredSize(size);
+        button.setFont(new Font("Arial", Font.BOLD, 16));
+        button.setFocusPainted(false); // Remove focus border
+        button.setBorder(BorderFactory.createRaisedBevelBorder()); // Add 3D effect
+        return button;
+    }
+
+    public int getFamilyRoomTypeSelected() {
+        if (rbfamily1.isSelected()) {
             return 1;
-        }
-        else if (rbfamily2.isSelected())
-        {
+        } else if (rbfamily2.isSelected()) {
             return 2;
-        }
-        else if (rbfamily3.isSelected())
-        {
+        } else if (rbfamily3.isSelected()) {
             return 3;
         }
         return 0;
     }
 
-    ItemListener comboboxItemListener = new ItemListener() 
-    {
-        public void itemStateChanged(ItemEvent e) 
-        {
-            if (e.getStateChange() == ItemEvent.SELECTED)
-            {
+    ItemListener comboboxItemListener = new ItemListener() {
+        public void itemStateChanged(ItemEvent e) {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
                 int selectedIndex = comboboxSingle.getSelectedIndex();
 
-                if (selectedIndex != 0)
-                {
-                    AddonLabel1.setText("We will provide a room with 2 slippers, 2 pillows, 2 towel, and 2 person breakfast. ");
-                }
-                else
-                {
-                    AddonLabel1.setText("We will provide a room with 1 slippers, 1 pillows, 1 towel, and 1 person breakfast. ");
+                if (selectedIndex != 0) {
+                    AddonLabel1.setText(
+                            "We will provide a room with 2 slippers, 2 pillows, 2 towel, and 2 person breakfast. ");
+                } else {
+                    AddonLabel1.setText(
+                            "We will provide a room with 1 slippers, 1 pillows, 1 towel, and 1 person breakfast. ");
                 }
             }
         }
     };
 
-    ItemListener radioButtonItemListener = new ItemListener() 
-    {
-        public void itemStateChanged(ItemEvent e) 
-        {
-            if (e.getSource() == rbAddon1 && rbAddon1.isSelected())
-            {
-                if (BedType == 'S')
-                {
+    ItemListener radioButtonItemListener = new ItemListener() {
+        public void itemStateChanged(ItemEvent e) {
+            if (e.getSource() == rbAddon1 && rbAddon1.isSelected()) {
+                if (BedType == 'S') {
                     panelAddon.add(panelAddonSingle, BorderLayout.CENTER);
                     panelAddonSingle.setVisible(true);
-                }
-                else
-                {
+                } else {
                     panelAddon.add(panelAddonFamily, BorderLayout.CENTER);
                     panelAddonFamily.setVisible(true);
                 }
-            }
-            else
-            {
+            } else {
                 panelAddonSingle.setVisible(false);
                 panelAddonFamily.setVisible(false);
             }
