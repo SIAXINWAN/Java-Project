@@ -29,8 +29,10 @@ public class CustomerPage extends JPanel {
 
     JPanel panel = new JPanel(new BorderLayout());
     JPanel panelHeader = new JPanel(new BorderLayout());
+    JPanel mainContent = new JPanel(new BorderLayout());
 
     JPanel panelChooseLoop = new JPanel(new BorderLayout());
+    
     JPanel panelSingle = new JPanel(new BorderLayout());
     JPanel panelFamily = new JPanel(new BorderLayout());
     JPanel panelFamilyOption = new JPanel(new GridLayout(4, 3, 10, 10));
@@ -107,7 +109,7 @@ public class CustomerPage extends JPanel {
         SingleRoom = thisBookingDetails.getsingleRoom();
         FamilyRoom = thisBookingDetails.getfamilyRoom();
 
-        JLabel customerLabel = new JLabel("Customer Booking");
+        JLabel customerLabel = new JLabel("Customer Booking",JLabel.CENTER);
         customerLabel.setFont(new Font("Arial", Font.BOLD, 26));
         panelHeader.add(customerLabel, BorderLayout.NORTH);
 
@@ -151,8 +153,9 @@ public class CustomerPage extends JPanel {
         panelBookingDetail.add(spacer,BorderLayout.CENTER);
 
         panelHeader.add(panelBookingDetail, BorderLayout.CENTER);
+        panelHeader.add(panelChooseLoop,BorderLayout.SOUTH);
 
-        add(panelHeader, BorderLayout.NORTH);
+        mainContent.add(panelHeader, BorderLayout.NORTH);
 
         JButton DoneButton =  createStyledButton("Done", new Dimension(120, 40));
         DoneButton.setFont(new Font("Arial", Font.BOLD, 16));
@@ -176,19 +179,19 @@ public class CustomerPage extends JPanel {
         JPanel SouthPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
         SouthPanel.setBorder(new EmptyBorder(20, 0, 30, 0));
 
-        SouthPanel.add(DonePanel, BorderLayout.SOUTH);
+        //SouthPanel.add(DonePanel, BorderLayout.SOUTH);
 
-        SouthPanel.add(spacer1, BorderLayout.CENTER);
+        //SouthPanel.add(spacer1, BorderLayout.CENTER);
         SouthPanel.add(homePanel, BorderLayout.NORTH);
-        add(SouthPanel, BorderLayout.SOUTH);
+        mainContent.add(SouthPanel, BorderLayout.SOUTH);
 
         
 
-        panelChooseLoop.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panelChooseLoop.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
         chooseRoomLabel.setFont(new Font("Arial", Font.BOLD, 16));
         panelChooseLoop.add(chooseRoomLabel, BorderLayout.NORTH);
 
-        panel.add(panelChooseLoop, BorderLayout.CENTER);
+        //panel.add(panelChooseLoop, BorderLayout.CENTER);
         counterLoop = 1;
         tempS = SingleRoom;
         tempF = FamilyRoom;
@@ -328,7 +331,12 @@ public class CustomerPage extends JPanel {
         panelAddonFamily.add(AddonOptionLabel7);
         panelAddonFamily.add(addonBreakfastTextField);
 
-        add(panel, BorderLayout.CENTER);
+        mainContent.add(panel, BorderLayout.CENTER);
+        setLayout(new BorderLayout());
+        JScrollPane scrollPane = new JScrollPane(mainContent);
+    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+    scrollPane.getVerticalScrollBar().setUnitIncrement(16); // Makes scrolling smoother
+    add(scrollPane, BorderLayout.CENTER);
     }
 
     ActionListener buttonRoomActionListener = new ActionListener() {
@@ -427,7 +435,7 @@ public class CustomerPage extends JPanel {
                 if (o == 0) {
                     JPanel parent = (JPanel) CustomerPage.this.getParent();
                     CardLayout layout = (CardLayout) parent.getLayout();
-                    layout.show(parent, "CustomerConfirm");
+                    layout.show(parent, "CustomerDetail");
                 }
             }
         }
