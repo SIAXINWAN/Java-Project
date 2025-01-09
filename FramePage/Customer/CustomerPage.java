@@ -95,9 +95,9 @@ public class CustomerPage extends JPanel {
         setLayout(new BorderLayout());
 
         this.bookingDetails = bookingDetails;
-        thisBookingDetails = bookingDetails.get(currentIndex);
-
         currentIndex = bookingDetailsCurrentIndex;
+
+        thisBookingDetails = bookingDetails.get(currentIndex);        
 
         roomBil = thisBookingDetails.getroomBil();
         SingleRoom = thisBookingDetails.getsingleRoom();

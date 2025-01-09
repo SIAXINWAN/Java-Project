@@ -146,7 +146,8 @@ public class CustomerConfirm extends JPanel {
 
         JPanel roomDetailPanel = new JPanel();
         roomDetailPanel.setLayout(new BoxLayout(roomDetailPanel, BoxLayout.Y_AXIS));
-        int totalPrice = 0;
+        int subTotalPrice = 0;
+        int TotalPrice = 0;
 
         if (singleRoom != 0)
         {
@@ -204,7 +205,7 @@ public class CustomerConfirm extends JPanel {
                     labelQuantity2.setText("1");
                     labelQuantity3.setText("1");
                     labelQuantity4.setText("1");
-                    totalPrice += 80;
+                    subTotalPrice += 80;
                 }
                 else
                 {
@@ -221,7 +222,7 @@ public class CustomerConfirm extends JPanel {
                     labelQuantity2.setText("2");
                     labelQuantity3.setText("2");
                     labelQuantity4.setText("2");
-                    totalPrice += 120;
+                    subTotalPrice += 120;
                 }
                 //Add the label and table to the panel
                 roomDetailPanel.add(roomLabel);
@@ -253,7 +254,7 @@ public class CustomerConfirm extends JPanel {
                 JLabel label25 = new JLabel("Mattress");
                 JLabel labelQuantity5 = new JLabel();
                 JLabel label26 = new JLabel(matteresBil + "");
-                JLabel label27 = new JLabel("RM 30");
+                JLabel label27 = new JLabel("RM 30 * 0 = RM 0.00");
 
                 JLabel label9 = new JLabel("Pillow");
                 JLabel labelQuantity1 = new JLabel();
@@ -305,11 +306,13 @@ public class CustomerConfirm extends JPanel {
                 labelQuantity3.setText("4");
                 labelQuantity4.setText("4");
                 labelQuantity5.setText("4");
-                totalPrice += 200;
+                subTotalPrice += 200;
 
                 if (matteresBil != 0)
                 {
-                    totalPrice += 30 * matteresBil;
+                    int matteresPrice = 30 * matteresBil;
+                    subTotalPrice += matteresPrice;
+                    label26.setText("RM 30 * " + matteresBil + " = RM " + matteresPrice + ".00");
                 }
                 //Add the label and table to the panel
                 roomDetailPanel.add(roomLabel);
@@ -317,8 +320,18 @@ public class CustomerConfirm extends JPanel {
             }            
         }
 
+        TotalPrice = subTotalPrice * thisBookingDetails.getbookingNight();
+
+        JPanel pricePanel = new JPanel(new BorderLayout());
+        JLabel priceLabel1 = new JLabel("Subtotal (total price per night) = RM " + subTotalPrice + ".00");
+        JLabel priceLabel2 = new JLabel("Total price (" + thisBookingDetails.getbookingNight() + " night) = RM " + TotalPrice + ".00");
+
+        pricePanel.add(priceLabel1, BorderLayout.NORTH);
+        pricePanel.add(priceLabel2, BorderLayout.CENTER);
+
         bookingPanel.add(bookingPaneltitle, BorderLayout.NORTH);
         bookingPanel.add(roomDetailPanel, BorderLayout.CENTER);
+        bookingPanel.add(pricePanel, BorderLayout.SOUTH);
 
         // Payment Panel setup
         JPanel PaymentPanel = new JPanel(new GridLayout(5, 2, 10, 10));

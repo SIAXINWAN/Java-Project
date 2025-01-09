@@ -9,12 +9,13 @@ public class Booking {
 
     private String BookingID; // B0001      max = 9999
     private String CustomerID;
-    private String CheckInDate;
-    private String CheckOutDate;
+    private String CheckInDate = "";
+    private String CheckOutDate = "";
 
-    private int roomBil;
-    private int singleRoom;
-    private int familyRoom;
+    private int roomBil = 0;
+    private int singleRoom = 0;
+    private int familyRoom = 0;
+    private int bookingNight = 0;
 
     private int SingleRChoice[] = new int[SingleMax];
     private int FamilyRChoice[] = new int[FamilyMax];
@@ -26,12 +27,13 @@ public class Booking {
         this.BookingID = BookingID;
     }
 
-    public Booking(String BookingID, String CheckInDate, String CheckOutDate, int roomBil, int singleRoom, int familyRoom, 
+    public Booking(String BookingID, String CheckInDate, String CheckOutDate, int bookingNight, int roomBil, int singleRoom, int familyRoom, 
         int SingleRChoice[], int FamilyRChoice[], int AddonChoiceS[][], int AddonChoiceF[][], String customerID)
     {
         this.BookingID = BookingID;
         this.CheckInDate = CheckInDate;
         this.CheckOutDate = CheckOutDate;
+        this.bookingNight = bookingNight;
         this.roomBil = roomBil;
         this.singleRoom = singleRoom;
         this.familyRoom = familyRoom;
@@ -57,10 +59,11 @@ public class Booking {
         return this.CustomerID;
     }
 
-    public void setCheckDate(String CheckInDate, String CheckOutDate)
+    public void setCheckDate(String CheckInDate, String CheckOutDate, int bookingNight)
     {
         this.CheckInDate = CheckInDate;
         this.CheckOutDate = CheckOutDate;
+        this.bookingNight = bookingNight;
     }
 
     public String getCheckInDate()
@@ -71,6 +74,11 @@ public class Booking {
     public String getCheckOutDate()
     {
         return this.CheckOutDate;
+    }
+
+    public int getbookingNight()
+    {
+        return this.bookingNight;
     }
 
     public void setRoomBilangan(int roomBil, int singleRoom, int familyRoom)

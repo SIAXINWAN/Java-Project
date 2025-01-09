@@ -525,7 +525,7 @@ public class CustomerPage1 extends JPanel{
                         newBookingid += "000" + bookingIdNumFinal;
                     }
                     Booking bookingTemp = new Booking(newBookingid);
-                    bookingTemp.setCheckDate(CheckInDate, CheckOutDate);
+                    bookingTemp.setCheckDate(CheckInDate, CheckOutDate, totalBookingNight);
                     bookingTemp.setRoomBilangan(roomBil, SingleRoom, FamilyRoom);
 
                     bookingDetails.add(bookingTemp);                   
@@ -543,6 +543,7 @@ public class CustomerPage1 extends JPanel{
                             break;
                         }
                     }
+                    //System.out.println(BookingidNum2);
                     
                     // Create new CustomerPage with the data
                     CustomerPage customerPage = new CustomerPage(

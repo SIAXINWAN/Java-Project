@@ -35,7 +35,7 @@ public class MainFrame {
     public static Vector<Booking> bookingDetails = new Vector<>(4, 2) {
         {
             //add(new Booking("B0002", "5/1/2025", "10/1/2025", 2, 1, 1, new int[]{1}, new int[]{1}, new int[][]{{0}}, new int[][]{{0, 0}}));
-            add(new Booking("B0001", "1/1/2025", "7/1/2025", 2, 1, 1, singleRChoice, familyRChoice, addonChoiceS, addonChoiceF, "C0001"));
+            add(new Booking("B0001", "1/1/2025", "7/1/2025", 6, 2, 1, 1, singleRChoice, familyRChoice, addonChoiceS, addonChoiceF, "C0001"));
         }
     };// use to store run time booking details    
 
