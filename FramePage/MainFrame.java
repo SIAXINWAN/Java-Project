@@ -1,7 +1,6 @@
 package JavaProject.FramePage;
 
 import JavaProject.FramePage.Customer.CustomerConfirm;
-import JavaProject.FramePage.Customer.CustomerDetail;
 import JavaProject.FramePage.Customer.CustomerPage1;
 import JavaProject.FramePage.Staff.StaffDetail;
 import JavaProject.FramePage.Staff.StaffPage;
@@ -22,6 +21,12 @@ public class MainFrame {
             new Staff("P04", "Teoh Hui Yu", "0189518451", "S04", false, "27/10/2005")
     };
 
+    public static Vector<Customer> customerDetails = new Vector<>(4, 2) {
+        {
+            add(new Customer("C0001", "ABC", "012-345 6789", "abc@gmail.com"));
+        }
+    };// use to store run time Customer details 
+
     static int[] singleRChoice = {1};
     static int[] familyRChoice = {1};
     static int[][] addonChoiceS = {{0, 0}};
@@ -30,11 +35,10 @@ public class MainFrame {
     public static Vector<Booking> bookingDetails = new Vector<>(4, 2) {
         {
             //add(new Booking("B0002", "5/1/2025", "10/1/2025", 2, 1, 1, new int[]{1}, new int[]{1}, new int[][]{{0}}, new int[][]{{0, 0}}));
-            add(new Booking("B0001", "1/1/2025", "7/1/2025", 2, 1, 1, singleRChoice, familyRChoice, addonChoiceS, addonChoiceF));
+            add(new Booking("B0001", "1/1/2025", "7/1/2025", 2, 1, 1, singleRChoice, familyRChoice, addonChoiceS, addonChoiceF, "C0001"));
         }
-    };// use to store run time booking details 
+    };// use to store run time booking details    
 
-    
     
     private static Staff currentLoggedInStaff = null;
 
@@ -95,10 +99,10 @@ public class MainFrame {
         StaffDetail staffDetailPage = new StaffDetail(
                 e -> cardLayout.show(cardPanel, "Welcome"));
 
-        CustomerDetail customerDetail = new CustomerDetail(e -> cardLayout.show(cardPanel, "Customer"),customer);
+        //CustomerDetail customerDetail = new CustomerDetail(e -> cardLayout.show(cardPanel, "Customer"),customer);
 
 
-        CustomerConfirm customerConfirm = new CustomerConfirm(e-> cardLayout.show(cardPanel, "CustomerDetail"),customer);
+        //CustomerConfirm customerConfirm = new CustomerConfirm(e-> cardLayout.show(cardPanel, "CustomerDetail"),customer);
 
         // Add pages to card panel
         cardPanel.add(welcomePage, "Welcome");
@@ -106,8 +110,8 @@ public class MainFrame {
         //cardPanel.add(customerPage, "Customer");
         cardPanel.add(staffPage, "Staff");
         cardPanel.add(staffDetailPage, "StaffDetail");
-        cardPanel.add(customerDetail, "CustomerDetail");
-        cardPanel.add(customerConfirm, "CustomerConfirm");
+        //cardPanel.add(customerDetail, "CustomerDetail");
+        //cardPanel.add(customerConfirm, "CustomerConfirm");
 
         // Add card panel to frame
         frame.add(cardPanel, BorderLayout.CENTER);

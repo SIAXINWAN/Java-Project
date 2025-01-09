@@ -4,20 +4,31 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import java.util.*;
 import javax.swing.border.EmptyBorder;
+import JavaProject.model.Booking;
+import JavaProject.model.Customer;
 
 import JavaProject.FramePage.MainFrame;
-import JavaProject.model.Customer;
 
 public class CustomerDetail extends JPanel {
     private JTextField nameField;
     private JTextField phoneField;
     private JTextField emailField;
-    private Customer customer;
+    
+    public Vector<Booking> bookingDetails;
+    int currentIndex;
 
-    public CustomerDetail(ActionListener homeAction, Customer customer) {
+    Booking thisBookingDetails;
+
+    public Vector<Customer> customerDetails = MainFrame.customerDetails;
+
+    public CustomerDetail(ActionListener homeAction, Vector<Booking> bookingDetails, int bookingDetailsCurrentIndex) {
         setLayout(new BorderLayout(0, 20)); // Add spacing between border layout components
-        this.customer = customer;
+        this.bookingDetails = bookingDetails;
+        this.currentIndex = bookingDetailsCurrentIndex;
+
+        thisBookingDetails = bookingDetails.get(bookingDetailsCurrentIndex);
 
         // Title Panel with improved styling
         JPanel titlePanel = new JPanel();
@@ -144,12 +155,55 @@ public class CustomerDetail extends JPanel {
             } else if (!emailField.getText().contains("@")) {
                 JOptionPane.showMessageDialog(null, "Email must contain '@'.", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
-                customer.setName(nameField.getText());
-                customer.setPhoneNumber(phoneField.getText());
-                customer.setCustomerEmail(emailField.getText());
+                //Store the detail into bookingDetails
+                int vectorSize = customerDetails.size();
+                String customerId = customerDetails.elementAt(vectorSize - 1).getCustomerID();
+
+                int idSize = customerId.length();
+                    
+                String customeridCode = customerId.substring(0, 1);
+
+                String customeridNum1 = customerId.substring(1, idSize);
+                    
+                int customeridNum2 = Integer.parseInt(customeridNum1);
+
+                int customerIdNumFinal = customeridNum2 + 1;
+                String newCustomerid = customeridCode;
+                if (customerIdNumFinal >= 1000)
+                {
+                    newCustomerid += customerIdNumFinal;
+                }
+                else if (customerIdNumFinal >= 100)
+                {
+                    newCustomerid += "0" + customerIdNumFinal;
+                }
+                else if (customerIdNumFinal >= 10)
+                {
+                    newCustomerid += "00" + customerIdNumFinal;
+                }
+                else
+                {
+                    newCustomerid += "000" + customerIdNumFinal;
+                }
+                Customer customerTemp = new Customer(newCustomerid, nameField.getText(), phoneField.getText(), emailField.getText());
+
+                customerDetails.add(customerTemp); 
+
+                thisBookingDetails.setCustomerID(newCustomerid);
+
 
                 JPanel parent = (JPanel) CustomerDetail.this.getParent();
                 CardLayout layout = (CardLayout) parent.getLayout();
+
+                CustomerConfirm customerConfirm = new CustomerConfirm(
+                    e2 -> layout.show(parent, "CustomerDetail"),
+                    bookingDetails,
+                    currentIndex, 
+                    customerDetails
+                );
+                    
+                    // Add the new CustomerConfirm and show it
+                parent.add(customerConfirm, "CustomerConfirm");
                 layout.show(parent, "CustomerConfirm");
             }
         }

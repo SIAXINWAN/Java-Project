@@ -1,12 +1,16 @@
 package JavaProject.model;
 public class Customer extends Person {
-    private String customerID;
+    private String customerID; //C0001      max = 9999
+    private String customerName;
     private String customerEmail;
+    private String customerPhoneNO;
 
     public Customer() {}
 
-    public Customer(String customerID, String customerEmail) {
+    public Customer(String customerID, String customerName, String customerPhone, String customerEmail) {
         this.customerID = customerID;
+        this.customerName = customerName;
+        this.customerPhoneNO = customerPhone;
         this.customerEmail = customerEmail;
     }
 
@@ -20,6 +24,14 @@ public class Customer extends Person {
 
     public String getCustomerID() {
         return customerID;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public String getCustomerPhoneNO() {
+        return customerPhoneNO;
     }
 
     public String getCustomerEmail() {

@@ -1,4 +1,5 @@
 package JavaProject.model;
+
 public class Booking {
     public static final int roomMax = 10;
     public static final int SingleMax = 3;
@@ -7,6 +8,7 @@ public class Booking {
     public static final int AddonFamilyBil = 5;
 
     private String BookingID; // B0001      max = 9999
+    private String CustomerID;
     private String CheckInDate;
     private String CheckOutDate;
 
@@ -25,7 +27,7 @@ public class Booking {
     }
 
     public Booking(String BookingID, String CheckInDate, String CheckOutDate, int roomBil, int singleRoom, int familyRoom, 
-        int SingleRChoice[], int FamilyRChoice[], int AddonChoiceS[][], int AddonChoiceF[][])
+        int SingleRChoice[], int FamilyRChoice[], int AddonChoiceS[][], int AddonChoiceF[][], String customerID)
     {
         this.BookingID = BookingID;
         this.CheckInDate = CheckInDate;
@@ -37,11 +39,22 @@ public class Booking {
         this.FamilyRChoice = FamilyRChoice;
         this.AddonChoiceS = AddonChoiceS;
         this.AddonChoiceF = AddonChoiceF;
+        this.CustomerID = customerID;
     }
 
     public String getBookingID()
     {
         return this.BookingID;
+    }
+
+    public void setCustomerID(String customerID)
+    {
+        this.CustomerID = customerID;
+    }
+
+    public String getCustomerID()
+    {
+        return this.CustomerID;
     }
 
     public void setCheckDate(String CheckInDate, String CheckOutDate)

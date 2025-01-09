@@ -8,7 +8,6 @@ import javax.swing.border.EmptyBorder;
 import JavaProject.model.Booking;
 
 public class CustomerPage extends JPanel {
-    int roomMax = Booking.roomMax;
     int SingleMax = Booking.SingleMax;
     int FamilyMax = Booking.FamilyMax; 
 
@@ -97,11 +96,6 @@ public class CustomerPage extends JPanel {
 
         this.bookingDetails = bookingDetails;
         thisBookingDetails = bookingDetails.get(currentIndex);
-
-        if (bookingDetails == null)
-        {
-            System.out.println("The booking details is null");
-        }
 
         currentIndex = bookingDetailsCurrentIndex;
 
@@ -339,30 +333,6 @@ public class CustomerPage extends JPanel {
     add(scrollPane, BorderLayout.CENTER);
     }
 
-    ActionListener buttonRoomActionListener = new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-            // if (e.getSource() == buttonConfirmRoom)
-            {
-                // roomBilTextField.setEditable(false);
-                // SingleRTextField.setEditable(false);
-                // FamilyRTextField.setEditable(false);
-
-               
-            }
-            // else
-            {
-                // roomBilTextField.setEditable(true);
-                // SingleRTextField.setEditable(true);
-                // FamilyRTextField.setEditable(true);
-
-                panelChooseLoop.setVisible(false);
-                counterLoop = 0;
-            }
-            panel.revalidate();
-            panel.repaint();
-        }
-    };
-
     ActionListener navigationToNextPage = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             int o = JOptionPane.showOptionDialog(
@@ -392,6 +362,26 @@ public class CustomerPage extends JPanel {
                     counterLoop--;
                     tempS++;
                 }
+
+                if (rbAddon1.isSelected())
+                {
+                    if (!rbAddonSingle1.isSelected() && !rbAddonSingle2.isSelected())
+                    {
+                        JOptionPane.showMessageDialog(null, "Addon pillow is empty", "Warning", JOptionPane.WARNING_MESSAGE);
+                        validSelection = false;
+                        counterLoop--;
+                        tempS++;
+                    }
+                    if (!rbAddonSingle3.isSelected() && !rbAddonSingle4.isSelected())
+                    {
+                        JOptionPane.showMessageDialog(null, "Addon towel is empty", "Warning", JOptionPane.WARNING_MESSAGE);
+                        validSelection = false;
+                        counterLoop--;
+                        tempS++;
+                    }
+
+                    CheckAddon('S', counterLoop);
+                }
                 tempS--; // Decrease available Single room after selection
             } else if (tempF > 0) {
                 if (getFamilyRoomTypeSelected() == 0) {
@@ -407,10 +397,48 @@ public class CustomerPage extends JPanel {
                     tempF++;
                 }
 
+                int currentFamilybil;
+
                 if (SingleRoom == 0) {
-                    FamilyRChoice[counterLoop] = getFamilyRoomTypeSelected();
+                    currentFamilybil = counterLoop;
+                    FamilyRChoice[currentFamilybil] = getFamilyRoomTypeSelected();
                 } else {
-                    FamilyRChoice[(counterLoop - SingleRoom)] = getFamilyRoomTypeSelected();
+                    currentFamilybil = counterLoop - SingleRoom;
+                    FamilyRChoice[currentFamilybil] = getFamilyRoomTypeSelected();
+                }
+
+                if (rbAddon1.isSelected())
+                {
+                    if (!rbAddonFamily1.isSelected() && !rbAddonFamily2.isSelected())
+                    {
+                        JOptionPane.showMessageDialog(null, "Addon mattresses is empty", "Warning", JOptionPane.WARNING_MESSAGE);
+                        validSelection = false;
+                        counterLoop--;
+                        tempS++;
+                    }
+                    if (!rbAddonFamily3.isSelected() && !rbAddonFamily4.isSelected())
+                    {
+                        JOptionPane.showMessageDialog(null, "Addon pillows is empty", "Warning", JOptionPane.WARNING_MESSAGE);
+                        validSelection = false;
+                        counterLoop--;
+                        tempS++;
+                    }
+                    if (!rbAddonFamily5.isSelected() && !rbAddonFamily6.isSelected())
+                    {
+                        JOptionPane.showMessageDialog(null, "Addon slippers is empty", "Warning", JOptionPane.WARNING_MESSAGE);
+                        validSelection = false;
+                        counterLoop--;
+                        tempS++;
+                    }
+                    if (!rbAddonFamily7.isSelected() && !rbAddonFamily8.isSelected())
+                    {
+                        JOptionPane.showMessageDialog(null, "Addon towel is empty", "Warning", JOptionPane.WARNING_MESSAGE);
+                        validSelection = false;
+                        counterLoop--;
+                        tempS++;
+                    }
+
+                    CheckAddon('F', currentFamilybil);
                 }
 
                 tempF--; // Decrease available Family room after selection
@@ -425,6 +453,10 @@ public class CustomerPage extends JPanel {
                 counterLoop++; // Move to the next room
                 RoomLoop(); // Call RoomLoop again to update UI for the next room
             } else {
+                //update room choice and addon choice
+                thisBookingDetails.setRoomChoises(SingleRChoice, FamilyRChoice);
+                thisBookingDetails.setAddonChoises(AddonChoiceS, AddonChoiceF);
+
                 // Once all rooms are processed, you can hide the loop panel or show a summary
 
                 int o = JOptionPane.showOptionDialog(
@@ -435,11 +467,88 @@ public class CustomerPage extends JPanel {
                 if (o == 0) {
                     JPanel parent = (JPanel) CustomerPage.this.getParent();
                     CardLayout layout = (CardLayout) parent.getLayout();
+
+                    // Create new CustomerDetail with the data
+                    CustomerDetail customerDetail = new CustomerDetail(
+                        e2 -> layout.show(parent, "Customer"),
+                        bookingDetails,
+                        currentIndex
+                    );
+                    
+                    // Add the new CustomerDetail and show it
+                    parent.add(customerDetail, "CustomerDetail");
                     layout.show(parent, "CustomerDetail");
+                    parent.revalidate();
+                    parent.repaint();
                 }
             }
         }
     };
+
+    public void CheckAddon(char addon, int bil)
+    {
+        if (addon == 'S')
+        {
+            if (rbAddonSingle1.isSelected())
+            {
+                AddonChoiceS[bil][0] = 1;
+            }
+            else
+            {
+                AddonChoiceS[bil][0] = 2;
+            }
+
+            if (rbAddonSingle3.isSelected())
+            {
+                AddonChoiceS[bil][1] = 1;
+            }
+            else
+            {
+                AddonChoiceS[bil][1] = 2;
+            }
+        }
+        else
+        {
+            if (rbAddonFamily1.isSelected())
+            {
+                AddonChoiceF[bil][0] = 1;
+            }
+            else
+            {
+                AddonChoiceF[bil][0] = 2;
+            }
+
+            if (rbAddonFamily3.isSelected())
+            {
+                AddonChoiceF[bil][1] = 1;
+            }
+            else
+            {
+                AddonChoiceF[bil][1] = 2;
+            }
+
+            if (rbAddonFamily5.isSelected())
+            {
+                AddonChoiceF[bil][2] = 1;
+            }
+            else
+            {
+                AddonChoiceF[bil][2] = 2;
+            }
+
+            if (rbAddonFamily7.isSelected())
+            {
+                AddonChoiceF[bil][3] = 1;
+            }
+            else
+            {
+                AddonChoiceF[bil][3] = 2;
+            }
+
+            String tempBreakfast = addonBreakfastTextField.getText();
+            AddonChoiceF[bil][4] = Integer.parseInt(tempBreakfast);
+        }
+    }
 
     public void RoomLoop() {
         // This will ensure the first room is ready to be selected
@@ -516,7 +625,8 @@ public class CustomerPage extends JPanel {
 
     ItemListener radioButtonItemListener = new ItemListener() {
         public void itemStateChanged(ItemEvent e) {
-            if (e.getSource() == rbAddon1 && rbAddon1.isSelected()) {
+            if (e.getSource() == rbAddon1 && rbAddon1.isSelected()) 
+            {
                 if (BedType == 'S') {
                     panelAddon.add(panelAddonSingle, BorderLayout.CENTER);
                     panelAddonSingle.setVisible(true);
@@ -524,7 +634,9 @@ public class CustomerPage extends JPanel {
                     panelAddon.add(panelAddonFamily, BorderLayout.CENTER);
                     panelAddonFamily.setVisible(true);
                 }
-            } else {
+            } 
+            else 
+            {
                 panelAddonSingle.setVisible(false);
                 panelAddonFamily.setVisible(false);
             }
