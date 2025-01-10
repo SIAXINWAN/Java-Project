@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.util.*;
 import javax.swing.border.EmptyBorder;
 import JavaProject.model.Booking;
+import JavaProject.FramePage.MainFrame;
 
 public class CustomerPage extends JPanel {
     int SingleMax = Booking.SingleMax;
@@ -96,7 +97,8 @@ public class CustomerPage extends JPanel {
 
         addonBreakfastTextField.setText("0");
 
-        this.bookingDetails = bookingDetails;
+        //this.bookingDetails = bookingDetails;
+        this.bookingDetails = MainFrame.bookingDetails;
         currentIndex = bookingDetailsCurrentIndex;
 
         thisBookingDetails = bookingDetails.get(currentIndex);
@@ -487,7 +489,7 @@ public class CustomerPage extends JPanel {
         }
     };
 
-    private void resetFormValues() {
+    public void resetFormValues() {
         // Clear single room addon radio buttons
         buttonGroupAddonSingle1.clearSelection();
         buttonGroupAddonSingle2.clearSelection();

@@ -1,6 +1,5 @@
 package JavaProject.FramePage;
 
-import JavaProject.FramePage.Customer.CustomerConfirm;
 import JavaProject.FramePage.Customer.CustomerPage1;
 import JavaProject.FramePage.Staff.StaffDetail;
 import JavaProject.FramePage.Staff.StaffPage;
@@ -14,7 +13,7 @@ import javax.swing.*;
 
 public class MainFrame {
 
-    private static Staff[] staffList = {
+    public static Staff[] staffList = {
             new Staff("P01", "Chiew Chin Kuan", "0129318660", "S01", false, "07/02/2005"),
             new Staff("P02", "Sia Xin Wan", "0123456789", "S02", true, "03/05/2005"),
             new Staff("P03", "A'isyah Insyirah", "0148754099", "S03", false, "17/12/2005"),
@@ -37,7 +36,7 @@ public class MainFrame {
             //add(new Booking("B0002", "5/1/2025", "10/1/2025", 2, 1, 1, new int[]{1}, new int[]{1}, new int[][]{{0}}, new int[][]{{0, 0}}));
             add(new Booking("B0001", "1/1/2025", "7/1/2025", 6, 2, 1, 1, singleRChoice, familyRChoice, addonChoiceS, addonChoiceF, "C0001"));
         }
-    };// use to store run time booking details    
+    };// use to store run time booking details  
 
     
     private static Staff currentLoggedInStaff = null;
@@ -57,7 +56,7 @@ public class MainFrame {
         JFrame frame = new JFrame("Cats Hotel Booking System");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
-        frame.setLayout(new BorderLayout());
+        frame.setLayout(new BorderLayout());  
 
         Customer customer = new Customer();
 
@@ -109,6 +108,7 @@ public class MainFrame {
         cardPanel.add(customerPage1, "CustomerPage1");
         //cardPanel.add(customerPage, "Customer");
         cardPanel.add(staffPage, "Staff");
+        staffDetailPage.refreshData();
         cardPanel.add(staffDetailPage, "StaffDetail");
         //cardPanel.add(customerDetail, "CustomerDetail");
         //cardPanel.add(customerConfirm, "CustomerConfirm");

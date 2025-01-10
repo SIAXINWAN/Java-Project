@@ -8,13 +8,14 @@ import java.util.*;
 import javax.swing.border.EmptyBorder;
 import JavaProject.model.Booking;
 import JavaProject.model.Customer;
+import JavaProject.FramePage.MainFrame;
 
 import JavaProject.FramePage.MainFrame;
 
 public class CustomerDetail extends JPanel {
-    private JTextField nameField;
-    private JTextField phoneField;
-    private JTextField emailField;
+    private static JTextField nameField;
+    private static JTextField phoneField;
+    private static JTextField emailField;
 
     public Vector<Booking> bookingDetails;
     int currentIndex;
@@ -25,7 +26,8 @@ public class CustomerDetail extends JPanel {
 
     public CustomerDetail(ActionListener homeAction, Vector<Booking> bookingDetails, int bookingDetailsCurrentIndex) {
         setLayout(new BorderLayout(0, 20)); // Add spacing between border layout components
-        this.bookingDetails = bookingDetails;
+        //this.bookingDetails = bookingDetails;
+        this.bookingDetails = MainFrame.bookingDetails;
         this.currentIndex = bookingDetailsCurrentIndex;
 
         thisBookingDetails = bookingDetails.get(bookingDetailsCurrentIndex);
@@ -68,9 +70,9 @@ public class CustomerDetail extends JPanel {
         emailLabel.setFont(labelFont);
         emailField = createStyledTextField(fieldSize, fieldFont);
 
-        nameField.setText("ABC");
-        phoneField.setText("012-345 6789");
-        emailField.setText("abc@gmail.com");
+        //nameField.setText("ABC");
+        //phoneField.setText("012-345 6789");
+        //emailField.setText("abc@gmail.com");
 
         // Add components to form panel with GridBagLayout
         // Name row
@@ -205,4 +207,11 @@ public class CustomerDetail extends JPanel {
             }
         }
     };
+
+    public static void clearForm()
+    {
+        nameField.setText("");
+        phoneField.setText("");
+        emailField.setText("");
+    }
 }

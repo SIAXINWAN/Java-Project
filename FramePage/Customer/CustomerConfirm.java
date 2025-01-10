@@ -9,6 +9,9 @@ import java.awt.event.ActionListener;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
+import JavaProject.FramePage.Customer.CustomerPage1;
+import JavaProject.FramePage.Customer.CustomerDetail;
+
 import JavaProject.model.Booking;
 import JavaProject.model.Customer;
 
@@ -33,7 +36,8 @@ public class CustomerConfirm extends JPanel {
     Customer thisCustomerDetails;
 
     public CustomerConfirm(ActionListener homeAction, Vector<Booking> bookingDetails, int bookingDetailsCurrentIndex,
-            Vector<Customer> customerDetails) {
+            Vector<Customer> customerDetails) 
+    {
         setLayout(new BorderLayout());
 
         this.bookingDetails = bookingDetails;
@@ -141,6 +145,7 @@ public class CustomerConfirm extends JPanel {
 
         JPanel roomDetailPanel = new JPanel();
         roomDetailPanel.setLayout(new BoxLayout(roomDetailPanel, BoxLayout.Y_AXIS));
+        roomDetailPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         int subTotalPrice = 0;
         int TotalPrice = 0;
 
@@ -268,7 +273,7 @@ public class CustomerConfirm extends JPanel {
                 JLabel label25 = new JLabel("Mattress");
                 JLabel labelQuantity5 = new JLabel();
                 JLabel label26 = new JLabel();
-                label26.setText(mattressCount == 0 ? "-" : String.valueOf(mattressCount));
+                label26.setText(mattressCount == 0 ? "0" : String.valueOf(mattressCount));
                 JLabel label27 = new JLabel();
                 label27.setText(mattressCount == 0 ? "-"
                         : String.format("RM 30 * %d = RM %d.00", mattressCount, (mattressCount * 30)));
@@ -276,27 +281,27 @@ public class CustomerConfirm extends JPanel {
                 JLabel label9 = new JLabel("Pillow");
                 JLabel labelQuantity1 = new JLabel();
                 JLabel label11 = new JLabel();
-                label11.setText(pillowAddOn == 0 ? "-" : pillowAddOn == 1 ? "1" : "2");
+                label11.setText(pillowAddOn == 0 ? "0" : pillowAddOn == 1 ? "1" : "2");
                 JLabel label12 = new JLabel("-");
 
                 JLabel label13 = new JLabel("Slipper");
                 JLabel labelQuantity2 = new JLabel();
                 JLabel label15 = new JLabel();
-                label15.setText(slipperAddOn == 0 ? "-" : slipperAddOn == 1 ? "1" : "2");
+                label15.setText(slipperAddOn == 0 ? "0" : slipperAddOn == 1 ? "1" : "2");
                 JLabel label16 = new JLabel("-");
 
                 JLabel label17 = new JLabel("Towel");
                 JLabel labelQuantity3 = new JLabel();
                 JLabel label19 = new JLabel();
-                label19.setText(towelAddOn == 0 ? "-" : towelAddOn == 1 ? "1" : "2");
+                label19.setText(towelAddOn == 0 ? "0" : towelAddOn == 1 ? "1" : "2");
                 JLabel label20 = new JLabel("-");
 
                 JLabel label21 = new JLabel("Breakfast");
                 JLabel labelQuantity4 = new JLabel();
                 JLabel label23 = new JLabel();
-                label23.setText(breakfastCount == 0 ? "-" : String.valueOf(breakfastCount));
+                label23.setText(breakfastCount == 0 ? "0" : String.valueOf(breakfastCount));
                 JLabel label24 = new JLabel();
-                label24.setText(breakfastCount == 0 ? "-"
+                label24.setText(breakfastCount == 0 ? "0"
                         : String.format("RM 20 * %d = RM %d.00", breakfastCount, (breakfastCount * 20)));
 
                 roomDetailsPanel1.add(label1);
@@ -472,16 +477,44 @@ public class CustomerConfirm extends JPanel {
     String optionButton[] = { "Done", "Cancel" };
     ActionListener submitListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            int o = JOptionPane.showOptionDialog(
-                    null,
-                    "Your booking has been successfully made.\nThe receipt will be sent to your email.\nThank you and we wish you a wonderful experience!",
-                    "Cats Hotel Booking System", JOptionPane.NO_OPTION,
-                    JOptionPane.PLAIN_MESSAGE, null, optionButton, "default");
-            if (o == 0) {
-                JPanel parent = (JPanel) CustomerConfirm.this.getParent();
-                CardLayout layout = (CardLayout) parent.getLayout();
-                layout.show(parent, "Welcome");
+            if (creditCardNumberField.getText().isEmpty())
+            {
+                JOptionPane.showMessageDialog(null, "Credit card number field is empty", "Warning", JOptionPane.WARNING_MESSAGE);
             }
+            else if (creditCardNumberField.getText().length() < 16)
+            {
+                JOptionPane.showMessageDialog(null, "Credit card number should at least 16 number", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+            else if (creditCardNumberField.getText().length() > 19)
+            {
+                JOptionPane.showMessageDialog(null, "Credit card number should less than 19 number", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+            else
+            {
+                try {
+                    String numTemp = creditCardNumberField.getText().trim();
+                    long number = Long.parseLong(numTemp);
+
+                    CustomerPage1.clearForm();
+                    CustomerDetail.clearForm();
+
+                    //if creditCardNumberField is contain only numbers will proceed 
+                    int o = JOptionPane.showOptionDialog(
+                        null,
+                        "Your booking has been successfully made.\nThe receipt will be sent to your email.\nThank you and we wish you a wonderful experience!",
+                        "Cats Hotel Booking System", JOptionPane.NO_OPTION,
+                        JOptionPane.PLAIN_MESSAGE, null, optionButton, "default");
+                    if (o == 0) {
+                        JPanel parent = (JPanel) CustomerConfirm.this.getParent();
+                        CardLayout layout = (CardLayout) parent.getLayout();
+                        layout.show(parent, "Welcome");
+                    }
+                } 
+                catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Credit card number should be numbers only", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+                
+            }            
         }
     };
 }

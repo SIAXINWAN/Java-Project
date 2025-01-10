@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
+import JavaProject.FramePage.MainFrame;
 
 public class CustomerPage1 extends JPanel {
     int roomMax = Booking.roomMax;
@@ -21,8 +22,8 @@ public class CustomerPage1 extends JPanel {
     JPanel panelChooseFromDate = new JPanel();
     JPanel panelChooseToDate = new JPanel();
     JPanel panelRBTLabel = new JPanel(new BorderLayout());
-    JPanel panelRoomBilTotal = new JPanel(new BorderLayout());
-    JPanel panelRoom = new JPanel(new BorderLayout());
+    static JPanel panelRoomBilTotal = new JPanel(new BorderLayout());
+    static JPanel panelRoom = new JPanel(new BorderLayout());
     JPanel buttonPanel1 = new JPanel();
 
     Integer[] days = new Integer[31];
@@ -31,28 +32,28 @@ public class CustomerPage1 extends JPanel {
     String[] monthsName = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
             "October", "November", "December" };
 
-    JComboBox<Integer> dayFComboBox;
-    JComboBox<Integer> monthFComboBox;
-    JComboBox<Integer> yearFComboBox;
+    static JComboBox<Integer> dayFComboBox;
+    static JComboBox<Integer> monthFComboBox;
+    static JComboBox<Integer> yearFComboBox;
 
-    JComboBox<Integer> dayTComboBox;
-    JComboBox<Integer> monthTComboBox;
-    JComboBox<Integer> yearTComboBox;
+    static JComboBox<Integer> dayTComboBox;
+    static JComboBox<Integer> monthTComboBox;
+    static JComboBox<Integer> yearTComboBox;
 
-    JButton buttonConfirm = new JButton("Confirm");
-    JButton buttonCancel = new JButton("Cancel");
+    static JButton buttonConfirm = new JButton("Confirm");
+    static JButton buttonCancel = new JButton("Cancel");
 
     int totalBookingNight;
     String CheckInDate;
     String CheckOutDate;
 
-    JTextField roomBilTextField = new JTextField();
+    static JTextField roomBilTextField = new JTextField();
 
-    JTextField SingleRTextField = new JTextField();
-    JTextField FamilyRTextField = new JTextField();
+    static JTextField SingleRTextField = new JTextField();
+    static JTextField FamilyRTextField = new JTextField();
 
-    JButton buttonConfirmRoom = new JButton("Confirm");
-    JButton buttonCancelRoom = new JButton("Cancel");
+    static JButton buttonConfirmRoom = new JButton("Confirm");
+    static JButton buttonCancelRoom = new JButton("Cancel");
 
     public Vector<Booking> bookingDetails;
 
@@ -60,7 +61,7 @@ public class CustomerPage1 extends JPanel {
             Vector<Booking> bookingDetails) {
         setLayout(new BorderLayout());
 
-        this.bookingDetails = bookingDetails;
+        this.bookingDetails = MainFrame.bookingDetails;
 
         JLabel titleLabel = new JLabel("Customer Booking", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
@@ -347,25 +348,37 @@ public class CustomerPage1 extends JPanel {
 
     ActionListener roomBilTotalTextFieldActionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            String roomBilS = roomBilTextField.getText();
-            roomBil = Integer.parseInt(roomBilS);
+            try {
+                String roomBilS = roomBilTextField.getText();
+                roomBil = Integer.parseInt(roomBilS);
 
-            if (roomBil > roomMax) {
-                JOptionPane.showMessageDialog(null, "In total only MAXIMUM " + roomMax + " room we have", "Warning",
-                        JOptionPane.WARNING_MESSAGE);
-            } else {
-                panelRoomBilTotal.add(panelRoom, BorderLayout.CENTER);
-                if (!FamilyRTextField.getText().isEmpty() || !SingleRTextField.getText().isEmpty()) {
-                    FamilyRoom = roomBil - SingleRoom;
-                    if (FamilyRoom > FamilyMax) {
-                        FamilyRoom = FamilyMax;
-                        SingleRoom = roomBil - FamilyRoom;
-                        SingleRTextField.setText(Integer.toString(SingleRoom));
+                if (roomBil > roomMax) 
+                {
+                    JOptionPane.showMessageDialog(null, "In total only MAXIMUM " + roomMax + " room we have", "Warning", JOptionPane.WARNING_MESSAGE);
+                } 
+                else 
+                {
+                    panelRoomBilTotal.add(panelRoom, BorderLayout.CENTER);
+                    panelRoom.setVisible(true);
+                    if (!FamilyRTextField.getText().isEmpty() || !SingleRTextField.getText().isEmpty()) 
+                    {
+                        FamilyRoom = roomBil - SingleRoom;
+                        if (FamilyRoom > FamilyMax) 
+                        {
+                            FamilyRoom = FamilyMax;
+                            SingleRoom = roomBil - FamilyRoom;
+                            SingleRTextField.setText(Integer.toString(SingleRoom));
+                        }
+                        FamilyRTextField.setText(Integer.toString(FamilyRoom));
                     }
-                    FamilyRTextField.setText(Integer.toString(FamilyRoom));
                 }
+                panelRoom.setLayout(new BoxLayout(panelRoom, BoxLayout.Y_AXIS));
+            } 
+            catch (NumberFormatException ex) 
+            {
+                JOptionPane.showMessageDialog(null, "Room number only can be numbers", "Warning", JOptionPane.WARNING_MESSAGE);
             }
-            panelRoom.setLayout(new BoxLayout(panelRoom, BoxLayout.Y_AXIS));
+            
             panel1.revalidate();
             panel1.repaint();
         }
@@ -374,41 +387,64 @@ public class CustomerPage1 extends JPanel {
     ActionListener roomBilTextFieldActionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == SingleRTextField) {
-                String temp1 = SingleRTextField.getText();
-                SingleRoom = Integer.parseInt(temp1);
-                if (SingleRoom > roomBil) {
-                    JOptionPane.showMessageDialog(null, "You only have choosed " + roomBil + " room", "Warning",
+                try {
+                    String temp1 = SingleRTextField.getText();
+                    SingleRoom = Integer.parseInt(temp1);
+                    if (SingleRoom > roomBil) {
+                        JOptionPane.showMessageDialog(null, "You only have choosed " + roomBil + " room", "Warning",
                             JOptionPane.WARNING_MESSAGE);
-                } else if (SingleRoom > SingleMax) {
-                    JOptionPane.showMessageDialog(null, "In total only MAXIMUM " + SingleMax + " SINGLE room we have",
+                    } else if (SingleRoom > SingleMax) {
+                        JOptionPane.showMessageDialog(null, "In total only MAXIMUM " + SingleMax + " SINGLE room we have",
                             "Warning", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    FamilyRoom = roomBil - SingleRoom;
-                    if (SingleRoom + FamilyRoom > roomBil) {
-                        JOptionPane.showMessageDialog(null, "The total rooms is more than you have choosed", "Warning",
+                    }  
+                    else 
+                    {
+                        FamilyRoom = roomBil - SingleRoom;
+                        if (SingleRoom + FamilyRoom > roomBil) 
+                        {
+                            JOptionPane.showMessageDialog(null, "The total rooms is more than you have choosed", "Warning",
                                 JOptionPane.WARNING_MESSAGE);
-                    } else {
-                        FamilyRTextField.setText(Integer.toString(FamilyRoom));
+                        } 
+                        else 
+                        {
+                            FamilyRTextField.setText(Integer.toString(FamilyRoom));
+                        }
                     }
+                } 
+                catch (NumberFormatException ex) 
+                {
+                    JOptionPane.showMessageDialog(null, "Single room number only can be numbers", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
-            } else {
-                String temp2 = FamilyRTextField.getText();
-                FamilyRoom = Integer.parseInt(temp2);
-                if (FamilyRoom > roomBil) {
-                    JOptionPane.showMessageDialog(null, "You only have choosed " + roomBil + " room", "Warning",
+                
+            } 
+            else {
+                try {
+                    String temp2 = FamilyRTextField.getText();
+                    FamilyRoom = Integer.parseInt(temp2);
+                    if (FamilyRoom > roomBil) {
+                        JOptionPane.showMessageDialog(null, "You only have choosed " + roomBil + " room", "Warning",
                             JOptionPane.WARNING_MESSAGE);
-                } else if (FamilyRoom > FamilyMax) {
-                    JOptionPane.showMessageDialog(null, "In total only MAXIMUM " + FamilyMax + " FAMILY room we have",
+                    } 
+                    else if (FamilyRoom > FamilyMax) {
+                        JOptionPane.showMessageDialog(null, "In total only MAXIMUM " + FamilyMax + " FAMILY room we have",
                             "Warning", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    SingleRoom = roomBil - FamilyRoom;
-                    if (SingleRoom + FamilyRoom > roomBil) {
-                        JOptionPane.showMessageDialog(null, "The total rooms is more than you have choosed", "Warning",
+                    } 
+                    else {
+                        SingleRoom = roomBil - FamilyRoom;
+                        if (SingleRoom + FamilyRoom > roomBil) 
+                        {
+                            JOptionPane.showMessageDialog(null, "The total rooms is more than you have choosed", "Warning",
                                 JOptionPane.WARNING_MESSAGE);
-                    } else {
-                        SingleRTextField.setText(Integer.toString(SingleRoom));
+                        } 
+                        else {
+                            SingleRTextField.setText(Integer.toString(SingleRoom));
+                        }
                     }
+                } 
+                catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Family room number only can be numbers", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
+                
             }
             panel1.revalidate();
             panel1.repaint();
@@ -504,4 +540,32 @@ public class CustomerPage1 extends JPanel {
 
         }
     };
+
+    public static void clearForm()
+    {
+        dayFComboBox.setSelectedIndex(0);
+        monthFComboBox.setSelectedIndex(0);
+        yearFComboBox.setSelectedIndex(0);
+
+        dayTComboBox.setSelectedIndex(0);
+        monthTComboBox.setSelectedIndex(0);
+        yearTComboBox.setSelectedIndex(0);
+
+        buttonConfirm.setEnabled(true);
+        buttonCancel.setEnabled(false);
+
+        panelRoomBilTotal.setVisible(false);
+
+        roomBilTextField.setEditable(true);
+        SingleRTextField.setEditable(true);
+        FamilyRTextField.setEditable(true);
+
+        roomBilTextField.setText("");
+        SingleRTextField.setText("");
+        FamilyRTextField.setText("");
+
+        panelRoom.setVisible(false);
+
+        buttonCancelRoom.setEnabled(false);
+    }
 }

@@ -1,11 +1,13 @@
 package JavaProject.FramePage.Staff;
 
 import JavaProject.FramePage.MainFrame;
+import JavaProject.FramePage.Staff.StaffDetail;
 import JavaProject.model.Staff;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.function.Consumer;
+
 
 import javax.swing.*;
 
@@ -85,8 +87,8 @@ public class StaffPage extends JPanel {
 
     public void resetFields() {
         // Clear text field
-        usernamTextField.setText(" ");
-        passwordTextField.setText(" ");
+        usernamTextField.setText("");
+        passwordTextField.setText("");
     }
 
     ActionListener loginaActionListener = new ActionListener() {
@@ -124,6 +126,7 @@ public class StaffPage extends JPanel {
     
             if (loginSuccess) {
                 resetFields();
+                StaffDetail.refreshData();
                 MainFrame.setCurrentStaff(loggedInStaff);
                 JPanel parent = (JPanel) StaffPage.this.getParent();
                 CardLayout layout = (CardLayout) parent.getLayout();
