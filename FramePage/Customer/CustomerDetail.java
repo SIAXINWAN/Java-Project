@@ -15,7 +15,7 @@ public class CustomerDetail extends JPanel {
     private JTextField nameField;
     private JTextField phoneField;
     private JTextField emailField;
-    
+
     public Vector<Booking> bookingDetails;
     int currentIndex;
 
@@ -74,7 +74,8 @@ public class CustomerDetail extends JPanel {
 
         // Add components to form panel with GridBagLayout
         // Name row
-        gbc.gridx = 0; gbc.gridy = 0;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.EAST;
         formPanel.add(nameLabel, gbc);
 
@@ -83,7 +84,8 @@ public class CustomerDetail extends JPanel {
         formPanel.add(nameField, gbc);
 
         // Phone row
-        gbc.gridx = 0; gbc.gridy = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.EAST;
         formPanel.add(phoneLabel, gbc);
 
@@ -92,7 +94,8 @@ public class CustomerDetail extends JPanel {
         formPanel.add(phoneField, gbc);
 
         // Email row
-        gbc.gridx = 0; gbc.gridy = 2;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.EAST;
         formPanel.add(emailLabel, gbc);
 
@@ -124,8 +127,8 @@ public class CustomerDetail extends JPanel {
         field.setPreferredSize(size);
         field.setFont(font);
         field.setBorder(BorderFactory.createCompoundBorder(
-            field.getBorder(), 
-            BorderFactory.createEmptyBorder(5, 5, 5, 5))); // Add internal padding
+                field.getBorder(),
+                BorderFactory.createEmptyBorder(5, 5, 5, 5))); // Add internal padding
         return field;
     }
 
@@ -145,64 +148,58 @@ public class CustomerDetail extends JPanel {
             if (name.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Name field is empty.", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (!name.matches("[a-zA-Z ]+")) {
-                JOptionPane.showMessageDialog(null, "Name cannot contain numbers.", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Name cannot contain numbers.", "Warning",
+                        JOptionPane.WARNING_MESSAGE);
             } else if (phoneField.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Phone field is empty.", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (!phoneField.getText().matches("[0-9\\- ]+")) {
-                JOptionPane.showMessageDialog(null, "Phone number must only contain integers.", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Phone number must only contain integers.", "Warning",
+                        JOptionPane.WARNING_MESSAGE);
             } else if (emailField.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Email field is empty.", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (!emailField.getText().contains("@")) {
                 JOptionPane.showMessageDialog(null, "Email must contain '@'.", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
-                //Store the detail into bookingDetails
+                // Store the detail into bookingDetails
                 int vectorSize = customerDetails.size();
                 String customerId = customerDetails.elementAt(vectorSize - 1).getCustomerID();
 
                 int idSize = customerId.length();
-                    
+
                 String customeridCode = customerId.substring(0, 1);
 
                 String customeridNum1 = customerId.substring(1, idSize);
-                    
+
                 int customeridNum2 = Integer.parseInt(customeridNum1);
 
                 int customerIdNumFinal = customeridNum2 + 1;
                 String newCustomerid = customeridCode;
-                if (customerIdNumFinal >= 1000)
-                {
+                if (customerIdNumFinal >= 1000) {
                     newCustomerid += customerIdNumFinal;
-                }
-                else if (customerIdNumFinal >= 100)
-                {
+                } else if (customerIdNumFinal >= 100) {
                     newCustomerid += "0" + customerIdNumFinal;
-                }
-                else if (customerIdNumFinal >= 10)
-                {
+                } else if (customerIdNumFinal >= 10) {
                     newCustomerid += "00" + customerIdNumFinal;
-                }
-                else
-                {
+                } else {
                     newCustomerid += "000" + customerIdNumFinal;
                 }
-                Customer customerTemp = new Customer(newCustomerid, nameField.getText(), phoneField.getText(), emailField.getText());
+                Customer customerTemp = new Customer(newCustomerid, nameField.getText(), phoneField.getText(),
+                        emailField.getText());
 
-                customerDetails.add(customerTemp); 
+                customerDetails.add(customerTemp);
 
                 thisBookingDetails.setCustomerID(newCustomerid);
-
 
                 JPanel parent = (JPanel) CustomerDetail.this.getParent();
                 CardLayout layout = (CardLayout) parent.getLayout();
 
                 CustomerConfirm customerConfirm = new CustomerConfirm(
-                    e2 -> layout.show(parent, "CustomerDetail"),
-                    bookingDetails,
-                    currentIndex, 
-                    customerDetails
-                );
-                    
-                    // Add the new CustomerConfirm and show it
+                        e2 -> layout.show(parent, "CustomerDetail"),
+                        bookingDetails,
+                        currentIndex,
+                        customerDetails);
+
+                // Add the new CustomerConfirm and show it
                 parent.add(customerConfirm, "CustomerConfirm");
                 layout.show(parent, "CustomerConfirm");
             }

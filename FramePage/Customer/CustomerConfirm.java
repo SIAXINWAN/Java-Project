@@ -31,8 +31,9 @@ public class CustomerConfirm extends JPanel {
 
     public Vector<Customer> customerDetails;
     Customer thisCustomerDetails;
-    
-    public CustomerConfirm(ActionListener homeAction, Vector<Booking> bookingDetails, int bookingDetailsCurrentIndex, Vector<Customer> customerDetails) {
+
+    public CustomerConfirm(ActionListener homeAction, Vector<Booking> bookingDetails, int bookingDetailsCurrentIndex,
+            Vector<Customer> customerDetails) {
         setLayout(new BorderLayout());
 
         this.bookingDetails = bookingDetails;
@@ -43,78 +44,72 @@ public class CustomerConfirm extends JPanel {
 
         String customerID = thisBookingDetails.getCustomerID();
 
-        for (int i = 0; i < customerDetails.size(); i++)
-        {
+        for (int i = 0; i < customerDetails.size(); i++) {
             Customer customer = customerDetails.get(i);
 
-            if (customer.getCustomerID().equals(customerID))
-            {
+            if (customer.getCustomerID().equals(customerID)) {
                 thisCustomerDetails = customer;
                 break;
             }
         }
-        
 
-        setPreferredSize(new Dimension(600,400));
-        
-        
-        mainContentPanel.setLayout(new BorderLayout());
-        // Set a minimum size to ensure content doesn't compress too much
-        mainContentPanel.setMinimumSize(new Dimension(500, 600));
-        // Set preferred size larger than the container to force scroll bars
-        mainContentPanel.setPreferredSize(new Dimension(580, 800));
-         
+        setPreferredSize(new Dimension(600, 400));
+
+        mainContentPanel = new JPanel();
+        mainContentPanel.setLayout(new BoxLayout(mainContentPanel, BoxLayout.Y_AXIS));
+
         JLabel titleLabel = new JLabel("Booking Confirm", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
 
-        // Customer Info Panel setup (unchanged)
+        // Replace the customer info panel setup section with this:
+
+        // Customer Info Panel setup
         JPanel customerInfoPanel = new JPanel();
-        customerInfoPanel.setLayout(new BoxLayout(customerInfoPanel, BoxLayout.Y_AXIS));
-        customerInfoPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        
-        // Labels setup (unchanged)
-        JLabel nameLabel = new JLabel("Name: ", JLabel.CENTER);
-        JLabel phoneLabel = new JLabel("Phone: ", JLabel.CENTER);
-        JLabel emailLabel = new JLabel("Email: ", JLabel.CENTER);
-        
-        int labelWidth = 300;
-        nameLabel.setPreferredSize(new Dimension(labelWidth, 15));
-        phoneLabel.setPreferredSize(new Dimension(labelWidth, 15));
-        emailLabel.setPreferredSize(new Dimension(labelWidth, 15));
-        
-        nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        phoneLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        emailLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        
-        
-        // Panels setup (unchanged)
-        JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        customerInfoPanel.setLayout(new GridLayout(3, 1, 5, 0)); // Use GridLayout with minimal vertical gap
+        customerInfoPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
+
+        // Labels setup
+        JLabel nameLabel = new JLabel("Name: ", JLabel.RIGHT);
+        JLabel phoneLabel = new JLabel("Phone: ", JLabel.RIGHT);
+        JLabel emailLabel = new JLabel("Email: ", JLabel.RIGHT);
+
+        // Create panels for each row with FlowLayout
+        JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        JPanel phonePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        JPanel emailPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+
+        // Set fixed width for labels
+        int labelWidth = 100; // Reduced from 300
+        Dimension labelDimension = new Dimension(labelWidth, 20); // Increased height slightly
+        nameLabel.setPreferredSize(labelDimension);
+        phoneLabel.setPreferredSize(labelDimension);
+        emailLabel.setPreferredSize(labelDimension);
+
+        // Set up value labels with minimum size
+        Dimension valueDimension = new Dimension(200, 20);
+        nameValueLabel.setPreferredSize(valueDimension);
+        phoneValueLabel.setPreferredSize(valueDimension);
+        emailValueLabel.setPreferredSize(valueDimension);
+
+        // Add components to panels
         namePanel.add(nameLabel);
         namePanel.add(nameValueLabel);
-        
-        JPanel phonePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+
         phonePanel.add(phoneLabel);
         phonePanel.add(phoneValueLabel);
-        
-        JPanel emailPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+
         emailPanel.add(emailLabel);
         emailPanel.add(emailValueLabel);
-        
-        Dimension panelSize = new Dimension(300, 30);
-        namePanel.setPreferredSize(panelSize);
-        phonePanel.setPreferredSize(panelSize);
-        emailPanel.setPreferredSize(panelSize);
-        
-        customerInfoPanel.add(Box.createVerticalStrut(5));
+
+        // Add panels to customer info panel
         customerInfoPanel.add(namePanel);
-        customerInfoPanel.add(Box.createVerticalStrut(5));
         customerInfoPanel.add(phonePanel);
-        customerInfoPanel.add(Box.createVerticalStrut(5));
         customerInfoPanel.add(emailPanel);
-        customerInfoPanel.add(Box.createVerticalStrut(5));
 
-
+        // Remove the vertical struts and set a smaller preferred size
+        Dimension panelSize = new Dimension(400, 80); // Reduced height
+        customerInfoPanel.setPreferredSize(panelSize);
         JPanel bookingPaneltitle = new JPanel(new BorderLayout());
 
         JLabel labeltitle = new JLabel("Booking details: ");
@@ -149,12 +144,13 @@ public class CustomerConfirm extends JPanel {
         int subTotalPrice = 0;
         int TotalPrice = 0;
 
-        if (singleRoom != 0)
-        {
-            for (int i = 0; i < singleRoom; i++)
-            {
+        if (singleRoom != 0) {
+            for (int i = 0; i < singleRoom; i++) {
                 JLabel roomLabel = new JLabel("Single room " + (i + 1), JLabel.CENTER);
                 roomLabel.setFont(new Font("Arial", Font.BOLD, 14));
+
+                int pillowAddOn = thisBookingDetails.getAddonChoiceS()[i][0];
+                int towelAddOn = thisBookingDetails.getAddonChoiceS()[i][1];
 
                 // Create the table for the room
                 JPanel roomDetailsPanel1 = new JPanel(new GridLayout(6, 4));
@@ -163,14 +159,15 @@ public class CustomerConfirm extends JPanel {
                 JLabel label3 = new JLabel("Add on");
                 JLabel label4 = new JLabel("Price");
 
-                JLabel label5 = new JLabel("Item"); 
+                JLabel label5 = new JLabel("Item");
                 JLabel label6 = new JLabel("1");
                 JLabel label7 = new JLabel("-");
                 JLabel labelPrice = new JLabel();
 
                 JLabel label9 = new JLabel("Pillow");
                 JLabel labelQuantity1 = new JLabel();
-                JLabel label11 = new JLabel(thisBookingDetails.getAddonChoiceS()[i][0] + "");
+                JLabel label11 = new JLabel();
+                label11.setText(pillowAddOn == 0 ? "-" : pillowAddOn == 1 ? "1" : "2");
                 JLabel label12 = new JLabel("-");
 
                 JLabel label13 = new JLabel("Slipper");
@@ -180,7 +177,8 @@ public class CustomerConfirm extends JPanel {
 
                 JLabel label17 = new JLabel("Towel");
                 JLabel labelQuantity3 = new JLabel("1");
-                JLabel label19 = new JLabel(thisBookingDetails.getAddonChoiceS()[i][1] + "");
+                JLabel label19 = new JLabel();
+                label19.setText(towelAddOn == 0 ? "-" : towelAddOn == 1 ? "1" : "2");
                 JLabel label20 = new JLabel("-");
 
                 JLabel label21 = new JLabel("Breakfast");
@@ -188,17 +186,34 @@ public class CustomerConfirm extends JPanel {
                 JLabel label23 = new JLabel("-");
                 JLabel label24 = new JLabel("-");
 
-                roomDetailsPanel1.add(label1); roomDetailsPanel1.add(label2); roomDetailsPanel1.add(label3); roomDetailsPanel1.add(label4); 
-                roomDetailsPanel1.add(label5); roomDetailsPanel1.add(label6); roomDetailsPanel1.add(label7); roomDetailsPanel1.add(labelPrice); 
-                roomDetailsPanel1.add(label9); roomDetailsPanel1.add(labelQuantity1); roomDetailsPanel1.add(label11); roomDetailsPanel1.add(label12);  
-                roomDetailsPanel1.add(label13); roomDetailsPanel1.add(labelQuantity2); roomDetailsPanel1.add(label15); roomDetailsPanel1.add(label16);  
-                roomDetailsPanel1.add(label17); roomDetailsPanel1.add(labelQuantity3); roomDetailsPanel1.add(label19); roomDetailsPanel1.add(label20);  
-                roomDetailsPanel1.add(label21); roomDetailsPanel1.add(labelQuantity4); roomDetailsPanel1.add(label23); roomDetailsPanel1.add(label24);  
+                roomDetailsPanel1.add(label1);
+                roomDetailsPanel1.add(label2);
+                roomDetailsPanel1.add(label3);
+                roomDetailsPanel1.add(label4);
+                roomDetailsPanel1.add(label5);
+                roomDetailsPanel1.add(label6);
+                roomDetailsPanel1.add(label7);
+                roomDetailsPanel1.add(labelPrice);
+                roomDetailsPanel1.add(label9);
+                roomDetailsPanel1.add(labelQuantity1);
+                roomDetailsPanel1.add(label11);
+                roomDetailsPanel1.add(label12);
+                roomDetailsPanel1.add(label13);
+                roomDetailsPanel1.add(labelQuantity2);
+                roomDetailsPanel1.add(label15);
+                roomDetailsPanel1.add(label16);
+                roomDetailsPanel1.add(label17);
+                roomDetailsPanel1.add(labelQuantity3);
+                roomDetailsPanel1.add(label19);
+                roomDetailsPanel1.add(label20);
+                roomDetailsPanel1.add(label21);
+                roomDetailsPanel1.add(labelQuantity4);
+                roomDetailsPanel1.add(label23);
+                roomDetailsPanel1.add(label24);
 
                 int singleOption = thisBookingDetails.getSingleRChoice()[i];
 
-                if (singleOption == 0) 
-                {
+                if (singleOption == 0) {
                     label5.setText("Single bed");
                     labelPrice.setText("RM 80.00");
                     labelQuantity1.setText("1");
@@ -206,15 +221,10 @@ public class CustomerConfirm extends JPanel {
                     labelQuantity3.setText("1");
                     labelQuantity4.setText("1");
                     subTotalPrice += 80;
-                }
-                else
-                {
-                    if (singleOption == 1)
-                    {
+                } else {
+                    if (singleOption == 1) {
                         label5.setText("Queen bed");
-                    }
-                    else
-                    {
+                    } else {
                         label5.setText("King bed");
                     }
                     labelPrice.setText("RM 120.00");
@@ -224,18 +234,22 @@ public class CustomerConfirm extends JPanel {
                     labelQuantity4.setText("2");
                     subTotalPrice += 120;
                 }
-                //Add the label and table to the panel
+                // Add the label and table to the panel
                 roomDetailPanel.add(roomLabel);
                 roomDetailPanel.add(roomDetailsPanel1);
-            }            
+            }
         }
 
-        if (familyRoom != 0)
-        {
-            for (int i = 0; i < familyRoom; i++)
-            {
+        if (familyRoom != 0) {
+            for (int i = 0; i < familyRoom; i++) {
                 JLabel roomLabel = new JLabel("Family room " + (i + 1), JLabel.CENTER);
                 roomLabel.setFont(new Font("Arial", Font.BOLD, 14));
+
+                int mattressCount = thisBookingDetails.getAddonChoiceF()[i][0];
+                int pillowAddOn = thisBookingDetails.getAddonChoiceF()[i][1];
+                int slipperAddOn = thisBookingDetails.getAddonChoiceF()[i][2];
+                int towelAddOn = thisBookingDetails.getAddonChoiceF()[i][3];
+                int breakfastCount = thisBookingDetails.getAddonChoiceF()[i][4];
 
                 // Create the table for the room
                 JPanel roomDetailsPanel1 = new JPanel(new GridLayout(7, 4));
@@ -244,7 +258,7 @@ public class CustomerConfirm extends JPanel {
                 JLabel label3 = new JLabel("Add on");
                 JLabel label4 = new JLabel("Price");
 
-                JLabel label5 = new JLabel("Item"); 
+                JLabel label5 = new JLabel("Item");
                 JLabel label6 = new JLabel("1");
                 JLabel label7 = new JLabel("-");
                 JLabel labelPrice = new JLabel();
@@ -253,50 +267,75 @@ public class CustomerConfirm extends JPanel {
 
                 JLabel label25 = new JLabel("Mattress");
                 JLabel labelQuantity5 = new JLabel();
-                JLabel label26 = new JLabel(matteresBil + "");
-                JLabel label27 = new JLabel("RM 30 * 0 = RM 0.00");
+                JLabel label26 = new JLabel();
+                label26.setText(mattressCount == 0 ? "-" : String.valueOf(mattressCount));
+                JLabel label27 = new JLabel();
+                label27.setText(mattressCount == 0 ? "-"
+                        : String.format("RM 30 * %d = RM %d.00", mattressCount, (mattressCount * 30)));
 
                 JLabel label9 = new JLabel("Pillow");
                 JLabel labelQuantity1 = new JLabel();
-                JLabel label11 = new JLabel(thisBookingDetails.getAddonChoiceF()[i][1] + "");
-                JLabel label12 = new JLabel("-");             
+                JLabel label11 = new JLabel();
+                label11.setText(pillowAddOn == 0 ? "-" : pillowAddOn == 1 ? "1" : "2");
+                JLabel label12 = new JLabel("-");
 
                 JLabel label13 = new JLabel("Slipper");
                 JLabel labelQuantity2 = new JLabel();
-                JLabel label15 = new JLabel(thisBookingDetails.getAddonChoiceF()[i][2] + "");
+                JLabel label15 = new JLabel();
+                label15.setText(slipperAddOn == 0 ? "-" : slipperAddOn == 1 ? "1" : "2");
                 JLabel label16 = new JLabel("-");
 
                 JLabel label17 = new JLabel("Towel");
                 JLabel labelQuantity3 = new JLabel();
-                JLabel label19 = new JLabel(thisBookingDetails.getAddonChoiceF()[i][3] + "");
+                JLabel label19 = new JLabel();
+                label19.setText(towelAddOn == 0 ? "-" : towelAddOn == 1 ? "1" : "2");
                 JLabel label20 = new JLabel("-");
 
                 JLabel label21 = new JLabel("Breakfast");
                 JLabel labelQuantity4 = new JLabel();
-                JLabel label23 = new JLabel(thisBookingDetails.getAddonChoiceF()[i][4] + "");
-                JLabel label24 = new JLabel("-");
+                JLabel label23 = new JLabel();
+                label23.setText(breakfastCount == 0 ? "-" : String.valueOf(breakfastCount));
+                JLabel label24 = new JLabel();
+                label24.setText(breakfastCount == 0 ? "-"
+                        : String.format("RM 20 * %d = RM %d.00", breakfastCount, (breakfastCount * 20)));
 
-                roomDetailsPanel1.add(label1); roomDetailsPanel1.add(label2); roomDetailsPanel1.add(label3); roomDetailsPanel1.add(label4); 
-                roomDetailsPanel1.add(label5); roomDetailsPanel1.add(label6); roomDetailsPanel1.add(label7); roomDetailsPanel1.add(labelPrice); 
-                roomDetailsPanel1.add(label25); roomDetailsPanel1.add(labelQuantity5); roomDetailsPanel1.add(label26); roomDetailsPanel1.add(label27);  
-                roomDetailsPanel1.add(label9); roomDetailsPanel1.add(labelQuantity1); roomDetailsPanel1.add(label11); roomDetailsPanel1.add(label12);  
-                roomDetailsPanel1.add(label13); roomDetailsPanel1.add(labelQuantity2); roomDetailsPanel1.add(label15); roomDetailsPanel1.add(label16);  
-                roomDetailsPanel1.add(label17); roomDetailsPanel1.add(labelQuantity3); roomDetailsPanel1.add(label19); roomDetailsPanel1.add(label20);  
-                roomDetailsPanel1.add(label21); roomDetailsPanel1.add(labelQuantity4); roomDetailsPanel1.add(label23); roomDetailsPanel1.add(label24);  
+                roomDetailsPanel1.add(label1);
+                roomDetailsPanel1.add(label2);
+                roomDetailsPanel1.add(label3);
+                roomDetailsPanel1.add(label4);
+                roomDetailsPanel1.add(label5);
+                roomDetailsPanel1.add(label6);
+                roomDetailsPanel1.add(label7);
+                roomDetailsPanel1.add(labelPrice);
+                roomDetailsPanel1.add(label25);
+                roomDetailsPanel1.add(labelQuantity5);
+                roomDetailsPanel1.add(label26);
+                roomDetailsPanel1.add(label27);
+                roomDetailsPanel1.add(label9);
+                roomDetailsPanel1.add(labelQuantity1);
+                roomDetailsPanel1.add(label11);
+                roomDetailsPanel1.add(label12);
+                roomDetailsPanel1.add(label13);
+                roomDetailsPanel1.add(labelQuantity2);
+                roomDetailsPanel1.add(label15);
+                roomDetailsPanel1.add(label16);
+                roomDetailsPanel1.add(label17);
+                roomDetailsPanel1.add(labelQuantity3);
+                roomDetailsPanel1.add(label19);
+                roomDetailsPanel1.add(label20);
+                roomDetailsPanel1.add(label21);
+                roomDetailsPanel1.add(labelQuantity4);
+                roomDetailsPanel1.add(label23);
+                roomDetailsPanel1.add(label24);
 
                 int familyOption = thisBookingDetails.getFamilyRChoice()[i];
 
-                if (familyOption == 0) 
-                {
+                if (familyOption == 0) {
                     label5.setText("Single bed + Single bed");
-                    
-                }
-                else if (familyOption == 1) 
-                {
+
+                } else if (familyOption == 1) {
                     label5.setText("Single bed + King bed");
-                }
-                else
-                {
+                } else {
                     label5.setText("Queen bed + King bed");
                 }
 
@@ -308,23 +347,29 @@ public class CustomerConfirm extends JPanel {
                 labelQuantity5.setText("4");
                 subTotalPrice += 200;
 
-                if (matteresBil != 0)
-                {
+                if (matteresBil != 0) {
                     int matteresPrice = 30 * matteresBil;
                     subTotalPrice += matteresPrice;
-                    label26.setText("RM 30 * " + matteresBil + " = RM " + matteresPrice + ".00");
+
                 }
-                //Add the label and table to the panel
+                if (breakfastCount != 0) {
+                    int breakfastPrice = 20 * breakfastCount;
+                    subTotalPrice += breakfastPrice;
+                }
+                // Add the label and table to the panel
                 roomDetailPanel.add(roomLabel);
                 roomDetailPanel.add(roomDetailsPanel1);
-            }            
+            }
         }
 
         TotalPrice = subTotalPrice * thisBookingDetails.getbookingNight();
 
         JPanel pricePanel = new JPanel(new BorderLayout());
-        JLabel priceLabel1 = new JLabel("Subtotal (total price per night) = RM " + subTotalPrice + ".00");
-        JLabel priceLabel2 = new JLabel("Total price (" + thisBookingDetails.getbookingNight() + " night) = RM " + TotalPrice + ".00");
+        JLabel priceLabel1 = new JLabel("Subtotal (total price per night) = RM " + subTotalPrice + ".00",
+                JLabel.CENTER);
+        JLabel priceLabel2 = new JLabel(
+                "Total price (" + thisBookingDetails.getbookingNight() + " night) = RM " + TotalPrice + ".00",
+                JLabel.CENTER);
 
         pricePanel.add(priceLabel1, BorderLayout.NORTH);
         pricePanel.add(priceLabel2, BorderLayout.CENTER);
@@ -336,85 +381,102 @@ public class CustomerConfirm extends JPanel {
         // Payment Panel setup
         JPanel PaymentPanel = new JPanel(new GridLayout(5, 2, 10, 10));
         PaymentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        
+
         JLabel paymentMethodLabel = new JLabel("Payment Method:");
         paymentMethodCombo = new JComboBox<>(new String[] { "Visa", "Master" });
         JLabel creditCardNumberLabel = new JLabel("Credit Card Number:");
         creditCardNumberField = new JTextField();
         JButton submitButton = new JButton("DONE!");
         submitButton.addActionListener(submitListener);
-        
+
         PaymentPanel.add(paymentMethodLabel);
         PaymentPanel.add(paymentMethodCombo);
         PaymentPanel.add(creditCardNumberLabel);
         PaymentPanel.add(creditCardNumberField);
         PaymentPanel.add(new JLabel());
         PaymentPanel.add(submitButton);
-        
-        // North Panel setup
-        JPanel NorthPanel = new JPanel(new BorderLayout());
-        NorthPanel.add(titleLabel, BorderLayout.NORTH);
-        NorthPanel.add(customerInfoPanel, BorderLayout.CENTER);
-        
+
+        JPanel North2Panel = new JPanel();
+        North2Panel.setLayout(new BoxLayout(North2Panel, BoxLayout.Y_AXIS));
+        North2Panel.add(titleLabel);
+        North2Panel.add(customerInfoPanel);
+        North2Panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        // Ensure booking panel can display all content
+        bookingPanel.setLayout(new BoxLayout(bookingPanel, BoxLayout.Y_AXIS));
+        bookingPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        // Set alignment for payment panel
+        PaymentPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         // Add components to main content panel
-        mainContentPanel.add(NorthPanel, BorderLayout.NORTH);
-        mainContentPanel.add(bookingPanel, BorderLayout.CENTER);
-        mainContentPanel.add(PaymentPanel, BorderLayout.SOUTH);
-        
-        // Create scroll pane and add main content to it
-        JScrollPane scrollPane = new JScrollPane(mainContentPanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        //scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        mainContentPanel.add(North2Panel);
+        mainContentPanel.add(Box.createVerticalStrut(10));
+        mainContentPanel.add(bookingPanel);
+        mainContentPanel.add(Box.createVerticalStrut(10));
+        mainContentPanel.add(PaymentPanel);
+
+        // Create a wrapper panel to ensure proper sizing
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
+        wrapperPanel.add(mainContentPanel, BorderLayout.NORTH);
+        // Add empty panel to bottom to allow scrolling to last element
+        wrapperPanel.add(new JPanel(), BorderLayout.CENTER);
+
+        // Create scroll pane with the wrapper panel
+        JScrollPane scrollPane = new JScrollPane(wrapperPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        
-        // Make the scroll pane fill the available space
+
+        // Set a preferred size for the scroll pane that's smaller than the content
         scrollPane.setPreferredSize(new Dimension(550, 350));
-        
-        // Add a border to the scroll pane to make it more visible
-        scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        
+
+        // Add scroll pane to CENTER of main panel
+        add(scrollPane, BorderLayout.CENTER);
+
         // Button Panel
+        JPanel cancelPanel = new JPanel();
+        cancelPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
         JButton cancelButton = new JButton("Cancel");
         cancelButton.setFont(new Font("Arial", Font.BOLD, 16));
         cancelButton.setPreferredSize(new Dimension(100, 40));
         cancelButton.addActionListener(homeAction);
-        
-        JPanel cancelPanel = new JPanel();
         cancelPanel.add(cancelButton);
-        
-        // Add components to main panel
-        add(scrollPane, BorderLayout.CENTER);
+
+        // Add cancel panel to SOUTH
         add(cancelPanel, BorderLayout.SOUTH);
-        
+
         addAncestorListener(new AncestorListener() {
             @Override
             public void ancestorAdded(AncestorEvent event) {
                 updateCustomerInfo();
             }
-            
+
             @Override
-            public void ancestorRemoved(AncestorEvent event) {}
-            
+            public void ancestorRemoved(AncestorEvent event) {
+            }
+
             @Override
-            public void ancestorMoved(AncestorEvent event) {}
+            public void ancestorMoved(AncestorEvent event) {
+            }
         });
     }
-    
+
     // Rest of the methods remain unchanged
     private void updateCustomerInfo() {
         nameValueLabel.setText(thisCustomerDetails.getCustomerName());
         phoneValueLabel.setText(thisCustomerDetails.getCustomerPhoneNO());
         emailValueLabel.setText(thisCustomerDetails.getCustomerEmail());
     }
-    
+
     String optionButton[] = { "Done", "Cancel" };
     ActionListener submitListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             int o = JOptionPane.showOptionDialog(
-                null,
-                "Your booking has been successfully made.\nThe receipt will be sent to your email.\nThank you and we wish you a wonderful experience!",
-                "Cats Hotel Booking System", JOptionPane.NO_OPTION,
-                JOptionPane.PLAIN_MESSAGE, null, optionButton, "default");
+                    null,
+                    "Your booking has been successfully made.\nThe receipt will be sent to your email.\nThank you and we wish you a wonderful experience!",
+                    "Cats Hotel Booking System", JOptionPane.NO_OPTION,
+                    JOptionPane.PLAIN_MESSAGE, null, optionButton, "default");
             if (o == 0) {
                 JPanel parent = (JPanel) CustomerConfirm.this.getParent();
                 CardLayout layout = (CardLayout) parent.getLayout();

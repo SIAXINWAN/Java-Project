@@ -49,8 +49,8 @@ public class StaffDetail extends JPanel {
 
     private void initializeTable() {
         // Create table model with 8 columns
-        String[] columnNames = {"StaffID", "Check In Date", "Check Out Date", "Single Room", 
-                              "Family Room", "Customer Name"};
+        String[] columnNames = { "StaffID", "Check In Date", "Check Out Date", "Single Room",
+                "Family Room", "Customer Name" };
         tableModel = new DefaultTableModel(columnNames, 0);
         staffTable = new JTable(tableModel);
 
@@ -63,20 +63,19 @@ public class StaffDetail extends JPanel {
             tableModel.addRow(row);
         }
 
-
         // Set table properties
         staffTable.setFillsViewportHeight(true);
         staffTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-   
-        staffTable.setRowHeight(40);  // Increase row height to 40 pixels
-    
-    // Set column widths
-    staffTable.getColumnModel().getColumn(0).setPreferredWidth(100);  // StaffID
-    staffTable.getColumnModel().getColumn(1).setPreferredWidth(100);  // Check In Date
-    staffTable.getColumnModel().getColumn(2).setPreferredWidth(100);  // Check Out Date
-    staffTable.getColumnModel().getColumn(3).setPreferredWidth(100);  // Single Room
-    staffTable.getColumnModel().getColumn(4).setPreferredWidth(100);  // Family Room
-    staffTable.getColumnModel().getColumn(5).setPreferredWidth(100);  
+
+        staffTable.setRowHeight(40); // Increase row height to 40 pixels
+
+        // Set column widths
+        staffTable.getColumnModel().getColumn(0).setPreferredWidth(100); // StaffID
+        staffTable.getColumnModel().getColumn(1).setPreferredWidth(100); // Check In Date
+        staffTable.getColumnModel().getColumn(2).setPreferredWidth(100); // Check Out Date
+        staffTable.getColumnModel().getColumn(3).setPreferredWidth(100); // Single Room
+        staffTable.getColumnModel().getColumn(4).setPreferredWidth(100); // Family Room
+        staffTable.getColumnModel().getColumn(5).setPreferredWidth(100);
     }
 
     public StaffDetail(ActionListener homeAction) {
@@ -97,7 +96,7 @@ public class StaffDetail extends JPanel {
 
         // Combo box panel
         JPanel filterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        filterComboBox = new JComboBox<>(new String[]{"All", "Me"});
+        filterComboBox = new JComboBox<>(new String[] { "All", "Me" });
         filterComboBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -119,8 +118,8 @@ public class StaffDetail extends JPanel {
 
         // Add components to main content
         JPanel filterTable = new JPanel(new BorderLayout());
-        filterTable.add(filterPanel,BorderLayout.NORTH);
-        filterTable.add(tableScrollPane,BorderLayout.CENTER);
+        filterTable.add(filterPanel, BorderLayout.NORTH);
+        filterTable.add(tableScrollPane, BorderLayout.CENTER);
         mainContent.add(detailsPanel, BorderLayout.NORTH);
         mainContent.add(filterTable, BorderLayout.CENTER);
         // mainContent.add(tableScrollPane, BorderLayout.SOUTH);
