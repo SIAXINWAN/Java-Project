@@ -34,8 +34,8 @@ public class StaffPage extends JPanel {
        
         setLayout(new BorderLayout());
 
-        usernamTextField.setText("S01");
-        passwordTextField.setText("P01S01");
+        // usernamTextField.setText("S01");
+        // passwordTextField.setText("P01S01");
 
         //
         // staffLabel.setFont(new Font("Arial", Font.BOLD, 20));

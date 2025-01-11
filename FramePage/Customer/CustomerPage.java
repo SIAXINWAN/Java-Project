@@ -355,136 +355,103 @@ public class CustomerPage extends JPanel {
     ActionListener buttonDoneActionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             boolean validSelection = true;
+            
+            // Store original values in case we need to revert
+            int originalCounterLoop = counterLoop;
+            int originalTempS = tempS;
+            int originalTempF = tempF;
+    
             if (tempS > 0) {
-                SingleRChoice[counterLoop] = comboboxSingle.getSelectedIndex();
-
                 if (!rbAddon1.isSelected() && !rbAddon2.isSelected()) {
                     JOptionPane.showMessageDialog(null, "Addon field is empty", "Warning", JOptionPane.WARNING_MESSAGE);
                     validSelection = false;
-                    counterLoop--;
-                    tempS++;
+                } else if (rbAddon1.isSelected()) {
+                    if (!rbAddonSingle1.isSelected() && !rbAddonSingle2.isSelected() &&
+                        !rbAddonSingle3.isSelected() && !rbAddonSingle4.isSelected()) {
+                        JOptionPane.showMessageDialog(null, 
+                            "You must select at least one addon", 
+                            "Warning",
+                            JOptionPane.WARNING_MESSAGE);
+                        validSelection = false;
+                    }
                 }
-
-                if (rbAddon1.isSelected()) {
-                    // if (!rbAddonSingle1.isSelected() && !rbAddonSingle2.isSelected())
-                    // {
-                    // JOptionPane.showMessageDialog(null, "Addon pillow is empty", "Warning",
-                    // JOptionPane.WARNING_MESSAGE);
-                    // validSelection = false;
-                    // counterLoop--;
-                    // tempS++;
-                    // }
-                    // if (!rbAddonSingle3.isSelected() && !rbAddonSingle4.isSelected())
-                    // {
-                    // JOptionPane.showMessageDialog(null, "Addon towel is empty", "Warning",
-                    // JOptionPane.WARNING_MESSAGE);
-                    // validSelection = false;
-                    // counterLoop--;
-                    // tempS++;
-                    // }
-
-                    CheckAddon('S', counterLoop);
+    
+                if (validSelection) {
+                    SingleRChoice[counterLoop] = comboboxSingle.getSelectedIndex();
+                    if (rbAddon1.isSelected()) {
+                        CheckAddon('S', counterLoop);
+                    }
+                    tempS--; // Only decrease if valid
                 }
-                tempS--; // Decrease available Single room after selection
             } else if (tempF > 0) {
                 if (getFamilyRoomTypeSelected() == 0) {
                     JOptionPane.showMessageDialog(null, "Please select at least one option", "Warning",
                             JOptionPane.WARNING_MESSAGE);
                     validSelection = false;
-                    counterLoop--;
-                    tempF++;
                 } else if (!rbAddon1.isSelected() && !rbAddon2.isSelected()) {
                     JOptionPane.showMessageDialog(null, "Addon field is empty", "Warning", JOptionPane.WARNING_MESSAGE);
                     validSelection = false;
-                    counterLoop--;
-                    tempF++;
+                } else if (rbAddon1.isSelected()) {
+                    if (!rbAddonFamily1.isSelected() && !rbAddonFamily2.isSelected() && 
+                        !rbAddonFamily3.isSelected() && !rbAddonFamily4.isSelected() && 
+                        !rbAddonFamily5.isSelected() && !rbAddonFamily6.isSelected() && 
+                        !rbAddonFamily7.isSelected() && !rbAddonFamily8.isSelected() && 
+                        addonBreakfastTextField.getText().equals("0")) {
+                        JOptionPane.showMessageDialog(null, 
+                            "You must select at least one addon", 
+                            "Warning",
+                            JOptionPane.WARNING_MESSAGE);
+                        validSelection = false;
+                    }
                 }
-
-                int currentFamilybil;
-
-                if (SingleRoom == 0) {
-                    currentFamilybil = counterLoop;
+    
+                if (validSelection) {
+                    int currentFamilybil = (SingleRoom == 0) ? counterLoop : counterLoop - SingleRoom;
                     FamilyRChoice[currentFamilybil] = getFamilyRoomTypeSelected();
-                } else {
-                    currentFamilybil = counterLoop - SingleRoom;
-                    FamilyRChoice[currentFamilybil] = getFamilyRoomTypeSelected();
+                    
+                    if (rbAddon1.isSelected()) {
+                        CheckAddon('F', currentFamilybil);
+                    }
+                    tempF--; // Only decrease if valid
                 }
-
-                if (rbAddon1.isSelected()) {
-                    // if (!rbAddonFamily1.isSelected() && !rbAddonFamily2.isSelected())
-                    // {
-                    // JOptionPane.showMessageDialog(null, "Addon mattresses is empty", "Warning",
-                    // JOptionPane.WARNING_MESSAGE);
-                    // validSelection = false;
-                    // counterLoop--;
-                    // tempS++;
-                    // }
-                    // if (!rbAddonFamily3.isSelected() && !rbAddonFamily4.isSelected())
-                    // {
-                    // JOptionPane.showMessageDialog(null, "Addon pillows is empty", "Warning",
-                    // JOptionPane.WARNING_MESSAGE);
-                    // validSelection = false;
-                    // counterLoop--;
-                    // tempS++;
-                    // }
-                    // if (!rbAddonFamily5.isSelected() && !rbAddonFamily6.isSelected())
-                    // {
-                    // JOptionPane.showMessageDialog(null, "Addon slippers is empty", "Warning",
-                    // JOptionPane.WARNING_MESSAGE);
-                    // validSelection = false;
-                    // counterLoop--;
-                    // tempS++;
-                    // }
-                    // if (!rbAddonFamily7.isSelected() && !rbAddonFamily8.isSelected())
-                    // {
-                    // JOptionPane.showMessageDialog(null, "Addon towel is empty", "Warning",
-                    // JOptionPane.WARNING_MESSAGE);
-                    // validSelection = false;
-                    // counterLoop--;
-                    // tempS++;
-                    // }
-
-                    CheckAddon('F', currentFamilybil);
-                }
-
-                tempF--; // Decrease available Family room after selection
             }
-
+    
             if (validSelection) {
                 resetFormValues();
-            }
-
-            if (counterLoop + 1 < roomBil) {
-                counterLoop++; // Move to the next room
-                RoomLoop(); // Call RoomLoop again to update UI for the next room
-            } else {
-                // update room choice and addon choice
-                thisBookingDetails.setRoomChoises(SingleRChoice, FamilyRChoice);
-                thisBookingDetails.setAddonChoises(AddonChoiceS, AddonChoiceF);
-
-                // Once all rooms are processed, you can hide the loop panel or show a summary
-
-                int o = JOptionPane.showOptionDialog(
-                        null,
-                        "All rooms have been selected.",
-                        "Cats Hotel Booking System", JOptionPane.NO_OPTION,
-                        JOptionPane.PLAIN_MESSAGE, null, optionButton, "default");
-                if (o == 0) {
-                    JPanel parent = (JPanel) CustomerPage.this.getParent();
-                    CardLayout layout = (CardLayout) parent.getLayout();
-
-                    // Create new CustomerDetail with the data
-                    CustomerDetail customerDetail = new CustomerDetail(
-                            e2 -> layout.show(parent, "Customer"),
-                            bookingDetails,
-                            currentIndex);
-
-                    // Add the new CustomerDetail and show it
-                    parent.add(customerDetail, "CustomerDetail");
-                    layout.show(parent, "CustomerDetail");
-                    parent.revalidate();
-                    parent.repaint();
+                counterLoop++; // Only increment if valid
+                
+                if (counterLoop < roomBil) {
+                    RoomLoop(); // Update UI for next room
+                } else {
+                    // All rooms processed
+                    thisBookingDetails.setRoomChoises(SingleRChoice, FamilyRChoice);
+                    thisBookingDetails.setAddonChoises(AddonChoiceS, AddonChoiceF);
+    
+                    int o = JOptionPane.showOptionDialog(
+                            null,
+                            "All rooms have been selected.",
+                            "Cats Hotel Booking System", JOptionPane.NO_OPTION,
+                            JOptionPane.PLAIN_MESSAGE, null, optionButton, "default");
+                    if (o == 0) {
+                        JPanel parent = (JPanel) CustomerPage.this.getParent();
+                        CardLayout layout = (CardLayout) parent.getLayout();
+    
+                        CustomerDetail customerDetail = new CustomerDetail(
+                                e2 -> layout.show(parent, "Customer"),
+                                bookingDetails,
+                                currentIndex);
+    
+                        parent.add(customerDetail, "CustomerDetail");
+                        layout.show(parent, "CustomerDetail");
+                        parent.revalidate();
+                        parent.repaint();
+                    }
                 }
+            } else {
+                // If validation failed, restore original values instead of decrementing
+                counterLoop = originalCounterLoop;
+                tempS = originalTempS;
+                tempF = originalTempF;
             }
         }
     };

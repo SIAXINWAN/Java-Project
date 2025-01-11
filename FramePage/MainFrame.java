@@ -22,7 +22,10 @@ public class MainFrame {
 
     public static Vector<Customer> customerDetails = new Vector<>(4, 2) {
         {
-            add(new Customer("C0001", "ABC", "012-345 6789", "abc@gmail.com"));
+            add(new Customer("C0001", "Alexandar Khoo", "018-2834765", "alexk@gmail.com"));
+            add(new Customer("C0002", "Siti Khadijah", "016-8764582", "sk123@yahoo.com"));
+            add(new Customer("C0003", "Mutu", "012-4563728", "mutu@gmail.com"));
+            add(new Customer("C0004", "Tan Xiao Ming", "011-5432567", "xiaoming@gmail.com"));
         }
     };// use to store run time Customer details 
 
@@ -35,6 +38,9 @@ public class MainFrame {
         {
             //add(new Booking("B0002", "5/1/2025", "10/1/2025", 2, 1, 1, new int[]{1}, new int[]{1}, new int[][]{{0}}, new int[][]{{0, 0}}));
             add(new Booking("B0001", "1/1/2025", "7/1/2025", 6, 2, 1, 1, singleRChoice, familyRChoice, addonChoiceS, addonChoiceF, "C0001"));
+            add(new Booking("B0002", "6/2/2025", "9/2/2025", 6, 2, 1, 1, singleRChoice, familyRChoice, addonChoiceS, addonChoiceF, "C0002"));
+            add(new Booking("B0003", "16/2/2025", "18/2/2025", 6, 2, 1, 1, singleRChoice, familyRChoice, addonChoiceS, addonChoiceF, "C0003"));
+            add(new Booking("B0004", "4/3/2025", "5/3/2025", 6, 2, 1, 1, singleRChoice, familyRChoice, addonChoiceS, addonChoiceF, "C0004"));
         }
     };// use to store run time booking details  
 

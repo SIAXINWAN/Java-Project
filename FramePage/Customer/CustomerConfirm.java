@@ -301,7 +301,7 @@ public class CustomerConfirm extends JPanel {
                 JLabel label23 = new JLabel();
                 label23.setText(breakfastCount == 0 ? "0" : String.valueOf(breakfastCount));
                 JLabel label24 = new JLabel();
-                label24.setText(breakfastCount == 0 ? "0"
+                label24.setText(breakfastCount == 0 ? "-"
                         : String.format("RM 20 * %d = RM %d.00", breakfastCount, (breakfastCount * 20)));
 
                 roomDetailsPanel1.add(label1);

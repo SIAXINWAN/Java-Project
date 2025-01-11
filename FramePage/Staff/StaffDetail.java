@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class StaffDetail extends JPanel {
@@ -23,7 +24,7 @@ public class StaffDetail extends JPanel {
 
     static int bookingNum;
     static Object[][] bookingData;
-    static Object[][] filteredData = {};
+    static Object[][] filteredData;
     
     static String currentStaffId;
     static String[] columnNames = { "StaffID", "Check In Date", "Check Out Date", "Single Room", "Family Room", "Customer Name" };
@@ -116,7 +117,7 @@ public class StaffDetail extends JPanel {
         StaffDetail.staffList = MainFrame.staffList;
         bookingNum = bookingDetails.size();
         bookingData = new Object[bookingNum][6];
-        filteredData = new Object[bookingNum][6];
+        //filteredData = new Object[bookingNum][6];
         initializeTable();
     }
 
@@ -154,105 +155,102 @@ public class StaffDetail extends JPanel {
         detailsPanel.repaint();
     }
 
-    public static void initializeTable() {
-        // Create table model with 8 columns
-       
-        //tableModel = new DefaultTableModel(columnNames, 0);
-        
-
-        //bookingNum = bookingDetails.size();
-
-        //bookingData = new Object[bookingNum][6];  
-
-        
-
-        // Add some dummy data (6 rows)
-        for (int i = 0; i < bookingNum; i++) {
-            //Object[] row = new Object[6];
-            Booking currentBooking = bookingDetails.get(i);
-            int num = i % 4;
-            String staffId = staffList[num].getStaffID();
-            for (int j = 0; j < 6; j++) 
-            {                
-                switch (j) {
-                    case 0:
-                        bookingData[i][j] = staffId;
-                        //bookingData[i][j] = i;
-                        //row[j] = i;
-                        break;
-                    case 1:
-                        bookingData[i][j] = currentBooking.getCheckInDate();
-                        //bookingData[i][j] = i;
-                        //row[j] = i;
-                        break;
-                    case 2:
-                        bookingData[i][j] = currentBooking.getCheckOutDate();
-                        //bookingData[i][j] = i;
-                        //row[j] = i;
-                        break;
-                    case 3:
-                        bookingData[i][j] = currentBooking.getsingleRoom();
-                        //bookingData[i][j] = i;
-                        //row[j] = i;
-                        break;
-                    case 4:
-                        bookingData[i][j] = currentBooking.getfamilyRoom();
-                        //bookingData[i][j] = i;
-                        //row[j] = i;
-                        break;
-                    case 5:
-                        String cusID = currentBooking.getCustomerID();
-                        String cusName = "";
-                        for (int k = 0; k < customerDetails.size(); k++)
-                        {
-                            if (customerDetails.get(k).getCustomerID().equals(cusID))
-                            {
-                                cusName = customerDetails.get(k).getCustomerName();
-                                break;
-                            }
+public static void initializeTable() {
+    // Create the table data as before
+    for (int i = 0; i < bookingNum; i++) {
+        Booking currentBooking = bookingDetails.get(i);
+        int num = i % 4;
+        String staffId = staffList[num].getStaffID();
+        for (int j = 0; j < 6; j++) {
+            switch (j) {
+                case 0:
+                    bookingData[i][j] = staffId;
+                    break;
+                case 1:
+                    bookingData[i][j] = currentBooking.getCheckInDate();
+                    break;
+                case 2:
+                    bookingData[i][j] = currentBooking.getCheckOutDate();
+                    break;
+                case 3:
+                    bookingData[i][j] = currentBooking.getsingleRoom();
+                    break;
+                case 4:
+                    bookingData[i][j] = currentBooking.getfamilyRoom();
+                    break;
+                case 5:
+                    String cusID = currentBooking.getCustomerID();
+                    String cusName = "";
+                    for (int k = 0; k < customerDetails.size(); k++) {
+                        if (customerDetails.get(k).getCustomerID().equals(cusID)) {
+                            cusName = customerDetails.get(k).getCustomerName();
+                            break;
                         }
-                        
-                        bookingData[i][j] = cusName;
-                        //bookingData[i][j] = i;
-                        //row[j] = i;
-                        break;
-                    default:
-                        throw new AssertionError();
-                }
-            }         
-            //tableModel.addRow(row);
+                    }
+                    bookingData[i][j] = cusName;
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
-
-        
-        if (staffTable == null) 
-        {
-            staffTable = new JTable(bookingData, columnNames);
-            //staffTable = new JTable(tableModel);
-        }
-        else
-        {
-            //staffTable.setModel(tableModel);
-            staffTable.setModel(new DefaultTableModel(bookingData, columnNames));
-        }
-        
-
-        // Set table properties
-        staffTable.setFillsViewportHeight(true);
-        staffTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-        staffTable.setRowHeight(40); // Increase row height to 40 pixels
-
-        // Set column widths
-        staffTable.getColumnModel().getColumn(0).setPreferredWidth(100); // StaffID
-        staffTable.getColumnModel().getColumn(1).setPreferredWidth(100); // Check In Date
-        staffTable.getColumnModel().getColumn(2).setPreferredWidth(100); // Check Out Date
-        staffTable.getColumnModel().getColumn(3).setPreferredWidth(100); // Single Room
-        staffTable.getColumnModel().getColumn(4).setPreferredWidth(100); // Family Room
-        staffTable.getColumnModel().getColumn(5).setPreferredWidth(100);
     }
+
+    if (staffTable == null) {
+        staffTable = new JTable(bookingData, columnNames) {
+            @Override
+            public javax.swing.table.TableCellRenderer getCellRenderer(int row, int column) {
+                // Get the default renderer
+                javax.swing.table.TableCellRenderer renderer = super.getCellRenderer(row, column);
+                // Cast it to JLabel to modify alignment
+                if (renderer instanceof JLabel) {
+                    ((JLabel) renderer).setHorizontalAlignment(JLabel.CENTER);
+                }
+                return renderer;
+            }
+        };
+        
+        // Center align the column headers too
+        ((DefaultTableCellRenderer)staffTable.getTableHeader().getDefaultRenderer())
+            .setHorizontalAlignment(JLabel.CENTER);
+    } else {
+        staffTable.setModel(new DefaultTableModel(bookingData, columnNames));
+    }
+
+    // Set table properties
+    staffTable.setFillsViewportHeight(true);
+    staffTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    staffTable.setRowHeight(40);
+
+    // Set column widths
+    staffTable.getColumnModel().getColumn(0).setPreferredWidth(100); // StaffID
+    staffTable.getColumnModel().getColumn(1).setPreferredWidth(100); // Check In Date
+    staffTable.getColumnModel().getColumn(2).setPreferredWidth(100); // Check Out Date
+    staffTable.getColumnModel().getColumn(3).setPreferredWidth(100); // Single Room
+    staffTable.getColumnModel().getColumn(4).setPreferredWidth(100); // Family Room
+    staffTable.getColumnModel().getColumn(5).setPreferredWidth(100); // Customer Name
+    
+    // Apply center alignment to all columns
+    DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+    centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+    
+    for (int i = 0; i < staffTable.getColumnCount(); i++) {
+        staffTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+    }
+}
 
     public void checkCurrentStaff()
     {
+
+        int currentStaffCount = 0;
+        for (int i = 0; i < bookingNum; i++) {
+            if (currentStaffId.equals(bookingData[i][0])) {
+                currentStaffCount++;
+            }
+        }
+
+        // Initialize filteredData with the correct size
+        filteredData = new Object[currentStaffCount][6];
+
         int counterCurrentStaff = 0;
         for (int i = 0; i < bookingNum; i++)
         {
@@ -269,26 +267,34 @@ public class StaffDetail extends JPanel {
         haveCurrentStaff = true;       
     }
 
-    ItemListener filterItemListener = new ItemListener()
-    {
-        public void itemStateChanged(ItemEvent e)
-        {
-           if (e.getStateChange() == ItemEvent.SELECTED) {
-                if (filterComboBox.getSelectedIndex() == 0)
-                {
+    ItemListener filterItemListener = new ItemListener() {
+        public void itemStateChanged(ItemEvent e) {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                // Reset table model based on filter
+                if (filterComboBox.getSelectedIndex() == 0) {
                     staffTable.setModel(new DefaultTableModel(bookingData, columnNames));
-                }
-                else
-                {
-                    if (!haveCurrentStaff)
-                    {
+                } else {
+                    if (!haveCurrentStaff) {
                         checkCurrentStaff();
-                    }                    
+                    }
                     staffTable.setModel(new DefaultTableModel(filteredData, columnNames));
                 }
+                
+                // Apply table properties regardless of filter selection
+                staffTable.setFillsViewportHeight(true);
+                staffTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                staffTable.setRowHeight(40);
+    
+                // Reset column widths
+                staffTable.getColumnModel().getColumn(0).setPreferredWidth(100); // StaffID
+                staffTable.getColumnModel().getColumn(1).setPreferredWidth(100); // Check In Date
+                staffTable.getColumnModel().getColumn(2).setPreferredWidth(100); // Check Out Date
+                staffTable.getColumnModel().getColumn(3).setPreferredWidth(100); // Single Room
+                staffTable.getColumnModel().getColumn(4).setPreferredWidth(100); // Family Room
+                staffTable.getColumnModel().getColumn(5).setPreferredWidth(100); // Customer Name
+    
                 mainContent.revalidate();
                 mainContent.repaint();
             }
         }
-    };
-}
+    };}
