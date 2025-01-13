@@ -10,8 +10,6 @@ import JavaProject.model.Booking;
 import JavaProject.model.Customer;
 import JavaProject.FramePage.MainFrame;
 
-import JavaProject.FramePage.MainFrame;
-
 public class CustomerDetail extends JPanel {
     private static JTextField nameField;
     private static JTextField phoneField;
@@ -25,14 +23,12 @@ public class CustomerDetail extends JPanel {
     public Vector<Customer> customerDetails = MainFrame.customerDetails;
 
     public CustomerDetail(ActionListener homeAction, Vector<Booking> bookingDetails, int bookingDetailsCurrentIndex) {
-        setLayout(new BorderLayout(0, 20)); // Add spacing between border layout components
-        //this.bookingDetails = bookingDetails;
+        setLayout(new BorderLayout(0, 20));
         this.bookingDetails = MainFrame.bookingDetails;
         this.currentIndex = bookingDetailsCurrentIndex;
 
         thisBookingDetails = bookingDetails.get(bookingDetailsCurrentIndex);
 
-        // Title Panel with improved styling
         JPanel titlePanel = new JPanel();
         titlePanel.setBorder(new EmptyBorder(30, 0, 20, 0));
         JLabel titleLabel = new JLabel("Customer Details", JLabel.CENTER);
@@ -40,15 +36,14 @@ public class CustomerDetail extends JPanel {
         titlePanel.add(titleLabel);
         add(titlePanel, BorderLayout.NORTH);
 
-        // Main form panel with improved layout
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBorder(new EmptyBorder(0, 50, 0, 50)); // Add padding on sides
+        mainPanel.setBorder(new EmptyBorder(0, 50, 0, 50));
 
         // Form panel with grid bag layout for better control
         JPanel formPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(10, 10, 10, 10); // Add padding around components
+        gbc.insets = new Insets(10, 10, 10, 10);
 
         // Initialize text fields with consistent sizing
         Dimension fieldSize = new Dimension(300, 35);
@@ -70,11 +65,6 @@ public class CustomerDetail extends JPanel {
         emailLabel.setFont(labelFont);
         emailField = createStyledTextField(fieldSize, fieldFont);
 
-        //nameField.setText("ABC");
-        //phoneField.setText("012-345 6789");
-        //emailField.setText("abc@gmail.com");
-
-        // Add components to form panel with GridBagLayout
         // Name row
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -108,11 +98,9 @@ public class CustomerDetail extends JPanel {
         mainPanel.add(formPanel, BorderLayout.CENTER);
         add(mainPanel, BorderLayout.CENTER);
 
-        // Button panel with improved styling
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
         buttonPanel.setBorder(new EmptyBorder(20, 0, 30, 0));
 
-        // Create styled buttons
         JButton confirmButton = createStyledButton("Confirm", new Dimension(120, 40));
         confirmButton.addActionListener(buttonSubmit);
 
@@ -138,7 +126,7 @@ public class CustomerDetail extends JPanel {
         JButton button = new JButton(text);
         button.setPreferredSize(size);
         button.setFont(new Font("Arial", Font.BOLD, 16));
-        button.setFocusPainted(false); // Remove focus border
+        button.setFocusPainted(false);
         button.setBorder(BorderFactory.createRaisedBevelBorder()); // Add 3D effect
         return button;
     }
@@ -208,8 +196,7 @@ public class CustomerDetail extends JPanel {
         }
     };
 
-    public static void clearForm()
-    {
+    public static void clearForm() {
         nameField.setText("");
         phoneField.setText("");
         emailField.setText("");

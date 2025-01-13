@@ -1,26 +1,14 @@
 package JavaProject.FramePage.Staff;
 
 import JavaProject.FramePage.MainFrame;
-import JavaProject.FramePage.Staff.StaffDetail;
 import JavaProject.model.Staff;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.function.Consumer;
-
 
 import javax.swing.*;
 
 public class StaffPage extends JPanel {
-    // Staff staff1 = new Staff("P01", "Chiew Chin Kuan", "0129318660", "S01",
-    // false, "07/02/2005");
-    // Staff staff2 = new Staff("P02", "Chiew Chin Kuan", "0129318660", "S02",
-    // false, "07/02/2005");
-    // Staff staff3 = new Staff("P03", "Chiew Chin Kuan", "0129318660", "S03",
-    // false, "07/02/2005");
-    // Staff staff4 = new Staff("P04", "Chiew Chin Kuan", "0129318660", "S04",
-    // false, "07/02/2005");
-    // Staff[] stafflist = {staff1, staff2, staff3, staff4};
 
     private final Staff[] staffList;
 
@@ -31,15 +19,8 @@ public class StaffPage extends JPanel {
     public StaffPage(ActionListener homeAction, CardLayout cardLayout, JPanel cardPanel,
             Staff[] staffList) {
         this.staffList = staffList;
-       
+
         setLayout(new BorderLayout());
-
-        // usernamTextField.setText("S01");
-        // passwordTextField.setText("P01S01");
-
-        //
-        // staffLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        // add(staffLabel, BorderLayout.CENTER);
 
         JButton homeButton = new JButton("Back");
         homeButton.setFont(new Font("Arial", Font.BOLD, 18));
@@ -86,7 +67,6 @@ public class StaffPage extends JPanel {
     }
 
     public void resetFields() {
-        // Clear text field
         usernamTextField.setText("");
         passwordTextField.setText("");
     }
@@ -95,17 +75,16 @@ public class StaffPage extends JPanel {
         public void actionPerformed(ActionEvent e) {
             boolean loginSuccess = false;
             Staff loggedInStaff = null;
-    
+
             if (usernamTextField.getText().trim().isEmpty() || passwordTextField.getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(
-                    StaffPage.this,
-                    "Please enter both Staff ID and Password",
-                    "Login Error",
-                    JOptionPane.ERROR_MESSAGE
-                );
+                        StaffPage.this,
+                        "Please enter both Staff ID and Password",
+                        "Login Error",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
-    
+
             for (Staff staff : staffList) {
                 if (staff.getStaffID().equals(usernamTextField.getText())) {
                     if (staff.getPassword().equals(passwordTextField.getText())) {
@@ -114,16 +93,15 @@ public class StaffPage extends JPanel {
                         break;
                     } else {
                         JOptionPane.showMessageDialog(
-                            StaffPage.this,
-                            "Incorrect password",
-                            "Login Error",
-                            JOptionPane.ERROR_MESSAGE
-                        );
+                                StaffPage.this,
+                                "Incorrect password",
+                                "Login Error",
+                                JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                 }
             }
-    
+
             if (loginSuccess) {
                 resetFields();
                 StaffDetail.refreshData();
@@ -133,11 +111,10 @@ public class StaffPage extends JPanel {
                 layout.show(parent, "StaffDetail");
             } else {
                 JOptionPane.showMessageDialog(
-                    StaffPage.this,
-                    "Staff ID not found",
-                    "Login Error",
-                    JOptionPane.ERROR_MESSAGE
-                );
+                        StaffPage.this,
+                        "Staff ID not found",
+                        "Login Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
     };

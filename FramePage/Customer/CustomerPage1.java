@@ -81,7 +81,6 @@ public class CustomerPage1 extends JPanel {
 
         JPanel navigationPanel = new JPanel();
         navigationPanel.add(homeButton);
-        // navigationPanel.add(navigateButton);
         add(navigationPanel, BorderLayout.SOUTH);
 
         panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -144,8 +143,7 @@ public class CustomerPage1 extends JPanel {
 
         panelRoomBilTotal.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         JLabel labelPRBT1 = new JLabel("Single room: RM 80.00 - RM 120.00++ \t\t| Family room : RM 200.00++ ");
-        // JLabel labelPRBT2 = new JLabel("* If it's the holiday season, each room will
-        // add-on RM " + HolidayAdd + ".00 .");
+     
         JLabel labelPRBT3 = new JLabel("How many rooms IN TOTAL you want (Maximum " + roomMax + " ) (Single Max - "
                 + SingleMax + ") (Family Max - " + FamilyMax + ") :  *Click Enter to continue");
 
@@ -153,14 +151,14 @@ public class CustomerPage1 extends JPanel {
         panelRBTextField.add(roomBilTextField, BorderLayout.NORTH);
 
         panelRBTLabel.add(labelPRBT1, BorderLayout.NORTH); // RBT stand for Room Bil Total
-        // panelRBTLabel.add(labelPRBT2, BorderLayout.CENTER);
+       
         panelRBTLabel.add(labelPRBT3, BorderLayout.CENTER);
         JPanel RBT = new JPanel(new BorderLayout());
         RBT.add(panelRBTLabel, BorderLayout.NORTH);
         RBT.add(panelRBTextField, BorderLayout.CENTER);
         panelRoomBilTotal.add(RBT, BorderLayout.NORTH);
         panelRoomBilTotal.setVisible(false);
-        // panelRoomBilTotal.add(panelRBTextField, BorderLayout.CENTER);
+       
         roomBilTextField.addActionListener(roomBilTotalTextFieldActionListener);
 
         JPanel panelRBGridLayout = new JPanel(new BorderLayout());
@@ -197,7 +195,6 @@ public class CustomerPage1 extends JPanel {
         rrt.add(buttonPanel1, BorderLayout.CENTER);
 
         panelRoom.add(rrt, BorderLayout.NORTH);
-        // panelRoom.add(buttonPanel1, BorderLayout.CENTER);
 
         panel1.add(panelRoomBilTotal, BorderLayout.CENTER);
 
@@ -317,7 +314,7 @@ public class CustomerPage1 extends JPanel {
 
             if (isValid) {
                 panelRoomBilTotal.setVisible(true);
-                buttonConfirm.setEnabled(false); // Optional: disable date confirmation after successful validation
+                buttonConfirm.setEnabled(false); 
                 panel1.revalidate();
                 panel1.repaint();
                 buttonCancel.setEnabled(true);
@@ -513,7 +510,7 @@ public class CustomerPage1 extends JPanel {
                             break;
                         }
                     }
-                    // System.out.println(BookingidNum2);
+                    
 
                     // Create new CustomerPage with the data
                     CustomerPage customerPage = new CustomerPage(
@@ -530,9 +527,6 @@ public class CustomerPage1 extends JPanel {
                     roomBilTextField.setEditable(true);
                     SingleRTextField.setEditable(true);
                     FamilyRTextField.setEditable(true);
-
-                    // panelChooseLoop.setVisible(false);
-                    // counterLoop = 0;
                 }
             }
             panel1.revalidate();

@@ -36,8 +36,7 @@ public class CustomerConfirm extends JPanel {
     Customer thisCustomerDetails;
 
     public CustomerConfirm(ActionListener homeAction, Vector<Booking> bookingDetails, int bookingDetailsCurrentIndex,
-            Vector<Customer> customerDetails) 
-    {
+            Vector<Customer> customerDetails) {
         setLayout(new BorderLayout());
 
         this.bookingDetails = bookingDetails;
@@ -66,8 +65,6 @@ public class CustomerConfirm extends JPanel {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
 
-        // Replace the customer info panel setup section with this:
-
         // Customer Info Panel setup
         JPanel customerInfoPanel = new JPanel();
         customerInfoPanel.setLayout(new GridLayout(3, 1, 5, 0)); // Use GridLayout with minimal vertical gap
@@ -84,19 +81,17 @@ public class CustomerConfirm extends JPanel {
         JPanel emailPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
 
         // Set fixed width for labels
-        int labelWidth = 100; // Reduced from 300
-        Dimension labelDimension = new Dimension(labelWidth, 20); // Increased height slightly
+        int labelWidth = 100;
+        Dimension labelDimension = new Dimension(labelWidth, 20);
         nameLabel.setPreferredSize(labelDimension);
         phoneLabel.setPreferredSize(labelDimension);
         emailLabel.setPreferredSize(labelDimension);
 
-        // Set up value labels with minimum size
         Dimension valueDimension = new Dimension(200, 20);
         nameValueLabel.setPreferredSize(valueDimension);
         phoneValueLabel.setPreferredSize(valueDimension);
         emailValueLabel.setPreferredSize(valueDimension);
 
-        // Add components to panels
         namePanel.add(nameLabel);
         namePanel.add(nameValueLabel);
 
@@ -106,13 +101,12 @@ public class CustomerConfirm extends JPanel {
         emailPanel.add(emailLabel);
         emailPanel.add(emailValueLabel);
 
-        // Add panels to customer info panel
         customerInfoPanel.add(namePanel);
         customerInfoPanel.add(phonePanel);
         customerInfoPanel.add(emailPanel);
 
         // Remove the vertical struts and set a smaller preferred size
-        Dimension panelSize = new Dimension(400, 80); // Reduced height
+        Dimension panelSize = new Dimension(400, 80);
         customerInfoPanel.setPreferredSize(panelSize);
         JPanel bookingPaneltitle = new JPanel(new BorderLayout());
 
@@ -157,7 +151,6 @@ public class CustomerConfirm extends JPanel {
                 int pillowAddOn = thisBookingDetails.getAddonChoiceS()[i][0];
                 int towelAddOn = thisBookingDetails.getAddonChoiceS()[i][1];
 
-                // Create the table for the room
                 JPanel roomDetailsPanel1 = new JPanel(new GridLayout(6, 4));
                 JLabel label1 = new JLabel("Item");
                 JLabel label2 = new JLabel("Quantity");
@@ -239,7 +232,6 @@ public class CustomerConfirm extends JPanel {
                     labelQuantity4.setText("2");
                     subTotalPrice += 120;
                 }
-                // Add the label and table to the panel
                 roomDetailPanel.add(roomLabel);
                 roomDetailPanel.add(roomDetailsPanel1);
             }
@@ -361,7 +353,6 @@ public class CustomerConfirm extends JPanel {
                     int breakfastPrice = 20 * breakfastCount;
                     subTotalPrice += breakfastPrice;
                 }
-                // Add the label and table to the panel
                 roomDetailPanel.add(roomLabel);
                 roomDetailPanel.add(roomDetailsPanel1);
             }
@@ -383,7 +374,6 @@ public class CustomerConfirm extends JPanel {
         bookingPanel.add(roomDetailPanel, BorderLayout.CENTER);
         bookingPanel.add(pricePanel, BorderLayout.SOUTH);
 
-        // Payment Panel setup
         JPanel PaymentPanel = new JPanel(new GridLayout(5, 2, 10, 10));
         PaymentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
@@ -407,39 +397,30 @@ public class CustomerConfirm extends JPanel {
         North2Panel.add(customerInfoPanel);
         North2Panel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // Ensure booking panel can display all content
         bookingPanel.setLayout(new BoxLayout(bookingPanel, BoxLayout.Y_AXIS));
         bookingPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // Set alignment for payment panel
         PaymentPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // Add components to main content panel
         mainContentPanel.add(North2Panel);
         mainContentPanel.add(Box.createVerticalStrut(10));
         mainContentPanel.add(bookingPanel);
         mainContentPanel.add(Box.createVerticalStrut(10));
         mainContentPanel.add(PaymentPanel);
 
-        // Create a wrapper panel to ensure proper sizing
         JPanel wrapperPanel = new JPanel(new BorderLayout());
         wrapperPanel.add(mainContentPanel, BorderLayout.NORTH);
-        // Add empty panel to bottom to allow scrolling to last element
         wrapperPanel.add(new JPanel(), BorderLayout.CENTER);
 
-        // Create scroll pane with the wrapper panel
         JScrollPane scrollPane = new JScrollPane(wrapperPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 
-        // Set a preferred size for the scroll pane that's smaller than the content
         scrollPane.setPreferredSize(new Dimension(550, 350));
 
-        // Add scroll pane to CENTER of main panel
         add(scrollPane, BorderLayout.CENTER);
 
-        // Button Panel
         JPanel cancelPanel = new JPanel();
         cancelPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
         JButton cancelButton = new JButton("Cancel");
@@ -448,7 +429,6 @@ public class CustomerConfirm extends JPanel {
         cancelButton.addActionListener(homeAction);
         cancelPanel.add(cancelButton);
 
-        // Add cancel panel to SOUTH
         add(cancelPanel, BorderLayout.SOUTH);
 
         addAncestorListener(new AncestorListener() {
@@ -477,20 +457,16 @@ public class CustomerConfirm extends JPanel {
     String optionButton[] = { "Done", "Cancel" };
     ActionListener submitListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            if (creditCardNumberField.getText().isEmpty())
-            {
-                JOptionPane.showMessageDialog(null, "Credit card number field is empty", "Warning", JOptionPane.WARNING_MESSAGE);
-            }
-            else if (creditCardNumberField.getText().length() < 16)
-            {
-                JOptionPane.showMessageDialog(null, "Credit card number should at least 16 number", "Warning", JOptionPane.WARNING_MESSAGE);
-            }
-            else if (creditCardNumberField.getText().length() > 19)
-            {
-                JOptionPane.showMessageDialog(null, "Credit card number should less than 19 number", "Warning", JOptionPane.WARNING_MESSAGE);
-            }
-            else
-            {
+            if (creditCardNumberField.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Credit card number field is empty", "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+            } else if (creditCardNumberField.getText().length() < 16) {
+                JOptionPane.showMessageDialog(null, "Credit card number should at least 16 number", "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+            } else if (creditCardNumberField.getText().length() > 19) {
+                JOptionPane.showMessageDialog(null, "Credit card number should less than 19 number", "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+            } else {
                 try {
                     String numTemp = creditCardNumberField.getText().trim();
                     long number = Long.parseLong(numTemp);
@@ -498,23 +474,23 @@ public class CustomerConfirm extends JPanel {
                     CustomerPage1.clearForm();
                     CustomerDetail.clearForm();
 
-                    //if creditCardNumberField is contain only numbers will proceed 
+                    // if creditCardNumberField is contain only numbers will proceed
                     int o = JOptionPane.showOptionDialog(
-                        null,
-                        "Your booking has been successfully made.\nThe receipt will be sent to your email.\nThank you and we wish you a wonderful experience!",
-                        "Cats Hotel Booking System", JOptionPane.NO_OPTION,
-                        JOptionPane.PLAIN_MESSAGE, null, optionButton, "default");
+                            null,
+                            "Your booking has been successfully made.\nThe receipt will be sent to your email.\nThank you and we wish you a wonderful experience!",
+                            "Cats Hotel Booking System", JOptionPane.NO_OPTION,
+                            JOptionPane.PLAIN_MESSAGE, null, optionButton, "default");
                     if (o == 0) {
                         JPanel parent = (JPanel) CustomerConfirm.this.getParent();
                         CardLayout layout = (CardLayout) parent.getLayout();
                         layout.show(parent, "Welcome");
                     }
-                } 
-                catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Credit card number should be numbers only", "Warning", JOptionPane.WARNING_MESSAGE);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Credit card number should be numbers only", "Warning",
+                            JOptionPane.WARNING_MESSAGE);
                 }
-                
-            }            
+
+            }
         }
     };
 }

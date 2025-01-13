@@ -27,24 +27,26 @@ public class MainFrame {
             add(new Customer("C0003", "Mutu", "012-4563728", "mutu@gmail.com"));
             add(new Customer("C0004", "Tan Xiao Ming", "011-5432567", "xiaoming@gmail.com"));
         }
-    };// use to store run time Customer details 
+    };
 
-    static int[] singleRChoice = {1};
-    static int[] familyRChoice = {1};
-    static int[][] addonChoiceS = {{0, 0}};
-    static int[][] addonChoiceF = {{0, 0, 0, 0, 0}};
+    static int[] singleRChoice = { 1 };
+    static int[] familyRChoice = { 1 };
+    static int[][] addonChoiceS = { { 0, 0 } };
+    static int[][] addonChoiceF = { { 0, 0, 0, 0, 0 } };
 
     public static Vector<Booking> bookingDetails = new Vector<>(4, 2) {
         {
-            //add(new Booking("B0002", "5/1/2025", "10/1/2025", 2, 1, 1, new int[]{1}, new int[]{1}, new int[][]{{0}}, new int[][]{{0, 0}}));
-            add(new Booking("B0001", "1/1/2025", "7/1/2025", 6, 2, 1, 1, singleRChoice, familyRChoice, addonChoiceS, addonChoiceF, "C0001"));
-            add(new Booking("B0002", "6/2/2025", "9/2/2025", 6, 2, 1, 1, singleRChoice, familyRChoice, addonChoiceS, addonChoiceF, "C0002"));
-            add(new Booking("B0003", "16/2/2025", "18/2/2025", 6, 2, 1, 1, singleRChoice, familyRChoice, addonChoiceS, addonChoiceF, "C0003"));
-            add(new Booking("B0004", "4/3/2025", "5/3/2025", 6, 2, 1, 1, singleRChoice, familyRChoice, addonChoiceS, addonChoiceF, "C0004"));
+            add(new Booking("B0001", "1/1/2025", "7/1/2025", 6, 2, 1, 1, singleRChoice, familyRChoice, addonChoiceS,
+                    addonChoiceF, "C0001"));
+            add(new Booking("B0002", "6/2/2025", "9/2/2025", 6, 2, 1, 1, singleRChoice, familyRChoice, addonChoiceS,
+                    addonChoiceF, "C0002"));
+            add(new Booking("B0003", "16/2/2025", "18/2/2025", 6, 2, 1, 1, singleRChoice, familyRChoice, addonChoiceS,
+                    addonChoiceF, "C0003"));
+            add(new Booking("B0004", "4/3/2025", "5/3/2025", 6, 2, 1, 1, singleRChoice, familyRChoice, addonChoiceS,
+                    addonChoiceF, "C0004"));
         }
-    };// use to store run time booking details  
+    };
 
-    
     private static Staff currentLoggedInStaff = null;
 
     public static Staff getCurrentStaff() {
@@ -55,74 +57,50 @@ public class MainFrame {
         currentLoggedInStaff = staff;
     }
 
-    
-    
-
     public static void main(String[] args) {
         JFrame frame = new JFrame("Cats Hotel Booking System");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
-        frame.setLayout(new BorderLayout());  
+        frame.setLayout(new BorderLayout());
 
-        Customer customer = new Customer();
-
-        // Card Panel to hold pages
         JPanel cardPanel = new JPanel(new CardLayout());
 
-        // CardLayout instance
         CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
 
-        // Create pages
         WelcomePage welcomePage = new WelcomePage(
-                e -> cardLayout.show(cardPanel, "CustomerPage1"), // Navigate to Customer Page 1
-                e -> cardLayout.show(cardPanel, "Staff") // Navigate to Staff Page
-        );
+                e -> cardLayout.show(cardPanel, "CustomerPage1"),
+                e -> cardLayout.show(cardPanel, "Staff"));
 
         CustomerPage1 customerPage1 = new CustomerPage1(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Navigate to WelcomePage
                 cardLayout.show(cardPanel, "Welcome");
 
             }
         }, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Navigate to CustomerPage
                 cardLayout.show(cardPanel, "Customer");
             }
         }, bookingDetails);
 
-        //CustomerPage customerPage = new CustomerPage(e -> cardLayout.show(cardPanel, "CustomerPage1"));
-
         StaffPage staffPage = new StaffPage(
-                e -> cardLayout.show(cardPanel, "Welcome"), // Navigate to Welcome Page
-                cardLayout, // CardLayout instance
+                e -> cardLayout.show(cardPanel, "Welcome"),
+                cardLayout,
                 cardPanel,
                 staffList);
 
         StaffDetail staffDetailPage = new StaffDetail(
                 e -> cardLayout.show(cardPanel, "Welcome"));
 
-        //CustomerDetail customerDetail = new CustomerDetail(e -> cardLayout.show(cardPanel, "Customer"),customer);
-
-
-        //CustomerConfirm customerConfirm = new CustomerConfirm(e-> cardLayout.show(cardPanel, "CustomerDetail"),customer);
-
-        // Add pages to card panel
         cardPanel.add(welcomePage, "Welcome");
         cardPanel.add(customerPage1, "CustomerPage1");
-        //cardPanel.add(customerPage, "Customer");
         cardPanel.add(staffPage, "Staff");
-        staffDetailPage.refreshData();
+        StaffDetail.refreshData();
         cardPanel.add(staffDetailPage, "StaffDetail");
-        //cardPanel.add(customerDetail, "CustomerDetail");
-        //cardPanel.add(customerConfirm, "CustomerConfirm");
 
-        // Add card panel to frame
         frame.add(cardPanel, BorderLayout.CENTER);
 
-        // Make the frame visible
         frame.setVisible(true);
     }
 }
