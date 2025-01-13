@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
-import JavaProject.FramePage.MainFrame;
 
 public class CustomerPage1 extends JPanel {
     int roomMax = Booking.roomMax;
@@ -61,7 +60,7 @@ public class CustomerPage1 extends JPanel {
             Vector<Booking> bookingDetails) {
         setLayout(new BorderLayout());
 
-        this.bookingDetails = MainFrame.bookingDetails;
+        this.bookingDetails = bookingDetails;
 
         JLabel titleLabel = new JLabel("Customer Booking", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));

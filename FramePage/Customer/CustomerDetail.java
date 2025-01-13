@@ -24,7 +24,7 @@ public class CustomerDetail extends JPanel {
 
     public CustomerDetail(ActionListener homeAction, Vector<Booking> bookingDetails, int bookingDetailsCurrentIndex) {
         setLayout(new BorderLayout(0, 20));
-        this.bookingDetails = MainFrame.bookingDetails;
+        this.bookingDetails = bookingDetails;
         this.currentIndex = bookingDetailsCurrentIndex;
 
         thisBookingDetails = bookingDetails.get(bookingDetailsCurrentIndex);

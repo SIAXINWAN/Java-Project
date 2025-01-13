@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.util.*;
 import javax.swing.border.EmptyBorder;
 import JavaProject.model.Booking;
-import JavaProject.FramePage.MainFrame;
 
 public class CustomerPage extends JPanel {
     int SingleMax = Booking.SingleMax;
@@ -97,7 +96,7 @@ public class CustomerPage extends JPanel {
 
         addonBreakfastTextField.setText("0");
 
-        this.bookingDetails = MainFrame.bookingDetails;
+        this.bookingDetails = bookingDetails;
         currentIndex = bookingDetailsCurrentIndex;
 
         thisBookingDetails = bookingDetails.get(currentIndex);

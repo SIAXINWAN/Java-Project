@@ -9,9 +9,6 @@ import java.awt.event.ActionListener;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
-import JavaProject.FramePage.Customer.CustomerPage1;
-import JavaProject.FramePage.Customer.CustomerDetail;
-
 import JavaProject.model.Booking;
 import JavaProject.model.Customer;
 
