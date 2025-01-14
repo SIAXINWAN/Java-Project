@@ -208,7 +208,7 @@ public class CustomerPage1 extends JPanel {
                             JOptionPane.WARNING_MESSAGE);
                     isValid = false;
                 } else if (dayFComboBox.getSelectedIndex() > dayTComboBox.getSelectedIndex()) {
-                    JOptionPane.showMessageDialog(null, "Check in date cannot bigger than check out date", "Warning",
+                    JOptionPane.showMessageDialog(null, "Check in date cannot after check out date", "Warning",
                             JOptionPane.WARNING_MESSAGE);
                     isValid = false;
                 }
@@ -216,7 +216,7 @@ public class CustomerPage1 extends JPanel {
             }
 
             if (monthFComboBox.getSelectedIndex() > monthTComboBox.getSelectedIndex()) {
-                JOptionPane.showMessageDialog(null, "Check in date cannot bigger than check out date", "Warning",
+                JOptionPane.showMessageDialog(null, "Check in date cannot after check out date", "Warning",
                         JOptionPane.WARNING_MESSAGE);
                 isValid = false;
             }
