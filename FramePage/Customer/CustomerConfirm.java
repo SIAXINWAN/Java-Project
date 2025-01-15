@@ -64,7 +64,7 @@ public class CustomerConfirm extends JPanel {
 
         // Customer Info Panel setup
         JPanel customerInfoPanel = new JPanel();
-        customerInfoPanel.setLayout(new GridLayout(3, 1, 5, 0)); // Use GridLayout with minimal vertical gap
+        customerInfoPanel.setLayout(new GridLayout(3, 1, 5, 0)); 
         customerInfoPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
 
         // Labels setup

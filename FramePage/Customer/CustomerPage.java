@@ -153,13 +153,7 @@ public class CustomerPage extends JPanel {
 
         mainContent.add(panelHeader, BorderLayout.NORTH);
 
-        JButton DoneButton = createStyledButton("Done", new Dimension(120, 40));
-        DoneButton.setFont(new Font("Arial", Font.BOLD, 16));
-        DoneButton.setPreferredSize(new Dimension(100, 40));
-        DoneButton.addActionListener(navigationToNextPage);
-
-        JPanel DonePanel = new JPanel();
-        DonePanel.add(DoneButton);
+        
 
         JPanel spacer1 = new JPanel();
         spacer1.setPreferredSize(new Dimension(0, 10));
@@ -322,22 +316,6 @@ public class CustomerPage extends JPanel {
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         add(scrollPane, BorderLayout.CENTER);
     }
-
-    ActionListener navigationToNextPage = new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-            int o = JOptionPane.showOptionDialog(
-                    null,
-                    "All rooms have been selected.",
-                    "Cats Hotel Booking System", JOptionPane.NO_OPTION,
-                    JOptionPane.PLAIN_MESSAGE, null, optionButton, "default");
-            if (o == 0) {
-
-                JPanel parent = (JPanel) CustomerPage.this.getParent();
-                CardLayout layout = (CardLayout) parent.getLayout();
-                layout.show(parent, "CustomerDetail");
-            }
-        }
-    };
 
     String optionButton[] = { "Continue", "Cancel" };
     ActionListener buttonDoneActionListener = new ActionListener() {
